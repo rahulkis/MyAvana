@@ -1,0 +1,928 @@
+﻿@model MyavanaAdminModels.HairProfileCustomerModel
+
+<style>
+    .small-img {
+        position: relative;
+    }
+
+    .small-img::after {
+        content: attr(alt); /* Use the alt text or custom text */
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(0, 0, 0, 0.7);
+        color: #fff;
+        padding: 5px;
+        font-size: 12px;
+        white-space: nowrap;
+        display: none; /* Initially hide the text */
+        border-radius: 5px;
+    }
+    
+    .small-img:hover::after {
+        display: block; /* Show the text when hovered */
+    }
+    /**/
+    .small-img {
+        max-width: 150px; /* Adjust as needed */
+        cursor: pointer;
+        height: 150px;
+    }
+
+    #modalImage {
+        width: auto; /* Ensure the image keeps its actual width */
+    }
+
+    #imageModal .modal-dialog {
+        max-width: 100%; /* Allow the modal to expand fully */
+        margin: 0;
+    }
+
+    #fancy-img-modal.modal {
+        background-color: rgb(0 0 0 / 62%);
+    }
+
+    #fancy-img-modal button.close {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        color: #fff;
+        opacity: 1;
+    }
+
+        #fancy-img-modal button.close span {
+            color: #fff !important;
+            opacity: 1;
+            font-size: 30px;
+        }
+
+    #fancy-img-modal .modal-content {
+        background-color: transparent;
+        border: none;
+        border-radius: 4px;
+        box-shadow: none;
+    }
+
+    #fancy-img-modal span {
+        color: #fff !important;
+        opacity: 1;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12">
+        @if (Model.HairAnalysisNotes != null)
+        {
+            <h4 class="head-title-info">Hair Analyst Notes</h4>
+            <p id="txtHairAnalysisNotes" class="textFormat hair_analyst_notes">@Model.HairAnalysisNotes</p>
+        }
+        @if (Model.SalonNotesModel != null && Model.SalonNotesModel.Count > 0)
+        {
+            <input id="txtSalonNotes" type="hidden" value="@Model.SalonNotes" />
+            <h4 class="head-title-info">Salon Notes</h4>
+            <div class="table-responsive divSalonNotes">
+                <table class="table table-bordered m-0">
+                    <thead>
+                        <tr>
+                            <th>Note</th>
+                            <th>Added By</th>
+                            <th>Added On</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.SalonNotesModel)
+                        {
+                            <tr>
+                                <td>@item.SalonNotes</td>
+                                <td>@item.CreatedBy</td>
+                                <td>@item.CreatedOn</td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        }
+
+        <div class="hairphotoinput">
+            <ul class="nav nav-tabs">
+
+                <li><a data-toggle="tab" href="#home" class="active">Top Left</a></li>
+                <li><a data-toggle="tab" href="#menu1">Top Right</a></li>
+                <li><a data-toggle="tab" href="#menu2">Bottom Left</a></li>
+                <li><a data-toggle="tab" href="#menu3">Bottom Right</a></li>
+                <li><a data-toggle="tab" href="#menu4">Crown</a></li>
+            </ul>
+
+
+
+            <div class="tab-content">
+                <div id="home" class="tab-pane fade in active show">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="owl-carousel crousalslide">
+                                @if (Model.TopLeft.TopLeftPhoto != null)
+                                {
+                                    @foreach (var tLeft in Model.TopLeft.TopLeftPhoto)
+                                    {
+                                        <div>
+                                            <div class="col-md-12 p-0 col-form-label">
+                                                <img class="img-fluid small-img" title="Click to view the full image" src="@tLeft.StrandImage" data-id="@tLeft.StrandImageId" />
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="box-shapes-wrap">
+                                <div class="icon-with-text-info">
+                                    <div class="icon-info">
+                                        <img src="/images/Recommend-Icon.svg" alt="Recommendations-icon">
+                                    </div>
+                                    <div class="txt-info">Lab Analyst Notes</div>
+                                </div>
+                                <div class="main-content-wrap">
+                                    <ul class="mc-ul-info">
+                                        <li><p id="txtTopLeftStrandDiameter" class="textFormat">+  @Model.TopLeft.TopLeftStrandDiameter</p></li>
+                                    </ul>
+                                </div>
+
+
+                            </div>
+
+                            <div class="box-shapes-wrap">
+                                <div class="icon-with-text-info">
+                                    <div class="icon-info">
+                                        <img src="/images/Hair-Profile-Icon.svg" alt="hair-icon">
+                                    </div>
+                                    <div class="txt-info">Hair Profile Health</div>
+                                </div>
+
+                                <div class="Observations">
+                                    @if (Model.TopLeft.Health != null)
+                                    {
+                                        @foreach (var tLefthealth in Model.TopLeft.Health)
+                                        {
+                                            <p id="pTopLeftObservation" class="mb-1">@tLefthealth.Description</p>
+                                        }
+                                    }
+                                </div>
+
+                            </div>
+                            <div class="box-shapes-wrap">
+                                <div class="icon-with-text-info">
+                                    <div class="icon-info">
+                                        <img src="/images/Eye-Icon.svg" alt="eye-icon">
+                                    </div>
+                                    <div class="txt-info">Observation</div>
+                                </div>
+                                <div class="main-content-wrap">
+                                    <div class="main-content-info">
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">
+                                                Single Strand Knots
+                                            </div>
+                                            <div class="data-info data-2">
+                                                @if (Model.TopLeft.Observation != null)
+                                                {
+                                                    @foreach (var tLeftObs in Model.TopLeft.Observation)
+                                                    {
+                                                        <span class="txt-info" id="pTopLeftObservation">@tLeftObs.Description</span>
+                                                    }
+                                                }
+
+                                            </div>
+                                        </div>
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Physical Products Buildup</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.TopLeft.obsPhysicalProducts != null)
+                                                {
+                                                    @foreach (var tLeftObs in Model.TopLeft.obsPhysicalProducts)
+                                                    {
+                                                        <span class="txt-info" id="pTopLeftObservation">@tLeftObs.Description</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Breakage</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.TopLeft.obsBreakages != null)
+                                                {
+                                                    @foreach (var tLeftObs in Model.TopLeft.obsBreakages)
+                                                    {
+                                                        <span class="txt-info" id="pTopLeftObservation">@tLeftObs.Description</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Splitting</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.TopLeft.obsSplittings != null)
+                                                {
+                                                    @foreach (var tLeftObs in Model.TopLeft.obsSplittings)
+                                                    {
+                                                        <span class="txt-info" id="pTopLeftObservation">@tLeftObs.Description</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Porosity</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.TopLeft.Pororsity != null)
+                                                {
+                                                    <span class="txt-info" id="pTopLeftPorosity">@Model.TopLeft.Pororsity.Description</span>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Elasticity</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.TopLeft.obsElasticities != null)
+                                                {
+                                                    @foreach (var tLeftObs in Model.TopLeft.obsElasticities)
+                                                    {
+                                                        <span class="txt-info" id="pTopLeftObservation">@tLeftObs.Description</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Density</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.TopLeft.Elasticity != null)
+                                                {
+                                                    <span class="txt-info" id="pTopLeftElasticity">@Model.TopLeft.Elasticity.Description</span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div id="menu1" class="tab-pane fade">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="owl-carousel crousalslide">
+                                @if (Model.TopRight.TopRightPhoto != null)
+                                {
+                                    @foreach (var tRight in Model.TopRight.TopRightPhoto)
+                                    {
+                                        <div>
+                                            <div class="col-md-12 p-0 col-form-label">
+                                                <img class="img-fluid small-img"  title="Click to view the full image" src="@tRight.StrandImage" data-id="@tRight.StrandImage" />
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="box-shapes-wrap">
+                                <div class="icon-with-text-info">
+                                    <div class="icon-info">
+                                        <img src="/images/Recommend-Icon.svg" alt="Recommendations-icon">
+                                    </div>
+                                    <div class="txt-info">Lab Analyst Notes</div>
+                                </div>
+                                <div class="main-content-wrap">
+                                    <ul class="mc-ul-info">
+                                        <li><p id="txtTopRightStrandDiameter" class="textFormat">+  @Model.TopRight.TopRightStrandDiameter</p></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="box-shapes-wrap">
+                                <div class="icon-with-text-info">
+                                    <div class="icon-info">
+                                        <img src="/images/Hair-Profile-Icon.svg" alt="hair-icon">
+                                    </div>
+                                    <div class="txt-info">Hair Profile Health</div>
+                                </div>
+                                <div class="Observations">
+                                    @if (Model.TopRight.Health != null)
+                                    {
+                                        @foreach (var tRighthealth in Model.TopRight.Health)
+                                        {
+                                            <p id="pTopLeftObservation" class="mb-1">@tRighthealth.Description</p>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <div class="box-shapes-wrap">
+                                <div class="icon-with-text-info">
+                                    <div class="icon-info">
+                                        <img src="/images/Eye-Icon.svg" alt="eye-icon">
+                                    </div>
+                                    <div class="txt-info">Observation</div>
+                                </div>
+                                <div class="main-content-wrap">
+                                    <div class="main-content-info">
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">
+                                                Single Strand Knots
+                                            </div>
+                                            <div class="data-info data-2">
+                                                @if (Model.TopRight.Observation != null)
+                                                {
+                                                    @foreach (var tLeftObs in Model.TopRight.Observation)
+                                                    {
+                                                        <span class="txt-info" id="pTopLeftObservation">@tLeftObs.Description</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Physical Products Buildup</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.TopRight.obsPhysicalProducts != null)
+                                                {
+                                                    @foreach (var tLeftObs in Model.TopRight.obsPhysicalProducts)
+                                                    {
+                                                        <span class="txt-info" id="pTopLeftObservation">@tLeftObs.Description</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Breakage</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.TopRight.obsBreakages != null)
+                                                {
+                                                    @foreach (var tLeftObs in Model.TopRight.obsBreakages)
+                                                    {
+                                                        <span class="txt-info" id="pTopLeftObservation">@tLeftObs.Description</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Splitting</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.TopRight.obsSplittings != null)
+                                                {
+                                                    @foreach (var tLeftObs in Model.TopRight.obsSplittings)
+                                                    {
+                                                        <span class="txt-info" id="pTopLeftObservation">@tLeftObs.Description</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Porosity</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.TopRight.Pororsity != null)
+                                                {
+                                                    <span class="txt-info" id="pTopLeftPorosity">@Model.TopRight.Pororsity.Description</span>
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Elasticity</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.TopRight.obsElasticities != null)
+                                                {
+                                                    @foreach (var tLeftObs in Model.TopRight.obsElasticities)
+                                                    {
+                                                        <span class="txt-info" id="pTopLeftObservation">@tLeftObs.Description</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Density</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.TopRight.Elasticity != null)
+                                                {
+                                                    <span class="txt-info" id="pTopLeftElasticity">@Model.TopRight.Elasticity.Description</span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="menu2" class="tab-pane fade">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="owl-carousel crousalslide">
+                                @if (Model.BottomLeft.BottomLeftPhoto != null)
+                                {
+                                    @foreach (var bLeft in Model.BottomLeft.BottomLeftPhoto)
+                                    {
+                                        <div>
+                                            <div class="col-md-12 p-0 col-form-label">
+                                                <img class="img-fluid small-img"  title="Click to view the full image" src="@bLeft.StrandImage" data-id="@bLeft.StrandImage" />
+                                            </div>
+                                            @*<div class="col-md-12 p-0">
+                                                    <img id="crownPhoto" class="w-100 img-fluid" src="@bLeft.StrandImage" />
+                                                </div>*@
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="box-shapes-wrap">
+                                <div class="icon-with-text-info">
+                                    <div class="icon-info">
+                                        <img src="/images/Recommend-Icon.svg" alt="Recommendations-icon">
+                                    </div>
+                                    <div class="txt-info">Lab Analyst Notes</div>
+                                </div>
+                                <div class="main-content-wrap">
+                                    <ul class="mc-ul-info">
+                                        <li><p id="txtTopLeftStrandDiameter" class="textFormat">+  @Model.BottomLeft.BottomLeftStrandDiameter</p></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="box-shapes-wrap">
+                                <div class="icon-with-text-info">
+                                    <div class="icon-info">
+                                        <img src="/images/Hair-Profile-Icon.svg" alt="hair-icon">
+                                    </div>
+                                    <div class="txt-info">Hair Profile Health</div>
+                                </div>
+                                <div class="Observations">
+                                    @if (Model.BottomLeft.Health != null)
+                                    {
+                                        @foreach (var tLefthealth in Model.BottomLeft.Health)
+                                        {
+                                            <p id="pTopLeftObservation" class="mb-1">@tLefthealth.Description</p>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <div class="box-shapes-wrap">
+                                <div class="icon-with-text-info">
+                                    <div class="icon-info">
+                                        <img src="/images/Eye-Icon.svg" alt="eye-icon">
+                                    </div>
+                                    <div class="txt-info">Observation</div>
+                                </div>
+                                <div class="main-content-wrap">
+                                    <div class="main-content-info">
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">
+                                                Single Strand Knots
+                                            </div>
+                                            <div class="data-info data-2">
+                                                @if (Model.BottomLeft.Observation != null)
+                                                {
+                                                    @foreach (var tLeftObs in Model.BottomLeft.Observation)
+                                                    {
+                                                        <span class="txt-info" id="pTopLeftObservation">@tLeftObs.Description</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Physical Products Buildup</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.BottomLeft.obsPhysicalProducts != null)
+                                                {
+                                                    @foreach (var tLeftObs in Model.BottomLeft.obsPhysicalProducts)
+                                                    {
+                                                        <span class="txt-info" id="pTopLeftObservation">@tLeftObs.Description</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Breakage</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.BottomLeft.obsBreakages != null)
+                                                {
+                                                    @foreach (var tLeftObs in Model.BottomLeft.obsBreakages)
+                                                    {
+                                                        <span class="txt-info" id="pTopLeftObservation">@tLeftObs.Description</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Splitting</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.BottomLeft.obsSplittings != null)
+                                                {
+                                                    @foreach (var tLeftObs in Model.BottomLeft.obsSplittings)
+                                                    {
+                                                        <span class="txt-info" id="pTopLeftObservation">@tLeftObs.Description</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Porosity</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.BottomLeft.Pororsity != null)
+                                                {
+                                                    <span class="txt-info" id="pTopLeftPorosity">@Model.BottomLeft.Pororsity.Description</span>
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Elasticity</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.BottomLeft.obsElasticities != null)
+                                                {
+                                                    @foreach (var tLeftObs in Model.BottomLeft.obsElasticities)
+                                                    {
+                                                        <span class="txt-info" id="pTopLeftObservation">@tLeftObs.Description</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Density</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.BottomLeft.Elasticity != null)
+                                                {
+                                                    <span class="txt-info" id="pTopLeftElasticity">@Model.BottomLeft.Elasticity.Description</span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="menu3" class="tab-pane fade">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="owl-carousel crousalslide">
+                                @if (Model.BottomRight.BottomRightPhoto != null)
+                                {
+                                    @foreach (var bLeft in Model.BottomRight.BottomRightPhoto)
+                                    {
+                                        <div>
+                                            <div class="col-md-12 p-0 col-form-label">
+                                                <img class="img-fluid small-img"  title="Click to view the full image" src="@bLeft.StrandImage" data-id="@bLeft.StrandImage" />
+                                            </div>
+                                            @*<div class="col-md-12 p-0">
+                                                    <img id="crownPhoto" class="w-100 img-fluid" src="@bLeft.StrandImage" />
+                                                </div>*@
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="box-shapes-wrap">
+                                <div class="icon-with-text-info">
+                                    <div class="icon-info">
+                                        <img src="/images/Recommend-Icon.svg" alt="Recommendations-icon">
+                                    </div>
+                                    <div class="txt-info">Lab Analyst Notes</div>
+                                </div>
+                                <div class="main-content-wrap">
+                                    <ul class="mc-ul-info">
+                                        <li><p id="txtTopLeftStrandDiameter" class="textFormat">+  @Model.BottomRight.BottomRightStrandDiameter</p></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="box-shapes-wrap">
+                                <div class="icon-with-text-info">
+                                    <div class="icon-info">
+                                        <img src="/images/Hair-Profile-Icon.svg" alt="hair-icon">
+                                    </div>
+                                    <div class="txt-info">Hair Profile Health</div>
+                                </div>
+                                <div class="Observations">
+                                    @if (Model.BottomRight.Health != null)
+                                    {
+                                        @foreach (var tLefthealth in Model.BottomRight.Health)
+                                        {
+                                            <p id="pTopLeftObservation" class="mb-1">@tLefthealth.Description</p>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <div class="box-shapes-wrap">
+                                <div class="icon-with-text-info">
+                                    <div class="icon-info">
+                                        <img src="/images/Eye-Icon.svg" alt="eye-icon">
+                                    </div>
+                                    <div class="txt-info">Observation</div>
+                                </div>
+                                <div class="main-content-wrap">
+                                    <div class="main-content-info">
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">
+                                                Single Strand Knots
+                                            </div>
+                                            <div class="data-info data-2">
+                                                @if (Model.BottomRight.Observation != null)
+                                                {
+                                                    @foreach (var tLeftObs in Model.BottomRight.Observation)
+                                                    {
+                                                        <span class="txt-info" id="pTopLeftObservation">@tLeftObs.Description</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Physical Products Buildup</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.BottomRight.obsPhysicalProducts != null)
+                                                {
+                                                    @foreach (var tLeftObs in Model.BottomRight.obsPhysicalProducts)
+                                                    {
+                                                        <span class="txt-info" id="pTopLeftObservation">@tLeftObs.Description</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Breakage</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.BottomRight.obsBreakages != null)
+                                                {
+                                                    @foreach (var tLeftObs in Model.BottomRight.obsBreakages)
+                                                    {
+                                                        <span class="txt-info" id="pTopLeftObservation">@tLeftObs.Description</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Splitting</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.BottomRight.obsSplittings != null)
+                                                {
+                                                    @foreach (var tLeftObs in Model.BottomRight.obsSplittings)
+                                                    {
+                                                        <span class="txt-info" id="pTopLeftObservation">@tLeftObs.Description</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Porosity</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.BottomRight.Pororsity != null)
+                                                {
+                                                    <span class="txt-info" id="pTopLeftPorosity">@Model.BottomRight.Pororsity.Description</span>
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Elasticity</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.BottomRight.obsElasticities != null)
+                                                {
+                                                    @foreach (var tLeftObs in Model.BottomRight.obsElasticities)
+                                                    {
+                                                        <span class="txt-info" id="pTopLeftObservation">@tLeftObs.Description</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Density</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.BottomRight.Elasticity != null)
+                                                {
+                                                    <span class="txt-info" id="pTopLeftElasticity">@Model.BottomRight.Elasticity.Description</span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="menu4" class="tab-pane fade">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="owl-carousel crousalslide">
+                                @if (Model.CrownStrand.CrownPhoto != null)
+                                {
+                                    @foreach (var bLeft in Model.CrownStrand.CrownPhoto)
+                                    {
+                                        <div>
+                                            <div class="col-md-12 p-0 col-form-label">
+                                                <img class="img-fluid small-img"  title="Click to view the full image" src="@bLeft.StrandImage" data-id="@bLeft.StrandImage" />
+                                            </div>
+                                            @*<div class="col-md-12 p-0">
+                                                    <img id="crownPhoto" class="w-100 img-fluid" src="@bLeft.StrandImage" />
+                                                </div>*@
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="box-shapes-wrap">
+                                <div class="icon-with-text-info">
+                                    <div class="icon-info">
+                                        <img src="/images/Recommend-Icon.svg" alt="Recommendations-icon">
+                                    </div>
+                                    <div class="txt-info">Lab Analyst Notes</div>
+                                </div>
+                                <div class="main-content-wrap">
+                                    <ul class="mc-ul-info">
+                                        <li><p id="txtTopLeftStrandDiameter" class="textFormat">+  @Model.CrownStrand.CrownStrandDiameter</p></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="box-shapes-wrap">
+                                <div class="icon-with-text-info">
+                                    <div class="icon-info">
+                                        <img src="/images/Hair-Profile-Icon.svg" alt="hair-icon">
+                                    </div>
+                                    <div class="txt-info">Hair Profile Health</div>
+                                </div>
+                                <div class="Observations">
+                                    @if (Model.CrownStrand.Health != null)
+                                    {
+                                        @foreach (var tLefthealth in Model.CrownStrand.Health)
+                                        {
+                                            <p id="pTopLeftObservation" class="mb-1">@tLefthealth.Description</p>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <div class="box-shapes-wrap">
+                                <div class="icon-with-text-info">
+                                    <div class="icon-info">
+                                        <img src="/images/Eye-Icon.svg" alt="eye-icon">
+                                    </div>
+                                    <div class="txt-info">Observation</div>
+                                </div>
+                                <div class="main-content-wrap">
+                                    <div class="main-content-info">
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">
+                                                Single Strand Knots
+                                            </div>
+                                            <div class="data-info data-2">
+                                                @if (Model.CrownStrand.Observation != null)
+                                                {
+                                                    @foreach (var tLeftObs in Model.CrownStrand.Observation)
+                                                    {
+                                                        <span class="txt-info" id="pTopLeftObservation">@tLeftObs.Description</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Physical Products Buildup</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.CrownStrand.obsPhysicalProducts != null)
+                                                {
+                                                    @foreach (var tLeftObs in Model.CrownStrand.obsPhysicalProducts)
+                                                    {
+                                                        <span class="txt-info" id="pTopLeftObservation">@tLeftObs.Description</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Breakage</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.CrownStrand.obsBreakages != null)
+                                                {
+                                                    @foreach (var tLeftObs in Model.CrownStrand.obsBreakages)
+                                                    {
+                                                        <span class="txt-info" id="pTopLeftObservation">@tLeftObs.Description</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Splitting</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.CrownStrand.obsSplittings != null)
+                                                {
+                                                    @foreach (var tLeftObs in Model.CrownStrand.obsSplittings)
+                                                    {
+                                                        <span class="txt-info" id="pTopLeftObservation">@tLeftObs.Description</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Porosity</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.CrownStrand.Pororsity != null)
+                                                {
+                                                    <span class="txt-info" id="pTopLeftPorosity">@Model.CrownStrand.Pororsity.Description</span>
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Elasticity</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.CrownStrand.obsElasticities != null)
+                                                {
+                                                    @foreach (var tLeftObs in Model.CrownStrand.obsElasticities)
+                                                    {
+                                                        <span class="txt-info" id="pTopLeftObservation">@tLeftObs.Description</span>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="data-wrap">
+                                            <div class="data-info data-1">Density</div>
+                                            <div class="data-info data-2">
+                                                @if (Model.CrownStrand.Elasticity != null)
+                                                {
+                                                    <span class="txt-info" id="pTopLeftElasticity">@Model.CrownStrand.Elasticity.Description</span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="fancy-img-modal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="display:block;">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="text-center">
+
+                <img id="modalImage" src="" class="img-fluid" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.small-img').on('click', function () {
+            var OrginalImageSrc = $(this).attr('src');
+            if (OrginalImageSrc.includes('/HairProfileThumbnails/')) {
+                var fullSizeSrc = OrginalImageSrc.replace('/HairProfile/HairProfileThumbnails/', '/HairProfile/');
+                $('#modalImage').attr('src', fullSizeSrc); 
+            } else {
+                var fullSizeSrc = OrginalImageSrc.replace('GetHairAnalysisImage', 'GetHairAnalysisImageFull');
+                $('#modalImage').attr('src', fullSizeSrc);
+            }
+            $('#fancy-img-modal').modal('show'); 
+        });
+    });
+    
+    $('.owl-carousel').owlCarousel({
+        loop: true,
+        margin: 00,
+        responsiveClass: true,
+        responsive: {
+            0: {
+                items: 1,
+                nav: true,
+                loop: true
+            },
+            600: {
+                items: 1,
+                nav: true,
+                loop: true
+            },
+            1000: {
+                items: 1,
+                nav: true,
+                loop: true
+            }
+        }
+    })
+</script>

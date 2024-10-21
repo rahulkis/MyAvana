@@ -1,0 +1,372 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper AuthoringTagHelpers.TagHelpers.EmailTagHelper, AuthoringTagHelpers
+@model MyavanaAdminModels.Group
+@inject MyavanaAdminApiClient.ApiClient groupClient
+
+@{
+    Layout = "_Layout";
+    var users = groupClient.GetHairTypeUsers();
+    var groupList = groupClient.GetGroupList().Result;
+}
+
+
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.select2').select2({ placeholder: "--Select--" });
+    });
+</script>
+<style>
+    .preloader {
+        width: calc(100% - 200px);
+        height: 100%;
+        top: 0px;
+        position: fixed;
+        z-index: 99999;
+        background: rgba(255, 255, 255, .8);
+    }
+
+        .preloader img {
+            position: absolute;
+            LEFT: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+        }
+
+    .loader {
+        overflow: visible;
+        padding-top: 2em;
+        height: 0;
+        width: 2em;
+    }
+
+    .alert-success, .alert-danger, .alert-info {
+        top: 110px !important;
+        width: 60% !important;
+        margin: 0 auto;
+        z-index: 99;
+        position: fixed;
+        left: 50%;
+        transform: translateX(-40%);
+        text-align: center;
+        padding: 12px;
+        transition: all 1s linear;
+        box-shadow: 0px 0px 12px 3px rgba(0, 0, 0, 0.2);
+        font-size: 16px;
+    }
+
+    .alert-danger {
+        color: #80172a;
+        background-color: #fdd5dc;
+        border-color: #fcc4ce;
+    }
+
+        .alert-danger hr {
+            border-top-color: #fbacba;
+        }
+
+        .alert-danger .alert-link {
+            color: #550f1c;
+        }
+
+    .alert-success {
+        color: #1c6356;
+        background-color: #a8ffc3;
+        border-color: #13b755;
+    }
+
+        .alert-success hr {
+            border-top-color: #b4e7dd;
+        }
+
+        .alert-success .alert-link {
+            color: #113b33;
+        }
+
+    table#groupUsers th {
+        background: #eee;
+    }
+</style>
+<link rel="stylesheet" href="~/lib/footable/css/footable.core.css" />
+<script src="~/lib/footable/dist/footable.all.min.js"></script>
+<div id="alert-success" class="alert alert-success alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="successMessage"></span>
+</div>
+<div class="alert alert-danger alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="failureMessage"></span>
+</div>
+
+<div class="preloader" style="display:none;">
+    <div class="loader">
+        <img src="~/images/loader.gif" />
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5 id="hHead">Create Group</h5>
+
+                </div>
+                <div class="ibox-content">
+                    @*<form method="post">*@
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label"> Hair Type*</label>
+                        <div class="col-sm-10">
+                            <select class="form-control select" id="hairType">
+                                @*asp-items="@users.Result.Select(s => new SelectListItem() { Text = s.HairType, Value=s.HairType.ToString()}).Distinct()">*@
+                            </select>
+                        </div>
+                        @*<input type="text" id="txtType" asp-for="TypeFor" placeholder="Enter type" class="form-control">*@
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="dvGroups">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">GroupName :</label>
+                            <input type="text" id="grpName" placeholder="Enter Group Name" class="col-sm-10 form-control">
+                            @*<span id="grpName" class="col-sm-10 col-form-label"></span>*@
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group row">
+                            <label class="col-sm-1 col-form-label" for="IsPublic">Is Public</label>
+                            <input type="checkbox" asp-for="IsPublic">
+                            @*<div class="col-sm-10">
+                                <input type="checkbox" asp-for="IsPublic">
+                            </div>*@
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div class="form-group row">
+                            <div class="custom-control custom-switch">
+                                <div class="col-sm-10">
+                                    <input type="checkbox" name="acceptRules" class="custom-control-input checkbox" id="ShowOnMobile" asp-for="ShowOnMobile" value="false">
+                                    <label class="custom-control-label" for="ShowOnMobile">Show On Mobile</label>
+                                    @*<input type="checkbox" class="custom-control-input" asp-for="ShowOnMobile">
+                                    <label class="custom-control-label" for="ShowOnMobile">Show On Mobile</label>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+                        <div>
+                            <table class="footable table table-stripped toggle-arrow-tiny" id="groupUsers" data-limit-navigation="5" data-paging="true" data-page-size="20">
+                                <thead>
+                                    <tr>
+                                        <th data-sort-ignore="true"></th>
+                                        <th data-sort-ignore="true">UserName</th>
+                                        <th data-sort-ignore="true">User Email</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bodyGroupUsers">
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3">
+                                            <ul class="pagination float-right"></ul>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <a class="btn btn-white btn-sm" asp-controller="Groups" asp-action="GroupList">Cancel</a>
+                                <button class="btn btn-primary btn-sm" id="crtGroup" onclick="CreateGroup()">Create Group</button>
+                            </div>
+                        </div>
+                    </div>
+                    @*</form>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/admin/group.js"></script>
+<script type="text/javascript">
+
+   // $('.dvGroups').css('display', 'none');
+
+    function getUrlVars() {
+        var vars = [], hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for (var i = 0; i < hashes.length; i++) {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = decodeURIComponent(hash[1]);
+        }
+        return vars;
+    }
+    var htype = getUrlVars()["hairtype"];
+
+
+    $(document).ready(function () {
+        var data = @Html.Raw(Json.Serialize(users.Result));
+        var gList = @Html.Raw(Json.Serialize(groupList));
+        $("#hairType").html('').append($("<option></option>").val("").html("--Select Group--"));
+        var hairTypeList = [];
+        var hairTypeLists = [];
+        for (var i = 0; i < gList.length; i++) {
+            hairTypeLists.push(gList[i].hairType);
+        }
+        var flag = false;
+        var htypeExists = false;
+        if (htype) {
+            data.forEach(function (value, index) {
+                if (value.hairType == htype) {
+                    htypeExists = true;
+                }
+            })
+        } else {
+            htypeExists = true;
+        }
+        if (htypeExists) {
+            if (htype) {
+                $("#grpName").prop("disabled", "disabled");
+                $('#grpName').val(htype);
+            }
+            for (j = 0; j < data.length; j++) {
+                // if (data[j].hairType == htype) {
+                if (htype == null) {
+                    if (hairTypeLists.includes(data[j].hairType)) {
+                        continue;
+                    }
+
+                    else {
+                        if (hairTypeList.includes(data[j].hairType)) {
+                            continue;
+                        }
+                        else {
+                            hairTypeList.push(data[j].hairType);
+                            $("#hairType").append($("<option></option>").val(data[j].hairType).html(data[j].hairType));
+                        }
+                    }
+                }
+                else {
+                    if (hairTypeList.includes(data[j].hairType)) {
+                        continue;
+                    }
+                    else {
+                        hairTypeList.push(data[j].hairType);
+                        $("#hairType").append($("<option></option>").val(data[j].hairType).html(data[j].hairType));
+                    }
+                }
+                //  }
+            }
+        }
+        else {
+            for (j = 0; j < data.length; j++) {
+                $("#bodyGroupUsers").append("<tr id=" + j + "><td><input class='chkGroup' id='" + data[j].userId + "' type='checkbox' /></td><td id='usr_" + j + "'>" + data[j].userName + "</td><td  id='eml_" + j + "'>" + data[j].userEmail + "</td></tr>");
+            }
+            $('.chkGroup').each(function (index, obj) {
+                var id = this.id;
+                for (j = 0; j < gList.length; j++) {
+                    if (gList[j].hairType == htype) {
+                        for (k = 0; k < gList[j].users.length; k++) {
+                            if (gList[j].users[k].userId != null) {
+                                if (id.toLowerCase() == gList[j].users[k].userId.toLowerCase()) {
+                                    $('#' + id).prop('checked', true);
+                                }
+                            }
+                        }
+                    }
+
+                }
+            });
+            $("#grpName").prop("disabled", "disabled");
+            $('#grpName').val(htype);
+        }
+        if (htype == null) {
+            for (j = 0; j < data.length; j++) {
+                $("#bodyGroupUsers").append("<tr id=" + j + "><td><input class='chkGroup' id='" + data[j].userId + "' type='checkbox' /></td><td id='usr_" + j + "'>" + data[j].userName + "</td><td  id='eml_" + j + "'>" + data[j].userEmail + "</td></tr>");
+            }
+        }
+        if (htype != null)
+        {
+           // $('.dvGroups').css('display', 'block');
+
+           /* $('#hairType option[value="' +encodeURIComponent(htype) + '"]').attr("selected", "selected");*/
+            $('#hairType option').map(function () {
+                if ($(this).text() == htype) return this;
+            }).attr('selected', 'selected');
+            $('#hairType').attr('disabled', 'disabled');
+
+            for (j = 0; j < data.length; j++) {
+                if (data[j].hairType == htype)
+                    $("#bodyGroupUsers").append("<tr id=" + j + "><td><input class='chkGroup' id='" + data[j].userId + "' type='checkbox' /></td><td id='usr_" + j + "'>" + data[j].userName + "</td><td  id='eml_" + j + "'>" + data[j].userEmail + "</td></tr>");
+                }
+            $('#crtGroup').text('Update Group');
+            $('#hHead').html('Update Group');
+            $('#grpName').html(htype);
+            $('.chkGroup').each(function (index, obj) {
+                var id = this.id;
+                for (j = 0; j < gList.length; j++) {
+                    if (gList[j].hairType == htype) {
+                        $('#ShowOnMobile').prop('checked', gList[j].showOnMobile);
+                        $('#IsPublic').prop('checked', gList[j].isPublic);
+                        for (k = 0; k < gList[j].users.length; k++) {
+                            if (gList[j].users[k].userId != null) {
+                                if (id.toLowerCase() == gList[j].users[k].userId.toLowerCase()) {
+                                    $('#' + id).prop('checked', true);
+                                }
+                            }
+                        }
+                    }
+
+                }
+            });
+        }
+        $('.footable').footable();
+    });
+
+    $('#hairType').on('change', function (e) {
+       // $('.dvGroups').css('display', 'block');
+        $('.footable').data('footable').reset();
+        $("#bodyGroupUsers").html('');
+        $("tfoot").html('');
+        var hairtype = $('#hairType option:selected').val();
+
+        $('#grpName').val(hairtype);
+        if (hairtype == "") {
+            $("#grpName").removeAttr("disabled");
+        } else {
+            $("#grpName").prop("disabled", "disabled");
+        }
+        var data = @Html.Raw(Json.Serialize(users.Result));
+
+        for (j = 0; j < data.length; j++) {
+            if (hairtype == "") {
+                $("#bodyGroupUsers").append("<tr id=" + j + "><td><input class='chkGroup' id='" + data[j].userId + "' type='checkbox' /></td><td id='usr_" + j + "'>" + data[j].userName + "</td><td  id='eml_" + j + "'>" + data[j].userEmail + "</td></tr>");
+            } else {
+                if (data[j].hairType == hairtype) {
+                    $("#bodyGroupUsers").append("<tr id=" + j + "><td><input class='chkGroup' id='" + data[j].userId + "' type='checkbox' /></td><td id='usr_" + j + "'>" + data[j].userName + "</td><td  id='eml_" + j + "'>" + data[j].userEmail + "</td></tr>");
+                }
+            }
+        }
+        $("tfoot").append("<tr><td colspan='3'><ul class='pagination float-right'></ul></td></tr>")
+        $('.footable').footable({});
+    });
+    $(document).ready(function () {
+        // Function to handle checkbox change
+        function handleCheckboxChange() {
+            if ($(this).is(':checked')) {
+                $(this).val('true');
+            } else {
+                $(this).val('false');
+            }
+
+            // Optionally, display the current value in a debug element
+            $('#checkbox-value').text($(this).val());
+        }
+
+        // Bind the change event to both checkboxes
+        $('#ShowOnMobile, #IsPublic').on('change', handleCheckboxChange);
+
+        // Trigger change to set the initial value correctly
+        $('#ShowOnMobile, #IsPublic').trigger('change');
+    });
+</script>

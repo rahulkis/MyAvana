@@ -1,0 +1,1447 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper AuthoringTagHelpers.TagHelpers.EmailTagHelper, AuthoringTagHelpers
+@model MyavanaAdminModels.HairProfileCustomerModel
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@inject MyavanaAdminApiClient.ApiClient Salons
+@{
+    var count = 0;
+    var IsRecommendedProductActive = HttpContextAccessor.HttpContext.Request.Query["IsRecommendedProductActive"].ToString();
+    string IsRemProductTabActive = "";
+    string IsActiveProfiletab = "active";
+    string ActiveProfiletabBodyClass = "active showHide show";
+    string ActiveRecommendedProductBodyClass = "";
+    if (IsRecommendedProductActive != "")
+    {
+        ActiveProfiletabBodyClass = "";
+        IsRemProductTabActive = "active";
+        ActiveRecommendedProductBodyClass = "active showHide show";
+        IsActiveProfiletab = "";
+    }
+}
+<div class="ibox-content">
+    <div class="tab-section">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="nav flex-row justify-content-center nav-pills mb-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link lnk Tab1  @IsActiveProfiletab" id="v-pills-home-tab" data-toggle="pill" data-target="#v-pills-profile" role="tab" aria-selected="true">Hair Profile</a>
+                    <a class="nav-link lnk Tab2" onclick="GetHHCPStrands()" id="v-pills-profile-tab" data-toggle="pill" data-target="#v-pills-analysis" role="tab" aria-selected="false"> Hair Analysis</a>
+                    <a class="nav-link lnk Tab3 @IsRemProductTabActive" id="v-pills-messages-tab" data-toggle="pill" data-target="#v-pills-products" role="tab" aria-selected="false">Recommended Products</a>
+                    <a class="nav-link lnk Tab5" id="v-pills-recipe-tab" data-toggle="pill" data-target="#v-pills-StyleRecipes" role="tab" aria-selected="false">Style Recipes</a>
+                    <a class="nav-link lnk Tab4" onclick="scrolldiv()" id="v-pills-settings-tab" data-toggle="pill" data-target="#v-pills-recommendations" role="tab" aria-selected="false">Other Recommendations</a>
+                </div>
+                <div class="hr-line-dashed"></div>
+            </div>
+            <div class="col-md-12">
+                <div class="tab-content" id="v-pills-tabContent">
+
+                    <div class="tab-pane fade Tab1 @ActiveProfiletabBodyClass" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                        <div class="tab1_profile">
+                            <div class="row">
+                                <div class="col-md-8 order1">
+                                    <div class="profile_name">
+                                        <h3 class="user-profile-name-info">Profile : <strong><span id="txtHairId"> @Model.UserName (@Model.CustomerTypeDesc)</span></strong></h3>
+                                        @if (HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"].ToString() == "1")
+                                        {
+                                            <div class="salon-dropdown-wrap">
+                                                <select class="form-control" asp-for="SalonId"
+                                                        asp-items="@Salons.GetSalonList().Result.Select(x => new SelectListItem() { Text = x.SalonName, Value = x.SalonId.ToString() })">
+                                                    <option value="">Select Salon</option>
+                                                </select>
+                                            </div>
+                                        }
+                                        @if (Model.HairId != null && Model.SalonId != null)
+                                        {
+                                            <div class="disable-checkbox">
+                                                <input class="" type="checkbox" id="IsViewEnabled" checked="@Model.IsViewEnabled" />
+                                                <label class="" for="IsViewEnabled">
+                                                    @*@if (Model.IsViewEnabled == true)
+                                                        {
+                                                            <h3>Disable</h3>
+                                                        }
+                                                        else
+                                                        {
+                                                            <h3>Enable</h3>
+                                                        }*@
+                                                    <h3>Enable Customer View</h3>
+                                                </label>
+                                            </div>
+                                        }
+                                    </div>
+
+
+                                </div>
+                                <div class="col-md-4 order3">
+                                    <div class="user-profile-info">
+                                        @if (Model.HairAnalyst != null)
+                                        {
+                                            <h4 class="user-name-info">@Model.HairAnalyst.AnalystName</h4>
+                                            <a href="#" class="user-img-info">
+                                                <img src="@Model.HairAnalyst.AnalystImage" alt="profile" />
+                                            </a>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="col-md-4 order2">
+                                    <div class="form-group  row">
+
+                                        <div class="col-sm-12 ">
+                                            <input type="hidden" asp-for="HairProfileId" />
+                                            <input type="hidden" asp-for="UserId" />
+
+                                        </div>
+
+                                        <div class="col-sm-12 col-form-label">
+
+                                            <span class="upload-img-info">Uploaded photo of your hair : </span>
+                                        </div>
+
+
+                                        <div class="col-sm-12 col-form-label">
+                                            @if (Model.UserAIImage != null && Model.UserAIImage != "")
+                                            {
+                                                <a class="demo nailthumb-container" rel="shadowbox[gallery]" href="@Model.UserAIImage" title="click to view the full image" style="display:none"></a>
+                                            }
+                                            else
+                                            {
+                                                <a class="demo nailthumb-container" rel="shadowbox[gallery]" href="@Model.UserUploadedImage" title="click to view the full image" style="display:none"></a>
+                                            }
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-8 order4">
+                                    <div class="form-group  row">
+
+
+
+                                        <div class="col-sm-12 col-form-label user-profile-description-info">
+                                            @*<h3>Hair Health Summary</h3>*@
+                                            @*<textarea readonly id="txtHealthSummary" rows="9" style="width:100%" class="font-bold txtFormat">@Model.HealthSummary</textarea>*@
+                                            <div id="txtHealthSummary" style="width:100%" class="font-bold txtFormat">@Model.HealthSummary</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @*<div class="form-group  row">
+
+                                @if (Model.IsVersion2 == true)
+                                {
+                                    <div class="col-sm-6">
+                                        <div class="col-sm-12 col-form-label text-center">
+                                            <h3>Hair Type</h3>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            @if (!String.IsNullOrEmpty(Model.AIResultNew))
+                                            {
+                                                var cnt = 1;
+                                                foreach (var x in Model.AIResultNewDecoded)
+                                                {
+                                                    if (cnt > 2)
+                                                    {
+                                                        break;
+                                                    }
+                                                    <div class="hair-type-wrap">
+                                                        <div class="hair-information-wrap">
+                                                            <div class="hair-type-info">@x.Key</div>
+                                                            <div class="hair-value-info">
+                                                                @x.Value.ToString().Substring(0, 5)%
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    cnt++;
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="col-sm-12 col-form-label  text-center">
+                                            <h3>Hair Texture</h3>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            @if (!String.IsNullOrEmpty(Model.AIResultNew))
+                                            {
+                                                var cnt = 1;
+                                                foreach (var x in Model.AIResultTextureDecoded)
+                                                {
+                                                    if (cnt > 2)
+                                                    {
+                                                        break;
+                                                    }
+                                                    <div class="hair-type-wrap">
+                                                        <div class="hair-information-wrap">
+                                                            <div class="hair-type-info">@x.Key</div>
+                                                            <div class="hair-value-info">
+                                                                @x.Value.ToString().Substring(0, 5)%
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    cnt++;
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+
+                                }
+                                else
+                                {
+                                    @if (!String.IsNullOrEmpty(Model.AIResultNew))
+                                    {
+                                        <div class="col-sm-6 col-form-label">
+                                            <h3>Your hair type is : </h3>
+                                        </div>
+                                        <div class="col-sm-12 col-form-label">
+                                            @foreach (var x in Model.AIResultNewDecoded)
+                                            {
+                                                <div class="hair-type-wrap">
+                                                    <div class="hair-information-wrap">
+                                                        <div class="hair-type-info">@x.Key</div>
+                                                        <div class="hair-value-info">
+                                                            @x.Value.ToString().Substring(0, 5)%
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+
+                                    }
+
+                                    else
+                                    {
+                                        @if (!String.IsNullOrEmpty(Model.AIResult))
+                                        {
+                                            @if (Model.IsAIV2Mobile == true)
+                                            {
+                                                var cnt = 1;
+                                                <div class="col-sm-6">
+                                                    <div class="col-sm-12 col-form-label text-center">
+                                                        <h3>Hair Type</h3>
+                                                    </div>
+                                                    <div class="col-sm-12">
+
+                                                        @foreach (var x in Model.AIResultDecoded)
+                                                        {
+                                                            if (cnt > 2)
+                                                            {
+                                                                break;
+                                                            }
+                                                            <div class="hair-type-wrap">
+                                                                <div class="hair-information-wrap">
+                                                                    <div class="hair-type-info">@x.Key</div>
+                                                                    <div class="hair-value-info">
+                                                                        @x.Value.ToString().Substring(0, 5)%
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            cnt++;
+                                                        }
+                                                    </div>
+                                                </div>
+                                                cnt = 1;
+                                                <div class="col-sm-6">
+                                                    <div class="col-sm-12 col-form-label text-center">
+                                                        <h3>Hair Texture</h3>
+                                                    </div>
+
+                                                    <div class="col-sm-12">
+
+                                                        @foreach (var x in Model.AIResultTextureDecoded)
+                                                        {
+                                                            if (cnt > 2)
+                                                            {
+                                                                break;
+                                                            }
+                                                            <div class="hair-type-wrap">
+                                                                <div class="hair-information-wrap">
+                                                                    <div class="hair-type-info">@x.Key</div>
+                                                                    <div class="hair-value-info">
+                                                                        @x.Value.ToString().Substring(0, 5)%
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            cnt++;
+                                                        }
+                                                    </div>
+                                                </div>
+
+
+
+                                            }
+                                            else
+                                            {
+                                                <div class="col-sm-6 col-form-label">
+                                                    <h3>Your hair type is : </h3>
+                                                </div>
+                                                <div class="col-sm-12 col-form-label">
+                                                    @foreach (var x in Model.AIResultDecoded)
+                                                    {
+                                                        <div class="hair-type-wrap">
+                                                            <div class="hair-information-wrap">
+                                                                <div class="hair-type-info">@x.Key</div>
+                                                                <div class="hair-value-info">
+                                                                    @x.Value.ToString().Substring(0, 5)%
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+
+                                            }
+                                        }
+                                    }
+                                }
+
+                            </div>*@
+
+                        <div class="form-group  row">
+
+
+
+                            @if (Model.IsVersion2 == true)
+                            {
+                                <div class="col-sm-6">
+                                    <div class="col-sm-12 col-form-label text-center">
+                                        <h3>Hair Type</h3>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        @if (!String.IsNullOrEmpty(Model.AIResultNew))
+                                        {
+                                            var cnt = 1;
+                                            foreach (var x in Model.AIResultNewDecoded)
+                                            {
+                                                if (cnt > 2)
+                                                {
+                                                    break;
+                                                }
+                                                <div class="hair-type-wrap">
+                                                    <div class="hair-information-wrap">
+                                                        <div class="hair-type-info">@x.Key</div>
+                                                        <div class="hair-value-info">
+                                                            @x.Value.ToString().Substring(0, 5)%
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                cnt++;
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="col-sm-12 col-form-label  text-center">
+                                        <h3>Hair Texture</h3>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        @if (!String.IsNullOrEmpty(Model.AIResultNew))
+                                        {
+                                            var cnt = 1;
+                                            foreach (var x in Model.AIResultTextureDecoded)
+                                            {
+                                                if (cnt > 2)
+                                                {
+                                                    break;
+                                                }
+                                                <div class="hair-type-wrap">
+                                                    <div class="hair-information-wrap">
+                                                        <div class="hair-type-info">@x.Key</div>
+                                                        @if (x.Value.ToString().Length > 5)
+                                                        {
+                                                            <div class="hair-value-info">
+                                                                @x.Value.ToString().Substring(0, 5)%
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="hair-value-info">
+                                                                @x.Value.ToString()%
+                                                            </div>
+                                                        }
+
+                                                    </div>
+                                                </div>
+                                                cnt++;
+                                            }
+                                        }
+                                    </div>
+                                </div>
+
+                            }
+                            else
+                            {
+                                @if (!String.IsNullOrEmpty(Model.AIResultNew))
+                                {
+                                    <div class="col-sm-6 col-form-label">
+                                        <h3>Your hair type is : </h3>
+                                    </div>
+                                    <div class="col-sm-12 col-form-label">
+                                        @foreach (var x in Model.AIResultNewDecoded)
+                                        {
+                                            <div class="hair-type-wrap">
+                                                <div class="hair-information-wrap">
+                                                    <div class="hair-type-info">@x.Key</div>
+                                                    @*<div class="hair-value-info">
+                                                            @x.Value.ToString().Substring(0, 5)%
+                                                        </div>*@
+                                                    @if (x.Value.ToString().Length > 5)
+                                                    {
+                                                        <div class="hair-value-info">
+                                                            @x.Value.ToString().Substring(0, 5)%
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="hair-value-info">
+                                                            @x.Value.ToString()%
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+
+                                }
+
+                                else
+                                {
+                                    @if (!String.IsNullOrEmpty(Model.AIResult))
+                                    {
+                                        @if (Model.IsAIV2Mobile == true)
+                                        {
+                                            var cnt = 1;
+                                            <div class="col-sm-6">
+                                                <div class="col-sm-12 col-form-label text-center">
+                                                    <h3>Hair Type</h3>
+                                                </div>
+                                                <div class="col-sm-12">
+
+                                                    @foreach (var x in Model.AIResultDecoded)
+                                                    {
+                                                        if (cnt > 2)
+                                                        {
+                                                            break;
+                                                        }
+                                                        <div class="hair-type-wrap">
+                                                            <div class="hair-information-wrap">
+                                                                <div class="hair-type-info">@x.Key</div>
+                                                                <div class="hair-value-info">
+                                                                    @x.Value.ToString().Substring(0, 5)%
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        cnt++;
+                                                    }
+                                                </div>
+                                            </div>
+                                            cnt = 1;
+                                            <div class="col-sm-6">
+                                                <div class="col-sm-12 col-form-label text-center">
+                                                    <h3>Hair Texture</h3>
+                                                </div>
+
+                                                <div class="col-sm-12">
+
+                                                    @foreach (var x in Model.AIResultTextureDecoded)
+                                                    {
+                                                        if (cnt > 2)
+                                                        {
+                                                            break;
+                                                        }
+                                                        <div class="hair-type-wrap">
+                                                            <div class="hair-information-wrap">
+                                                                <div class="hair-type-info">@x.Key</div>
+                                                                <div class="hair-value-info">
+                                                                    @x.Value.ToString().Substring(0, 5)%
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        cnt++;
+                                                    }
+                                                </div>
+                                            </div>
+
+
+
+                                        }
+                                        else
+                                        {
+                                            <div class="col-sm-6 col-form-label">
+                                                <h3>Your hair type is : </h3>
+                                            </div>
+                                            <div class="col-sm-12 col-form-label">
+                                                @foreach (var x in Model.AIResultDecoded)
+                                                {
+                                                    <div class="hair-type-wrap">
+                                                        <div class="hair-information-wrap">
+                                                            <div class="hair-type-info">@x.Key</div>
+                                                            <div class="hair-value-info">
+                                                                @x.Value.ToString().Substring(0, 5)%
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+
+                                        }
+                                    }
+                                }
+                            }
+
+                        </div>
+                        @if (!String.IsNullOrEmpty(Model.AIResultNew))
+                        {
+                            <h3>
+                                Your hair texture is
+                                <span className="font-medium">@Model.HairTextureLabelAIResult</span>, this
+                                is considered to be
+                                <span className="font-medium">@Model.HairTypeLabelAIResult</span>
+                            </h3>
+                            <p>@Model.LabelAIResult</p>
+                        }
+
+                        <div class="form-group  row">
+
+
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    @if (Model.SelectedAnswers != null)
+                                    {
+                                        <table class="table table-bordered table-hover w-90 table-id-data hair-id-table">
+                                            <thead>
+                                                <tr>
+                                                    <th colspan="3">
+                                                        <div class="hair_id_heading">
+                                                            <img src="~/images/finger-print.png" class="mr-3" />
+                                                            <label class="col-form-label"><h3 class="hairid-info">Hair ID : <strong>@Model.HairId</strong></h3></label>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th width="40%">Type - the shape of the strand and the form of the strand</th>
+                                                    <td width="10%">@Model.SelectedAnswers.TypeId</td>
+                                                    <td width="50%">
+                                                        @if (Model.SelectedAnswers.TypeDescription != null)
+                                                        {
+                                                            <span class="table-discription">
+                                                                @Model.SelectedAnswers.TypeDescription
+                                                            </span>
+                                                        }
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Texture - the look and the feel of the strand</th>
+                                                    <td>@Model.SelectedAnswers.TextureId</td>
+                                                    @if (Model.SelectedAnswers.TextureDescription != null)
+                                                    {
+                                                        <td><span class="table-discription">@Model.SelectedAnswers.TextureDescription</span></td>
+                                                    }
+                                                </tr>
+                                                <tr>
+                                                    <th>Health - the current physical and chemical condition of the strand</th>
+                                                    <td>@Model.SelectedAnswers.HealthId</td>
+                                                    @if (Model.SelectedAnswers.HealthDescription != null)
+                                                    {
+                                                        <td><span class="table-discription">@Model.SelectedAnswers.HealthDescription</span></td>
+                                                    }
+                                                </tr>
+                                                <tr>
+                                                    <th>Porosity - the amount of moisture that is absorbed and retained in the hair</th>
+                                                    <td>@Model.SelectedAnswers.PorosityId</td>
+                                                    @if (Model.SelectedAnswers.PorosityDescription != null)
+                                                    {
+                                                        <td><span class="table-discription">@Model.SelectedAnswers.PorosityDescription</span></td>
+                                                    }
+                                                </tr>
+                                                <tr>
+                                                    <th>Elasticity - the ability for the strand to stretch and return to its original form</th>
+                                                    <td>@Model.SelectedAnswers.ElasticityId</td>
+                                                    @if (Model.SelectedAnswers.ElasticityDescription != null)
+                                                    {
+                                                        <td><span class="table-discription">@Model.SelectedAnswers.ElasticityDescription</span></td>
+                                                    }
+                                                </tr>
+                                                <tr>
+                                                    <th>Density - the amount of hairs per square inch on the head</th>
+                                                    <td>@Model.SelectedAnswers.DensityId</td>
+                                                    @if (Model.SelectedAnswers.DensityDescription != null)
+                                                    {
+                                                        <td><span class="table-discription">@Model.SelectedAnswers.DensityDescription</span></td>
+                                                    }
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hr-line-dashed"></div>
+
+                        <div class="form-group  row">
+                            <label class="col-sm-12 col-form-label">
+                                <h3 class="head-title-info"> Digital Hair Assessment </h3>
+                            </label>
+                            <div class="col-md-12">
+                                <div class="vco-boxes-wrap">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="vco-boxes-info">
+                                                <div class="header-content-wrap">
+                                                    <div class="icon-with-text-info">
+                                                        <div class="icon-info">
+                                                            <img src="~/images/Goals-Icon.svg" alt="goal-icon" />
+                                                        </div>
+                                                        <div class="txt-info">Goals</div>
+                                                    </div>
+                                                </div>
+                                                <div class="main-content-wrap">
+                                                    <ul class="mc-ul-info">
+                                                        @for (int i = 0; i < 3; i++)
+                                                        {
+                                                            @if (Model.SelectedAnswers != null && Model.SelectedAnswers.Goals != null && Model.SelectedAnswers.Goals.Count > i)
+                                                            {
+                                                                <li>+ @Model.SelectedAnswers.Goals[i]</li>
+                                                            }
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="vco-boxes-info">
+                                                <div class="header-content-wrap">
+                                                    <div class="icon-with-text-info">
+                                                        <div class="icon-info">
+                                                            <img src="~/images/Challanges-Icon.svg" alt="challanges-icon" />
+                                                        </div>
+                                                        <div class="txt-info">Challenges</div>
+                                                    </div>
+                                                </div>
+                                                <div class="main-content-wrap">
+                                                    <ul class="mc-ul-info">
+                                                        @for (int i = 0; i < 3; i++)
+                                                        {
+                                                            @if (Model.SelectedAnswers != null && Model.SelectedAnswers.Challenges != null && Model.SelectedAnswers.Challenges.Count > i)
+                                                            {
+                                                                <li>+ @Model.SelectedAnswers.Challenges[i]</li>
+                                                            }
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group  row">
+                            <label class="col-sm-12 col-form-label">
+                                <h3 class="head-title-info"> Recommendations </h3>
+                            </label>
+                            <div class="col-md-12">
+                                <div class="vco-boxes-wrap">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="vco-boxes-info">
+                                                <div class="header-content-wrap">
+                                                    <div class="icon-with-text-info">
+                                                        <div class="icon-info">
+                                                            <img src="~/images/Eye-Icon.svg" alt="eye-icon" />
+                                                        </div>
+                                                        <div class="txt-info">Pre Consultation Notes</div>
+                                                    </div>
+                                                </div>
+                                                <div class="main-content-wrap">
+                                                    <ul class="mc-ul-info">
+                                                        <li class="textFormat">+ @Model.ConsultantNotes</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="vco-boxes-info">
+                                                <div class="header-content-wrap">
+                                                    <div class="icon-with-text-info">
+                                                        <div class="icon-info">
+                                                            <img src="~/images/Recommend-Icon.svg" alt="Recommendations-icon" />
+                                                        </div>
+                                                        <div class="txt-info">Stylist Notes and HHCP Regimen</div>
+                                                    </div>
+                                                </div>
+                                                <div class="main-content-wrap">
+                                                    <ul class="mc-ul-info">
+                                                        <li class="textFormat">@Model.RecommendationNotes</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="tab-pane fade showHide Tab2" id="v-pills-analysis" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                        <div id="divPartialHairAnalysis">
+
+                        </div>
+
+                    </div>
+                    <div class="tab-pane fade showHide Tab3 @ActiveRecommendedProductBodyClass" id="v-pills-products" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                        @*<div id="divPartialRecommended">
+
+                            </div>*@
+                        <div class="recommended-products-wrap">
+                            <div class="recommended-products-info">
+                                <h3 class="head-title-info">Essential Products</h3>
+                                <ul class="nav nav-tabs">
+                                    @{int p = 0;}
+                                    @foreach (var rProd in Model.RecommendedProducts.OrderBy(x => x.ProductId))
+                                    {
+                                        if (p == 0)
+                                        {
+                                            <li><a data-toggle="tab" href="#prd_@p" class="active">@rProd.ProductParentName</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li><a data-toggle="tab" href="#prd_@p">@rProd.ProductParentName</a></li>
+                                        }
+                                        p++;
+                                    }
+                                    @{ p = 0;
+                                    }
+                                </ul>
+
+
+                                <div class="tab-content">
+                                    @foreach (var rProd in Model.RecommendedProducts.OrderBy(x => x.ProductId))
+                                    {
+                                        if (p == 0)
+                                        {
+                                            <div id="prd_@p" class="tab-pane fade in active show">
+                                                @foreach (var product in rProd.ProductsTypes)
+                                                {
+                                                    <div class="box-shapes-wrap rp-box-shapes-wrap">
+                                                        <div class="icon-with-text-info">
+                                                            <div class="icon-info">
+                                                                <img src="/images/Shampoo-Icon.svg" alt="shampoo-icon">
+                                                            </div>
+                                                            <div class="txt-info">@product.ProductTypeName</div>
+                                                        </div>
+                                                        @foreach (var prod in product.Products)
+                                                        {
+                                                            <div class="main-content-wrap">
+                                                                <div class="row">
+                                                                    <div class="col-md-4">
+                                                                        <div class="product-image-wrap">
+                                                                            <div class="product-img-info">
+                                                                                <img src="@prod.ImageName" alt="img1" class="img-fluid" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-8">
+                                                                        <div class="product-description-wrap">
+                                                                            <span class="product-sub-title-info">Brand Name: @prod.BrandName</span>
+                                                                            <h3 class="product-main-title-info">@prod.ProductName</h3>
+                                                                            <p class="product-descrp-info">@prod.ProductDetails</p>
+                                                                            -<a target="_blank" href="@prod.ProductLink" class="view-product-info">View Product > </a>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div id="prd_@p" class="tab-pane fade">
+                                                @foreach (var product in rProd.ProductsTypes)
+                                                {
+                                                    <div class="box-shapes-wrap rp-box-shapes-wrap">
+                                                        <div class="icon-with-text-info">
+                                                            <div class="icon-info">
+                                                                <img src="/images/Shampoo-Icon.svg" alt="shampoo-icon">
+                                                            </div>
+                                                            <div class="txt-info">@product.ProductTypeName</div>
+                                                        </div>
+                                                        @foreach (var prod in product.Products)
+                                                        {
+                                                            <div class="main-content-wrap">
+                                                                <div class="row">
+                                                                    <div class="col-md-4">
+                                                                        <div class="product-image-wrap">
+                                                                            <div class="product-img-info">
+                                                                                <img src="@prod.ImageName" alt="img1" class="img-fluid" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-8">
+                                                                        <div class="product-description-wrap">
+                                                                            <span class="product-sub-title-info">Brand Name: @prod.BrandName</span>
+                                                                            <h3 class="product-main-title-info">@prod.ProductName</h3>
+                                                                            <p class="product-descrp-info">@prod.ProductDetails</p>
+                                                                            -<a target="_blank" href="@prod.ProductLink" class="view-product-info">View Product > </a>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+                                        p++;
+                                    }
+                                </div>
+
+                                <h3 class="head-title-info">Styling Products</h3>
+                                <ul class="nav nav-tabs">
+                                    @{ int s = 0;}
+                                    @foreach (var rProd in Model.RecommendedProductsStyling)
+                                    {
+                                        if (s == 0)
+                                        {
+                                            <li><a data-toggle="tab" href="#prds_@s" class="active">@rProd.ProductParentName</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li><a data-toggle="tab" href="#prds_@s">@rProd.ProductParentName</a></li>
+                                        }
+                                        s++;
+                                    }
+                                    @{ s = 0; }
+                                </ul>
+                                <div class="tab-content">
+                                    @foreach (var rProd in Model.RecommendedProductsStyling)
+                                    {
+                                        if (s == 0)
+                                        {
+                                            <div id="prds_@s" class="tab-pane fade in active show">
+                                                @foreach (var product in rProd.ProductsTypes)
+                                                {
+                                                    <div class="box-shapes-wrap rp-box-shapes-wrap">
+                                                        <div class="icon-with-text-info">
+                                                            <div class="icon-info">
+                                                                <img src="/images/Leave-In-Conditioner-icon.svg" alt="conditioner-icon">
+                                                            </div>
+                                                            <div class="txt-info">@product.ProductTypeName</div>
+                                                        </div>
+                                                        @foreach (var prod in product.Products)
+                                                        {
+                                                            <div class="main-content-wrap">
+                                                                <div class="row">
+                                                                    <div class="col-md-4">
+                                                                        <div class="product-image-wrap">
+                                                                            <div class="product-img-info">
+                                                                                <img src="@prod.ImageName" alt="img2" class="img-fluid" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-8">
+                                                                        <div class="product-description-wrap">
+                                                                            <span class="product-sub-title-info">Brand Name: @prod.BrandName</span>
+                                                                            <h3 class="product-main-title-info">@prod.ProductName</h3>
+                                                                            <p class="product-descrp-info">@prod.ProductDetails</p>
+
+                                                                            <a href="@prod.ProductLink" class="view-product-info">View Product > </a>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div id="prds_@s" class="tab-pane fade">
+                                                @foreach (var product in rProd.ProductsTypes)
+                                                {
+                                                    <div class="box-shapes-wrap rp-box-shapes-wrap">
+                                                        <div class="icon-with-text-info">
+                                                            <div class="icon-info">
+                                                                <img src="/images/Leave-In-Conditioner-icon.svg" alt="conditioner-icon">
+                                                            </div>
+                                                            <div class="txt-info">@product.ProductTypeName</div>
+                                                        </div>
+                                                        @foreach (var prod in product.Products)
+                                                        {
+                                                            <div class="main-content-wrap">
+                                                                <div class="row">
+                                                                    <div class="col-md-4">
+                                                                        <div class="product-image-wrap">
+                                                                            <div class="product-img-info">
+                                                                                <img src="@prod.ImageName" alt="img2" class="img-fluid" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-8">
+                                                                        <div class="product-description-wrap">
+                                                                            <span class="product-sub-title-info">Brand Name: @prod.BrandName</span>
+                                                                            <h3 class="product-main-title-info">@prod.ProductName</h3>
+                                                                            <p class="product-descrp-info">@prod.ProductDetails</p>
+
+                                                                            <a href="@prod.ProductLink" class="view-product-info">View Product</a>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+                                        s++;
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane fade showHide Tab4" id="v-pills-recommendations" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                        <div>
+                            <div class="col-md-12">
+                                <h3 class="head-title-info">Ingredients</h3>
+                                <p class="sub-para-info">
+                                    These important ingredients help to address hair challenges and achieve hair goals. Some may be used for natural hair treatments and can also be found in product formulas for your texture, type, and condition.
+                                </p>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="owl-carousel crousalnav ingredients-content-wrap">
+                                            @foreach (var rIng in Model.RecommendedIngredients)
+                                            {
+                                                @foreach (var ingr in rIng.Ingredients)
+                                                {
+                                                    <div>
+                                                        <div class="sliderimg">
+
+                                                            <img src="@ingr.ImageName" class="img-fluid w-100 mb-3" />
+                                                        </div>
+                                                        <h3 class="product-main-title-info">@ingr.Name</h3>
+                                                        <p class="mb-1 product-descrp-info">@ingr.Description</p>
+                                                    </div>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-group  row cmt-5">
+
+                                    <div class="col-md-12 ">
+
+                                        <h3 class="head-title-info">Tools</h3>
+                                        <p class="sub-para-info">
+                                            These tools help to address hair challenges and achieve hair goals.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="owl-carousel crousalnav">
+                                            @foreach (var rctl in Model.RecommendedTools)
+                                            {
+                                                @foreach (var tl in rctl.ToolList)
+                                                {
+                                                    <div>
+                                                        <div class="sliderimg">
+
+                                                            <img src="@tl.ImageName" class="img-fluid w-100 mb-3" />
+                                                        </div>
+                                                        <h3 class="product-main-title-info">@tl.Name</h3>
+                                                        <p class="mb-1 product-descrp-info">@tl.ToolDetail</p>
+                                                    </div>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 ">
+
+                                <div class="or-regimens-wrap cmt-5">
+
+
+                                    <h3 class="head-title-info">Regimens</h3>
+                                    <ul class="nav nav-tabs border-0">
+                                        @{ int r = 0; }
+                                        @foreach (var recommendedRegimen in Model.RecommendedRegimens)
+                                        {
+                                            @if (r == 0)
+                                            {
+                                                <li><a data-toggle="tab" href="#reg_@r" class="active">@recommendedRegimen.RegimenTitle</a></li>
+                                            }
+                                            else
+                                            {
+                                                <li><a data-toggle="tab" href="#reg_@r">@recommendedRegimen.RegimenTitle</a></li>
+                                            }
+                                            r++;
+                                        }
+                                        @{ r = 0;}
+
+                                    </ul>
+                                    <div class="tab-content">
+                                        @foreach (var recommendedRegimen in Model.RecommendedRegimens)
+                                        {
+
+                                            @if (r == 0)
+                                            {
+                                                <div id="reg_@r" class="tab-pane fade in active show">
+                                                    <div class="regimens-steps-wrap">
+                                                        <div class="header-wrap">
+                                                            <h5 class="head-product-info">@recommendedRegimen.Description</h5>
+                                                        </div>
+                                                        <div class="main-steps-content-wrap">
+
+                                                            <div class="owl-carousel crousalnav">
+                                                                @if (recommendedRegimen.RegimenSteps != null)
+                                                                {
+                                                                    @foreach (var reg in recommendedRegimen.RegimenSteps)
+                                                                    {
+                                                                        count = count + 1;
+                                                                        <div class="item">
+                                                                            <div class="main-steps-content-info">
+                                                                                <div class="steps-img-info">
+                                                                                    <img src="@reg.RegimenStepPhoto" alt="s1" />
+                                                                                </div>
+                                                                                <div class="steps-value-info">Step @count</div>
+                                                                                <div class="steps-content-info product-descrp-info">@reg.RegimenStepInstruction</div>
+                                                                            </div>
+                                                                        </div>
+                                                                    }
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div id="reg_@r" class="tab-pane fade">
+                                                    <div class="regimens-steps-wrap">
+                                                        <div class="header-wrap">
+                                                            <h5 class="head-product-info">@recommendedRegimen.Description</h5>
+                                                        </div>
+                                                        <div class="main-steps-content-wrap">
+
+                                                            <div class="owl-carousel crousalnav">
+                                                                @if (recommendedRegimen.RegimenSteps != null)
+                                                                {
+                                                                    @foreach (var reg in recommendedRegimen.RegimenSteps)
+                                                                    {
+                                                                        count = count + 1;
+                                                                        <div class="item">
+                                                                            <div class="main-steps-content-info">
+                                                                                <div class="steps-img-info">
+                                                                                    <img src="@reg.RegimenStepPhoto" alt="s1" />
+                                                                                </div>
+                                                                                <div class="steps-value-info">Step @count</div>
+                                                                                <div class="steps-content-info product-descrp-info">@reg.RegimenStepInstruction</div>
+                                                                            </div>
+                                                                        </div>
+                                                                    }
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                            r++;
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group  row">
+                                <div class="col-md-12 ">
+                                    <h3 class="head-title-info">Styling Techniques</h3>
+                                </div>
+                                @foreach (var rVid in Model.RecommendedVideos)
+                                {
+                                    @foreach (var vid in rVid.Videos)
+                                    {
+                                        string videoSrc = vid;
+
+
+
+                                        @if (vid.Contains("youtube.com/shorts") || vid.Contains("youtu.be") || vid.Contains("watch?v="))
+                                        { 
+                                            var videoId = vid.Contains("youtu.be")
+                                            ? vid.Substring(vid.LastIndexOf("/") + 1).Split('?')[0].Split('&')[0]
+                                            : vid.Contains("watch?v=")
+                                            ? vid.Substring(vid.IndexOf("watch?v=") + 8).Split('&')[0]
+                                            : vid.Contains("/shorts/")
+                                            ? vid.Substring(vid.LastIndexOf("/shorts/") + 8).Split('?')[0].Split('&')[0]
+                                            : vid.Contains("/embed/")
+                                            ? vid.Substring(vid.LastIndexOf("/") + 1).Split('?')[0].Split('&')[0]
+                                            : vid.Substring(vid.LastIndexOf("/") + 1).Split('?')[0];
+                                            videoSrc = $"https://www.youtube.com/embed/{videoId}";
+                                            <div class="col-md-4">
+                                                <div class="video_div">
+                                                    <div class="frame-wrapper">
+
+                                                        @if (vid.Length > 0)
+                                                        {
+                                                            <iframe width="320" height="150"
+                                                                    src="@videoSrc" scrolling="yes"></iframe>
+                                                        }
+                                                    </div>
+                                                    <div class="video_title">
+                                                        @rVid.Name
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        else if (vid.Contains(" &"))
+                                        {
+                                            <div class="col-md-4">
+                                                <div class="video_div">
+                                                    <div class="frame-wrapper">
+
+                                                        @if (vid.Length > 0)
+                                                        {
+                                                            <iframe width="320" height="150"
+                                                                    src="@vid.Substring(0, vid.IndexOf(" &"))" scrolling="yes"></iframe>
+                                                        }
+                                                    </div>
+                                                    <div class="video_title">
+                                                        @rVid.Name
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        else if (vid.Contains("instagram") && !vid.EndsWith("/embed"))
+                                        {
+                                            var baseUrl = vid.Split('?')[0].Split('#')[0].TrimEnd('/');
+                                            videoSrc = baseUrl + "/embed";
+                                            <div class="col-md-4">
+                                                <div class="video_div">
+                                                    <div class="frame-wrapper">
+                                                        @if (vid.Length > 0)
+                                                        {
+                                                            <iframe width="320" height="150"
+                                                                    src="@videoSrc" scrolling="yes"></iframe>
+                                                        }
+                                                    </div>
+                                                    <div class="video_title">
+                                                        @rVid.Name
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col-md-4">
+                                                <div class="video_div">
+                                                    <div class="frame-wrapper">
+                                                        <iframe width="320" height="150"
+                                                                src="@vid" scrolling="yes"></iframe>
+                                                    </div>
+                                                    <div class="video_title">
+                                                        @rVid.Name
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                }
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="hr-line-dashed"></div>
+                                <h3 class="head-title-info">Recommended Stylist</h3>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class=" owl-carousel crousalnav regimencrousal stylistcrousel">
+                                            @if (Model.recommendedStylistCustomers != null)
+                                            {
+                                                @foreach (var rstyl in Model.recommendedStylistCustomers)
+                                                {
+                                                    @foreach (var sty in rstyl.Stylist)
+                                                    {
+                                                        <div class="hairsteps col-md-11">
+                                                            <div class="row">
+                                                                <div class="col-md-5"><strong>Stylist Name</strong></div>
+                                                                <div class="col-md-7"><p class="mb-1">@sty.StylistName</p></div>
+                                                                <div class="col-md-5"><strong>Salon Name</strong></div>
+                                                                <div class="col-md-7"><p class="mb-1">@sty.Salon</p></div>
+
+                                                                <div class="col-md-5"><strong>Email</strong></div>
+                                                                <div class="col-md-7"><p class="mb-1">@sty.Email</p></div>
+
+                                                                <div class="col-md-5"><strong>Phone</strong></div>
+                                                                <div class="col-md-7"><p class="mb-1">@sty.Phone</p></div>
+                                                                <div class="col-md-5"><strong>Website</strong></div>
+                                                                <div class="col-md-7"><p class="mb-1">@sty.Website</p></div>
+                                                                <div class="col-md-5"><strong>Instagram</strong></div>
+                                                                <div class="col-md-7"><p class="mb-1">@sty.Instagram</p></div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                }
+                                            }
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane fade showHide Tab5" id="v-pills-StyleRecipes" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                        <div class="recommended-products-wrap">
+                            <div class="recommended-products-info">
+                                <h3 class="head-title-info">HairStyle : @Model.HairStyle</h3>
+                                <h3 class="head-title-info">Styling Products</h3>
+                                <ul class="nav nav-tabs">
+                                    @{int st = 0;}
+                                    @foreach (var rProd in Model.RecommendedProductsStyleRecipe.OrderBy(x => x.ProductId))
+                                    {
+                                        if (st == 0)
+                                        {
+                                            <li><a data-toggle="tab" href="#prdst_@st" class="active">@rProd.ProductParentName</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li><a data-toggle="tab" href="#prdst_@st">@rProd.ProductParentName</a></li>
+                                        }
+                                        st++;
+                                    }
+                                    @{ st = 0;
+                                    }
+                                </ul>
+
+
+                                <div class="tab-content">
+
+                                    @foreach (var rProd in Model.RecommendedProductsStyleRecipe.OrderBy(x => x.ProductId))
+                                    {
+                                        if (st == 0)
+                                        {
+                                            <div id="prdst_@st" class="tab-pane fade in active show">
+                                                @foreach (var product in rProd.ProductsTypes)
+                                                {
+                                                    <div class="box-shapes-wrap rp-box-shapes-wrap">
+                                                        <div class="icon-with-text-info">
+                                                            <div class="icon-info">
+                                                                <img src="/images/Shampoo-Icon.svg" alt="shampoo-icon">
+                                                            </div>
+                                                            <div class="txt-info">@product.ProductTypeName</div>
+                                                        </div>
+                                                        @foreach (var prod in product.Products)
+                                                        {
+                                                            <div class="main-content-wrap">
+                                                                <div class="row">
+                                                                    <div class="col-md-4">
+                                                                        <div class="product-image-wrap">
+                                                                            <div class="product-img-info">
+                                                                                <img src="@prod.ImageName" alt="img1" class="img-fluid" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-8">
+                                                                        <div class="product-description-wrap">
+                                                                            <span class="product-sub-title-info">Brand Name: @prod.BrandName</span>
+                                                                            <h3 class="product-main-title-info">@prod.ProductName</h3>
+                                                                            <p class="product-descrp-info">@prod.ProductDetails</p>
+                                                                            -<a target="_blank" href="@prod.ProductLink" class="view-product-info">View Product > </a>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div id="prdst_@st" class="tab-pane fade">
+                                                @foreach (var product in rProd.ProductsTypes)
+                                                {
+                                                    <div class="box-shapes-wrap rp-box-shapes-wrap">
+                                                        <div class="icon-with-text-info">
+                                                            <div class="icon-info">
+                                                                <img src="/images/Shampoo-Icon.svg" alt="shampoo-icon">
+                                                            </div>
+                                                            <div class="txt-info">@product.ProductTypeName</div>
+                                                        </div>
+                                                        @foreach (var prod in product.Products)
+                                                        {
+                                                            <div class="main-content-wrap">
+                                                                <div class="row">
+                                                                    <div class="col-md-4">
+                                                                        <div class="product-image-wrap">
+                                                                            <div class="product-img-info">
+                                                                                <img src="@prod.ImageName" alt="img1" class="img-fluid" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-8">
+                                                                        <div class="product-description-wrap">
+                                                                            <span class="product-sub-title-info">Brand Name: @prod.BrandName</span>
+                                                                            <h3 class="product-main-title-info">@prod.ProductName</h3>
+                                                                            <p class="product-descrp-info">@prod.ProductDetails</p>
+                                                                            -<a target="_blank" href="@prod.ProductLink" class="view-product-info">View Product > </a>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                }
+                                            </div>
+                                        }
+                                        st++;
+                                    }
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="form-group  row">
+                                <div class="col-md-12 ">
+                                    <h3 class="head-title-info">Styling Videos</h3>
+                                </div>
+                                @foreach (var rVid in Model.RecommendedStyleRecipeVideos)
+                                {
+                                    @foreach (var vid in rVid.Videos)
+                                    {
+                                        string videoSrc = vid;
+                                        @if (vid.Contains("youtube.com/shorts") || vid.Contains("youtu.be") || vid.Contains("watch?v="))
+                                        {
+                                            var videoId = vid.Contains("youtu.be")
+                                                        ? vid.Substring(vid.LastIndexOf("/") + 1).Split('?')[0].Split('&')[0]
+                                                        : vid.Contains("watch?v=")
+                                                        ? vid.Substring(vid.IndexOf("watch?v=") + 8).Split('&')[0]
+                                                        : vid.Contains("/shorts/")
+                                                        ? vid.Substring(vid.LastIndexOf("/shorts/") + 8).Split('?')[0].Split('&')[0]
+                                                        : vid.Contains("/embed/")
+                                                        ? vid.Substring(vid.LastIndexOf("/") + 1).Split('?')[0].Split('&')[0]
+                                                        : vid.Substring(vid.LastIndexOf("/") + 1).Split('?')[0];
+                                            videoSrc = $"https://www.youtube.com/embed/{videoId}";
+                                            <div class="col-md-4">
+                                                <div class="video_div">
+                                                    <div class="frame-wrapper">
+
+                                                        @if (vid.Length > 0)
+                                                        {
+                                                            <iframe width="320" height="150"
+                                                                    src="@videoSrc" scrolling="yes"></iframe>
+                                                        }
+                                                    </div>
+                                                    <div class="video_title">
+                                                        @rVid.Name
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        else if (vid.Contains(" &"))
+                                        {
+                                            <div class="col-md-4">
+                                                <div class="video_div">
+                                                    <div class="frame-wrapper">
+
+                                                        @if (vid.Length > 0)
+                                                        {
+                                                            <iframe width="320" height="150"
+                                                                    src="@vid.Substring(0, vid.IndexOf(" &"))" scrolling="yes"></iframe>
+                                                        }
+                                                    </div>
+                                                    <div class="video_title">
+                                                        @rVid.Name
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        else if (vid.Contains("instagram") && !vid.EndsWith("/embed"))
+                                        {
+                                            var baseUrl = vid.Split('?')[0].Split('#')[0].TrimEnd('/');
+                                            videoSrc = baseUrl + "/embed";
+                                            <div class="col-md-4">
+                                                <div class="video_div">
+                                                    <div class="frame-wrapper">
+                                                        @if (vid.Length > 0)
+                                                        {
+                                                            <iframe width="320" height="150"
+                                                                    src="@videoSrc" scrolling="yes"></iframe>
+                                                        }
+                                                    </div>
+                                                    <div class="video_title">
+                                                        @rVid.Name
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col-md-4">
+                                                <div class="video_div">
+                                                    <div class="frame-wrapper">
+                                                        <iframe width="320" height="150"
+                                                                src="@vid" scrolling="yes"></iframe>
+                                                    </div>
+                                                    <div class="video_title">
+                                                        @rVid.Name
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                }
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+
+
+</div>
+<script src="~/js/admin/CustomerHairProfile.js"></script>
+<script src="~/js/owl.carousel.min.js"></script>
+<script>
+    $('.owl-carousel').owlCarousel({
+        loop: false,
+        margin: 20,
+        responsiveClass: true,
+        responsive: {
+            0: {
+                items: 1,
+                nav: true,
+                loop: false
+            },
+            600: {
+                items: 1,
+                nav: true,
+                loop: false
+            },
+            1000: {
+                items: 3,
+                nav: true,
+                loop: false
+            }
+        }
+    })
+</script>

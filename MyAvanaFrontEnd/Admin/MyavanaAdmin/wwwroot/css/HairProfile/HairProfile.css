@@ -1,0 +1,166 @@
+﻿.alert-success, .alert-danger, .alert-info {
+	top: 110px !important;
+	width: 60% !important;
+	margin: 0 auto;
+	z-index: 99;
+	position: fixed;
+	left: 50%;
+	transform: translateX(-40%);
+	text-align: center;
+	padding: 12px;
+	transition: all 1s linear;
+	box-shadow: 0px 0px 12px 3px rgba(0, 0, 0, 0.2);
+	font-size: 16px;
+}
+
+.alert-danger {
+	color: #80172a;
+	background-color: #fdd5dc;
+	border-color: #fcc4ce;
+}
+
+	.alert-danger hr {
+		border-top-color: #fbacba;
+	}
+
+	.alert-danger .alert-link {
+		color: #550f1c;
+	}
+
+.alert-success {
+	color: #1c6356;
+	background-color: #a8ffc3;
+	border-color: #13b755;
+}
+
+	.alert-success hr {
+		border-top-color: #b4e7dd;
+	}
+
+	.alert-success .alert-link {
+		color: #113b33;
+	}
+
+span.align-right {
+	text-align: right;
+}
+
+.addnewbtn {
+	padding: 20px 10px 0;
+}
+
+i.fa.fa-pencil {
+	color: #1ab394;
+	background: #e2e2e2;
+	padding: 7px;
+	border-radius: 4px;
+}
+
+	i.fa.fa-pencil:hover {
+		background: #cecece
+	}
+
+i.fa.fa-trash:hover {
+	background: #cecece
+}
+
+i.fa.fa-trash {
+	color: red;
+	background: #e2e2e2;
+	padding: 7px;
+	border-radius: 4px;
+	margin-top: 10px;
+}
+
+div#RegimensList_filter input[type=search] {
+	border: 1px solid #ccc;
+}
+
+i.fa.fa-pencil {
+	color: #1ab394;
+	margin-right: 5px;
+}
+
+i.fa.fa-trash {
+	color: red;
+}
+
+tr.odd td {
+	background: #f8f8f8 !important;
+}
+
+tr.odd:hover td, tr.even:hover td {
+	background: #eee !important;
+}
+
+tr.even td {
+	background: #fff !important;
+}
+
+.ibox-content table {
+	display: block;
+	width: 100%;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+	.ibox-content table td {
+		vertical-align: top;
+	}
+
+.instruction-width {
+	min-width: 200px;
+}
+
+.ibox-content table {
+	display: table;
+}
+
+.ibox-content th.footable-visible.footable-last-column.footable-sortable {
+	width: 80px;
+}
+
+.ibox-content .footable-row-detail-inner {
+	display: table;
+	width: 100%;
+}
+
+.ibox-content .footable-row-detail-value {
+	border-bottom: 1px solid #eee;
+	padding: 15px 0;
+}
+
+.ibox-content td.footable-last-column.footable-visible {
+	padding-top: 0;
+}
+
+.ibox-content .instrustioncontent {
+	max-height: 100px;
+	overflow-y: auto;
+}
+
+.stgQuestion {
+	/* border-left: 2px solid #383838;*/
+	padding-left: 3px;
+	margin-bottom: 5px !important;
+	margin-top: 15px;
+}
+
+.divAnswer {
+	padding-left: 20px;
+	/* margin-bottom: 5px; */
+	position: relative;
+	background: #ececec;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-bottom: 1px solid #dadada;
+}
+
+.viewuser {
+	background: #eee;
+	padding: 5px 7px;
+	border-radius: 4px;
+	border: 1px solid #ccc;
+	margin-top: 5px;
+	color: #1ab394;
+}

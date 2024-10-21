@@ -1,0 +1,249 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper AuthoringTagHelpers.TagHelpers.EmailTagHelper, AuthoringTagHelpers
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Http
+@{
+    ViewData["Title"] = "DigitalAssessment";
+    Layout = "_Layout";
+}
+<link href="~/css/loader.css" rel="stylesheet" />
+<link href="~/css/style.css" rel="stylesheet" />
+<style>
+    .footer {
+        display: none;
+    }
+
+</style>
+<!--<div class="preloader" style="display:none;">
+    <div class="loader">
+        <img src="~/images/loader.gif" />
+    </div>
+</div>
+<div class="col-md-2"></div>
+<div class="col-md-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">Camera</div>
+        <div class="panel-body">
+            <div id="my_camera"></div>-->
+<!-- A button for taking snaps -->
+<!--<form>
+                <input type="button" class="btn btn-success" value="Take Snapshot" onClick="take_snapshot()">
+            </form>
+
+        </div>
+    </div>
+</div>
+<div class="col-md-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">Captured Photo</div>
+        <div class="panel-body">
+            <div id="results">Your captured image will appear here...</div>
+        </div>
+        <br />
+        <br />
+    </div>
+</div>-->
+<div class="preloader" style="display:none;">
+    <div class="loader">
+        <img src="~/images/loader.gif" />
+    </div>
+</div>
+<div id="t-2" class=" m-lg-4  m-md-0 mt-4 takephoto-grid">
+    <div class="custom-control custom-switch text-center">
+        <input type="checkbox" class="custom-control-input" onchange="toggleDiv()" id="customSwitches">
+        <label class="custom-control-label" for="customSwitches">Use Smart Interface</label>
+    </div>
+    <div class="w-100 text-center mb-3 mt-3" aria-hidden="true"><h3 class="font-medium leading-6 text-gray-900 leading-normal takephoto-grid-heading">Take a photo of your hair</h3></div>
+    <div class="container divCapture m-auto mt-4 mx-0 ms-0 text-center">
+
+        <div class="divCapture_inner">
+            <div class="row ">
+                <div class="col-md-6  text-center">
+                    <span class="pb-2 pt-3 d-block f-16">1. Show only your hair within the frame</span>
+                    @*<video autoplay="" playsinline="" class="overflow-hidden img-radus bg-black video-size"  ></video>*@
+                    <div id="my_camera" class="overflow-hidden img-radus bg-black video-size"></div>
+                    <button onclick="take_snapshot()" class="cature_btn borde  px-4 py-3  sm:px-8 d-block dark-btn  m-auto w-75 capture-take-btn cap-take-btn">Capture</button>
+                </div>
+                <div class="col-md-6 mt-5 mt-lg-0 mt-md-0 mb-5 mb-lg-2  mb-md-2  text-center">
+                    <span class="pb-2 pt-3 d-block f-16">2. Click "Capture" and Preview here</span>
+                    <div id="results">
+                        <img src="~/images/sampleImg.20dd2bb109f5fe3ff8e4.png " alt="" class="overflow-hidden img-radus video-size">
+                    </div>
+                    <button onclick="uploadImage()" class="upload_btn border  px-4 py-3  sm:px-8 d-block dark-btn m-auto w-75 capture-take-btn"> Upload </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container h-full -max-h-[20em] mt-4 divCapture divCature-box" style="display:none">
+        <div class=" mx-4 list-group">
+            @*<div class="w-100 text-center mb-3" aria-hidden="true"><h3 class="font-medium leading-6 text-gray-900 leading-normal takephoto-grid-heading">Take a photo of your hair</h3></div>*@
+            <ol class=" m-2 text-center text-md text-gray-600 sm:max-w-3xl">
+                <span class="num-bg">1</span> Align your face within the blinking sillouette
+            </ol>
+            <ol class=" m-2 text-center text-md text-gray-600">
+                <span class="num-bg">2</span> Hold your phone or device to an arms length
+            </ol>
+            <ol class=" m-2 text-center text-md text-gray-600">
+                <span class="num-bg">3</span> Tilt your head down slightly and your picture will be automatically taken
+            </ol>
+        </div>
+        <div class="canvas-container" id="cnvs-parent" style="display: flex; gap: 1em; justify-content: center;">
+            <canvas id="canvas" width="300" height="300" class="bg-slate-400  form_five_cnv" style="border-radius: 25px; height: 300px; width: 300px; transform: rotateY(180deg); -webkit-transform: rotateY(180deg); -moz-transform: rotateY(180deg)"> </canvas>
+            <div style="position: absolute; height: 300px; width: 300px" class="flex justify-center text-center">
+                <img id="temp_img" src="~/images/whiteSil.png" class="animate-pulse" alt="" srcset="" style="opacity: 0.3; margin: 0 auto; position: absolute; height: 290px; bottom: 0; left: 0; right: 0" />
+                <span id="instruct" class="img-txt-load hidden">Loading Camera Access...</span>
+            </div>
+        </div>
+        <div id="label-container" style="display: flex; gap: 1em; justify-content: center; margin: 1em"></div>
+        <div class="flex flex-col gap-4 max-w-3xl mx-auto px-4 text-center">
+            <a onclick="initAgain()" id="retake-btn" class="border justify-center px-4 py-3 rounded-md sm:px-8 hidden dark-btn">Re-Take</a>
+            <a onclick="init()" id="newStart-btn" class="border justify-center px-4 py-3 rounded-md sm:px-8 dark-btn">Start Camera</a>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+                @*@if ((HttpContextAccessor.HttpContext.Session.GetString("SubscriptionType")?.ToLower() == "2" && ViewBag.remainingAnalysis > 0) || HttpContextAccessor.HttpContext.Session.GetString("SubscriptionType")?.ToLower() == "1")*@
+                @if (ViewBag.PaymentId != null)
+                {
+                    @*<h4>Do you want to update your current hair profile? Doing so will overwrite your current recommended products.</h4>*@
+                <h4>We love you’re continuing to learn more about your hair by running another analysis! You can access the results of your prior Hair Analysis by selecting the desired analysis date from the drop down menu under the Healthy Hair Care Plan within your Hair Profile!</h4>
+                }
+                @*@if (HttpContextAccessor.HttpContext.Session.GetString("SubscriptionType")?.ToLower() == "2" && ViewBag.remainingAnalysis == 0)*@
+                @if (ViewBag.PaymentId == null)
+                {
+                    <h4>It appears you've reached the maximum usage limit for your current plan.To better understand your hair needs and provide you with an enhanced experience, please reach out to us at support@myavana.com.</h4>
+                }
+            </div>
+
+                <div class="modal-footer">
+                    <div class="m-auto">
+                        <button type="button" onclick="redirectToHHCP()" id="btnRedirectHHCP" class="btn btn-default dark-btn">Cancel</button>
+                        @*@if ((HttpContextAccessor.HttpContext.Session.GetString("SubscriptionType")?.ToLower() == "2" && ViewBag.remainingAnalysis > 0) || HttpContextAccessor.HttpContext.Session.GetString("SubscriptionType")?.ToLower() == "1")*@
+                        @if (ViewBag.PaymentId != null)
+                        {
+                            <button type="button" class="btn btn-default dark-btn" data-dismiss="modal">Start New Profile</button>
+                        }
+
+
+                    </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="modal fade" id="limitHHCPModal" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+                <h4>Wow! You've reached our max number of hair profiles that can be analyzed on this plan. Please contact us at support@myavana.com so that we can learn more about your hair needs and upgrade your plan.</h4>
+            </div>
+            <div class="modal-footer">
+                <div class="m-auto">
+                    <button type="button" onclick="redirectToHHCP()" class="btn btn-default dark-btn">Cancel</button>
+                    <button type="button" class="btn btn-default dark-btn" onclick="BookVirtualConsultation()" data-dismiss="modal">Book Consultation</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="~/js/tf.min.js"></script>
+<script src="~/js/teachablemachine-pose.min.js"></script>
+@*<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/pose@0.8/dist/teachablemachine-pose.min.js"></script>*@
+<script src="~/webcamjs-master/webcam.js"></script>
+<script src="~/js/teachable.js"></script>
+<script language="JavaScript">
+    Webcam.set({
+        width: 350,
+        height: 350,
+        image_format: 'jpeg',
+        jpeg_quality: 90
+    });
+    Webcam.attach('#my_camera');
+</script>
+<!-- Code to handle taking the snapshot and displaying it locally -->
+<script language="JavaScript">
+    $(window).on('load', function () {
+
+        var IsAlreadyAnalysed = @ViewBag.IsAlreadyAnalysed;
+        /*if (IsAlreadyAnalysed === 1) {*/
+            $('#t-2').addClass('blur_background');
+            $("#myModal").modal({ backdrop: 'static', keyboard: false });
+        /*}*/
+
+        @*var IsHHCPLimitExceed = @ViewBag.IsHHCPLimitExceed;
+        if (IsHHCPLimitExceed === 1) {
+            $('#t-2').addClass('blur_background');
+            $("#limitHHCPModal").modal({ backdrop: 'static', keyboard: false });
+        }*@
+    });
+    $("#myModal").on("hidden.bs.modal", function () {
+        $('#t-2').removeClass('blur_background');
+    });
+    var imagedata;
+    function take_snapshot() {
+
+
+       // $('.preloader').css('display', 'block');
+        // take snapshot and get image data
+        Webcam.snap(function (data_uri) {
+            // display results in page
+            document.getElementById('results').innerHTML =
+                '<img src="' +
+                data_uri +
+                '" class="overflow-hidden img-radus"/>';
+            imagedata = data_uri;
+            //Webcam.upload(data_uri,
+            //    '/Questionaire/Capture',
+            //    function (code, text) {
+            //        $('.preloader').css('display', 'none');
+            //        window.location.href = "/HairProfile/CustomerHair";
+            //    });
+
+        });
+    }
+
+    function toggleDiv() {
+        $('.divCapture').toggle();
+    }
+
+    function uploadImage() {
+       
+        var PaymentId = '@ViewBag.PaymentId';
+        if (imagedata) {
+            $('.preloader').css('display', 'block');
+            postImageToAnalyze(imagedata, PaymentId);
+        //imageUpload();
+        }
+
+    }
+
+    //function imageUpload() {
+    //    Webcam.upload(imagedata,
+    //        '/Questionaire/Capture',
+    //        function (code, text) {
+    //            if (text != "0") {
+    //                 postImageToAnalyze(imagedata);
+    //            }
+    //        });
+    //}
+    function redirectToHHCP() {
+        window.location.href = "/HairProfile/CustomerHair";
+    }
+    function BookVirtualConsultation() {
+        window.open("https://calendly.com/myavana-hair-consultation/myavana-1-1-hair-consultation");
+        window.location.href = "/HairProfile/CustomerHair";
+    }
+</script>
+
+

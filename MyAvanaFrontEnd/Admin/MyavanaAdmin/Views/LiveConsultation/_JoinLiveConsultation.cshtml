@@ -1,0 +1,567 @@
+﻿
+<div id="divJoinLiveRoom" class="video-chat-screen">
+    <div class="videobuttons-position">
+        <input type="button" value="Pause" id="btnPause" class="action-button-live" onclick="PauseResumeRecording()" style="display:none" />
+        <input type="button" name="complete" id="btnCompleteInterview" class="action-button-live" value="Exit" onclick="ConfirmExitInterview()" />
+        <input type="button" name="leave" id="btnFinishInterview" class="action-button-live action-button m-auto" value="Finish" onclick="ConfirmFinishInterview()" style="display:none" />
+        <input type="button" name="start" id="btnstartInterview" class="action-button-live" value="Start" onclick="JoinInterviewEmployer()" style="display:none" />
+
+    </div>
+    @*<div id="divOtherParticipant">Waiting for other participant...</div><br /><br />*@
+    <div class="screens_group">
+        <div id="local-media-div" class="local-video-screen"></div>
+        <div id="remote-media-div" class="other-video-screen">Waiting for other participant...</div>
+    </div>
+
+</div>
+@*<div class="modal fade" id="FinishInterviewModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserModal" aria-hidden="false" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="headerText" class="font-bold"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span id="modalText"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="finishInterview()">Finish Consultation</button>
+
+            </div>
+        </div>
+    </div>
+</div>*@
+<div class="modal fade" id="CompleteInterviewModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="headerTextComplete" class="font-bold">Complete the consultation</h5>
+            </div>
+            <div class="modal-body">
+                <span id="modalText">Customer may have waited and left the consultation. This consultation is being marked as complete. You can reschedule the consultation.</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="completeAndExitInterview()">Continue</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ExitInterviewModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="headerTextComplete" class="font-bold">Exit the consultation</h5>
+            </div>
+            <div class="modal-body">
+                <span id="modalText">Customer didn't join the consultation yet. This consultation is being marked as completed. You can reschedule the consultation.</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="ExitInterview()">Exit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ForceExitInterviewModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="headerTextComplete" class="font-bold">Exit the consultation</h5>
+            </div>
+            <div class="modal-body">
+                <span id="modalText">Customer didn't join the consultation yet. Your consultation will be marked as completed. You can reschedule the consultation.</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="completeAndExitInterview()">Continue</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="AlreadyJoinedModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="headerTextComplete" class="font-bold">Exit the consultation</h5>
+            </div>
+            <div class="modal-body">
+                <span id="modalText">This consultation has been already attempted.</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="completeAndExitInterview()">Continue</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="AlreadyCompletedModal" tabindex="-1" role="dialog" aria-labelledby="deleteUserModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="headerTextComplete" class="font-bold">Exit the consultation</h5>
+            </div>
+            <div class="modal-body">
+                <span id="modalText">This consultation has been completed, you can't rejoin.</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="completeAndExitInterview()">Continue</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="CandidateLeftFalse" tabindex="-1" role="dialog" aria-labelledby="deleteUserModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="headerTextComplete" class="font-bold">Exit the consultation</h5>
+            </div>
+            <div class="modal-body">
+                <span id="modalText">Customer exited the consultation. This consultation is being marked as complete. You can reschedule the consultation.</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="completeAndExitInterview()">Continue</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ExitExpireInterview" tabindex="-1" role="dialog" aria-labelledby="deleteUserModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="headerTextComplete" class="font-bold">Consultation Expired</h5>
+            </div>
+            <div class="modal-body">
+                <span id="modalText">This consultation has been expired. You can reschedule the consultation.</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="completeAndExitInterview()">Continue</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+    var localParticipant;
+    var checkParticipantInterval;
+    var liveConsultationInfoId;
+    var joinedRoom;
+    var twilioRoomSid;
+    var employerParticipantId;
+    var EmployerLocalTracks;
+    var participantsCount = 0;
+    var participantCheckTimeout;
+    var candidateLeft = false;
+
+    function JoinInterviewEmployer() {
+        var liveInterviewModel = {
+            "UpdateCustomer": false,
+            "LiveConsultationUserDetailsId": parseInt($("#interviewCandidateId").val())
+        }
+        $.ajax({
+            type: "post",
+            url: "../JoinLiveConsultation",
+            data: { "liveConsultationModel": liveInterviewModel },
+            success: function (response) {
+                if (response.expireConsultation) {
+                    $('#ExitExpireInterview').modal('show');
+                }
+                else if (response.completeConsultation) {
+                    $('#AlreadyCompletedModal').modal('show');
+                }
+                else if (response.alreadyJoined == true) {
+                    $('#AlreadyJoinedModal').modal('show');
+                }
+                else {
+                    liveConsultationInfoId = response.informationId;
+                    if (!response.isCustomerJoined) {
+                        checkParticipantInterval = setInterval(function () { CheckIsCandidateReady(); }, 20000);
+                        participantCheckTimeout = setTimeout(StopParticipantCheck, 900000);
+                    }
+                    else {
+                        twilioRoomSid = response.twilioRoomSid;
+                        connectToRoom(response.adminToken);
+                    }
+                }
+            }
+        });
+    }
+    function CheckParticipantCount() {
+        // alert("part" + participantsCount);
+        if (participantsCount > 1) {
+            clearInterval(checkParticipantCountInterval);
+        }
+    }
+    function StopParticipantCount() {
+        clearInterval(checkParticipantCountInterval);
+        $('#btnCompleteInterview').css('display', 'none');
+        $('#ExitInterviewModal').modal('hide');
+        if (participantsCount < 2) {
+            var candidateID;
+            joinedRoom.participants.forEach(participant => {
+                candidateID = participant.sid;
+            });
+            var liveInterviewModel = {
+                "InformationId": liveConsultationInfoId,
+                "TwilioRoomSid": twilioRoomSid,
+                "CustomerParticipantId": customerID,
+                "AdminParticipantId": joinedRoom.localParticipant.sid,
+                "CompleteConsultation": true,
+                "IsCompleted": false
+            }
+            $.ajax({
+                type: "post",
+                url: "../CompleteTwilioRoom",
+                data: { "liveConsultationModel": liveInterviewModel },
+                success: function (response) {
+                    $('#CompleteInterviewModal').modal('show');
+                }
+            });
+        }
+    }
+    function StopParticipantCheck() {
+        clearInterval(checkParticipantInterval);
+
+        var liveInterviewModel = {
+            "InformationId": liveConsultationInfoId,
+            "CompleteConsultation": true,
+            "IsCompleted": false
+        }
+        $.ajax({
+            type: "post",
+            url: "../CompleteTwilioRoom",
+            data: { "liveConsultationModel": liveInterviewModel },
+            success: function (response) {
+                $('#ForceExitInterviewModal').modal('show');
+            }
+        });
+    }
+    function completeAndExitInterview() {
+        window.location.href = "/Interviews/InterviewsListing";
+    }
+
+    function CheckIsCandidateReady() {
+        var liveInterviewModel = {
+            "UpdateCustomer": true,
+            "InformationId": liveConsultationInfoId
+        }
+        $.ajax({
+            type: "post",
+            url: "../CheckIsCandiateReady",
+            data: { "liveConsultationModel": liveInterviewModel },
+
+            success: function (response) {
+                console.log(response);
+                console.log(response.isCustomerJoined);
+                if (response.isCustomerJoined) {
+                    clearInterval(checkParticipantInterval);
+                    clearTimeout(participantCheckTimeout);
+                    //$("#divOtherParticipant").html("Candidate Joined" + response.candidateName);
+                    twilioRoomSid = response.twilioRoomSid;
+                    console.log("Roomsid " + twilioRoomSid);
+                    // $('#btnCompleteInterview').style.display = 'none';
+                    $('#ExitInterviewModal').modal('hide');
+                    connectToRoom(response.adminToken);
+                }
+            }
+        });
+    }
+    function connectToRoom(token) {
+        console.log(token);
+        CreateLocalTracksEmployer();
+        Video.connect(token, {
+            tracks: EmployerLocalTracks
+        }).then(function (room) {
+            // document.getElementById('remote-media-div').innerHTML = "";
+            joinedRoom = room;
+            participantsCount = participantsCount + 1;
+            // alert(participantsCount);
+            twilioRoomSid = room.sid;
+            console.log(joinedRoom);
+            localParticipant = room.localParticipant;
+
+            room.on('participantConnected', participant => {
+                console.log(`Participant "${participant.identity}" connected`);
+                if (candidateLeft == true) {
+                    // alert("Candidate joined back");
+                    candidateLeft = false;
+                    ResumeRecording();
+                }
+                else
+                    participantsCount = participantsCount + 1;
+                // alert(participantsCount);
+                $('#btnFinishInterview').css('display', 'block');
+                // $('#btnPause').css('display', 'block');
+                $('#btnCompleteInterview').css('display', 'none');
+                document.getElementById('remote-media-div').innerHTML = "";
+                participant.tracks.forEach(publication => {
+                    publication.isSubscribed = true;
+                    publication.on('subscribed', track => {
+                        //  alert("candidate Subscribed on connected");
+                        console.log(`LocalParticipant subscribed to a RemoteTrack on connected: ${track}`);
+                        publication.track = track;
+                        //  document.getElementById('remote-media-div').appendChild(track.attach());
+                    });
+                    publication.on('unsubscribed', track => {
+                        //  alert("candidate unSubscribed on connected");
+                        console.log(`LocalParticipant unsubscribed from a RemoteTrack: ${track}`);
+                        //publication.isSubscribed = false;
+                        //publication.track = null;
+                        //localParticipant.tracks.forEach(function (publication) {
+                        //    publication.track.stop();
+                        //    localParticipant.unpublishTrack(publication.track);
+                        //    const attachedElements = publication.track.detach();
+                        //    attachedElements.forEach(element => element.remove());
+                        //});
+                        //EmployerLocalTracks.forEach(function (publication) {
+                        //    publication.stop();
+                        //});
+                    });
+
+                });
+                participant.on('trackSubscribed', track => {
+                    //  alert("cand subs");
+
+                    document.getElementById('remote-media-div').appendChild(track.attach());
+                });
+            });
+            //room.once('participantDisconnected', participant => {
+            //    alert("disconnetced once");
+            //});
+            room.on('participantDisconnected', participant => {
+                //  alert("Candidate disconnected");
+                CheckIfParticipantLeftOrExit();
+            });
+            room.participants.forEach(participant => {
+                console.log(`Participant "${participant.identity}" camera traced`);
+                document.getElementById('remote-media-div').innerHTML = "";
+                participantsCount = participantsCount + 1;
+                // alert(participantsCount);
+                $('#btnFinishInterview').css('display', 'block');
+                //  $('#btnPause').css('display', 'block');
+                $('#btnCompleteInterview').css('display', 'none');
+                participant.tracks.forEach(publication => {
+                    publication.isSubscribed = true;
+                    publication.on('subscribed', track => {
+                        // alert("candidate Subscribed");
+                        console.log(`Remote participant subscribed to a RemoteTrack: ${track}`);
+                        publication.track = track;
+                        // document.getElementById('remote-media-div').appendChild(track.attach());
+                    });
+                    publication.on('unsubscribed', track => {
+                        // alert("candidate unSubscribed");
+                        //localParticipant.tracks.forEach(function (publication) {
+                        //    publication.track.stop();
+                        //    localParticipant.unpublishTrack(publication.track);
+                        //    const attachedElements = publication.track.detach();
+                        //    attachedElements.forEach(element => element.remove());
+                        //});
+                        //EmployerLocalTracks.forEach(function (publication) {
+                        //    publication.stop();
+                        //});
+                        //publication.isSubscribed = false;
+                        //publication.track = null;
+                        console.log(`RemoteParticipant unsubscribed from a RemoteTrack: ${track}`);
+                    });
+
+                });
+                participant.on('trackSubscribed', track => {
+                    // alert("cand subs");
+
+                    document.getElementById('remote-media-div').appendChild(track.attach());
+                });
+
+            });
+
+            room.on('disconnected', room => {
+                // alert("participant gone");
+                console.log(`Participant disconnected`);
+                EmployerLocalTracks.forEach(function (track) {
+                    track.stop();
+                });
+                room.localParticipant.tracks.forEach(publication => {
+                    publication.unpublish();
+                });
+                room.participants.forEach(participant => {
+                    participant.tracks.forEach(track => {
+                        track.isSubscribed = false;
+                    });
+                });
+            });
+            console.log('Successfully joined a Room: ', room);
+            //checkParticipantCountInterval = setInterval(function () { CheckParticipantCount(); }, 5000);
+            //setTimeout(StopParticipantCount, 45000);
+        }, function (error) {
+            console.error('Unable to connect to Room: ' + error.message);
+        });
+
+    }
+
+    function CheckIfParticipantLeftOrExit() {
+        var liveInterviewModel = {
+            "InterviewCandidateId": parseInt($("#interviewCandidateId").val())
+        }
+        $.ajax({
+            type: "post",
+            url: "../FetchLiveInterviewInformation",
+            data: { "liveInterviewModel": liveInterviewModel },
+            success: function (response) {
+                if (response.isLeft == true) {
+                    $('#btnPause').css('display', 'none');
+                    const remoteMediaContainer = document.getElementById('remote-media-div');
+                    remoteMediaContainer.innerHTML = "Candidate Left. Waiting for candidate to rejoin..";
+                    candidateLeft = true;
+                    PauseResumeRecording();
+                }
+                else {
+                    var liveInterviewModel = {
+                        "InformationId": liveConsultationInfoId,
+                        "TwilioRoomSid": twilioRoomSid,
+                        "CompleteInterview": true,
+                        "IsCompleted": true
+                    }
+                    $.ajax({
+                        type: "post",
+                        url: "../CompleteTwilioRoom",
+                        data: { "liveInterviewModel": liveInterviewModel },
+                        success: function (response) {
+                            $('#CandidateLeftFalse').modal('show');
+                        }
+                    });
+
+                }
+            }
+        });
+    }
+
+    function CreateLocalTracksEmployer() {
+
+        var videoCameraSelectedDevice = document.querySelector('select#videoSource');
+        var audioSourceSelectedDevice = document.querySelector('select#audioSource');
+
+
+        Video.createLocalTracks({ audio: { deviceId: videoCameraSelectedDevice }, video: { deviceId: audioSourceSelectedDevice } }).then(function (localTracks) {
+            localTracks.forEach(function (track) {
+                console.log(`local media div`);
+                EmployerLocalTracks = localTracks;
+                const localMediaContainer = document.getElementById('local-media-div');
+                localMediaContainer.appendChild(track.attach());
+                var video = $("#local-media-div video");
+                video.attr("height", "101px");
+            });
+        });
+    }
+    function ConfirmExitInterview() {
+        //$('#ExitInterviewModal').modal('show');
+        window.location.href = "/LiveConsultation/LiveSchedule";
+    }
+    function ExitInterview() {
+        var liveInterviewModel = {
+            "InformationId": liveConsultationInfoId,
+            "CompleteInterview": true,
+            "IsCompleted": false
+        }
+        $.ajax({
+            type: "post",
+            url: "../CompleteTwilioRoom",
+            data: { "liveInterviewModel": liveInterviewModel },
+            success: function (response) {
+                window.location.href = "/Interviews/InterviewsListing";
+            }
+        });
+    }
+    function ConfirmFinishInterview() {
+       // $('#modalText').text("Finishing the interview will stop any recording and cause all parties to exit. Are you sure you want to finish the interview?");
+        $('#headerText').text("Finish the interview?");
+        $('#FinishInterviewModal').modal('show');
+    }
+    function finishInterview() {
+        debugger
+        console.log(joinedRoom);
+        var candidateID;
+        joinedRoom.participants.forEach(participant => {
+            candidateID = participant.sid;
+        });
+        var liveInterviewModel = {
+            "InformationId": liveConsultationInfoId,
+            "TwilioRoomSid": twilioRoomSid,
+            "CustomerParticipantId": candidateID,
+            "AdminParticipantId": joinedRoom.localParticipant.sid,
+            "CompleteConsultation": true,
+            "IsCompleted": true
+        }
+        console.log()
+        $.ajax({
+            type: "post",
+            url: "../CompleteTwilioRoom",
+            data: { "liveConsultationModel": liveInterviewModel },
+            success: function (response) {
+                window.location.href = "/LiveConsultation/LiveSchedule";
+            }
+        });
+
+    }
+    function PauseResumeRecording() {
+        var action = $("#btnPause").val();
+        if (action == "Pause") {
+
+            localParticipant.tracks.forEach(function (publication) {
+                publication.track.stop();
+                publication.isSubscribed = false;
+                localParticipant.unpublishTrack(publication.track);
+                const attachedElements = publication.track.detach();
+                attachedElements.forEach(element => element.remove());
+                const localMediaContainer = document.getElementById('local-media-div');
+                localMediaContainer.innerHTML = "";
+
+
+            });
+            joinedRoom.localParticipant.tracks.forEach(publication => {
+                publication.unpublish();
+            });
+            const remoteMediaContainer = document.getElementById('remote-media-div');
+            if (candidateLeft == true) {
+                remoteMediaContainer.innerHTML = "Candidate Left. Waiting for candidate to rejoin..";
+            }
+            else
+                remoteMediaContainer.innerHTML = "Recording Paused..";
+
+            EmployerLocalTracks.forEach(function (publication) {
+                publication.stop();
+            });
+            $("#btnPause").val("Resume");
+            //  window.location.href = '/Candidate/CandidateInterviewsListing';
+        }
+        else if (action == "Resume") {
+            ResumeRecording();
+            $('#btnPause').css('display', 'block');
+            $("#btnPause").val("Pause");
+        }
+    }
+    function ResumeRecording() {
+        $("#btnPause").val("Pause");
+        var videoCameraSelectedDevice = document.querySelector('select#videoSource');
+        var audioSourceSelectedDevice = document.querySelector('select#audioSource');
+        document.getElementById('remote-media-div').innerHTML = "";
+        const localMediaContainer = document.getElementById('local-media-div');
+        localMediaContainer.innerHTML = "";
+        Video.createLocalTracks({ audio: { deviceId: videoCameraSelectedDevice }, video: { deviceId: audioSourceSelectedDevice } }).then(function (localTracks) {
+            localTracks.forEach(function (track) {
+                localParticipant.publishTrack(track);
+                EmployerLocalTracks = localTracks;
+                localMediaContainer.appendChild(track.attach());
+                var video = $("#local-media-div video");
+                video.attr("height", "101px");
+            });
+
+            localParticipant.tracks.forEach(function (publication) {
+                publication.isSubscribed = true;
+                publication.track.start();
+            });
+
+        });
+
+    }
+</script>

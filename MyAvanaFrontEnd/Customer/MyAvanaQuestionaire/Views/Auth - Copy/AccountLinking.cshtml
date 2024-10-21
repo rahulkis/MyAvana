@@ -1,0 +1,194 @@
+﻿@model MyAvanaQuestionaireModel.AlexaAccountLinkingModel
+@if (Model != null)
+{
+    <input type="hidden" id="client_id" value="@Model.client_id" />
+    <input type="hidden" id="response_type" value="@Model.response_type" />
+    <input type="hidden" id="redirect_uri" value="@Model.redirect_uri" />
+    <input type="hidden" id="scope" value="@Model.scope" />
+    <input type="hidden" id="state" value="@Model.state" />
+}
+@{
+    ViewData["Title"] = "AccountLinking";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="~/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="~/images/favicon.ico" type="image/x-icon">
+
+    <link href="~/bootstrap/css/bootstrap.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="~/css/animate.css" />
+    <link rel="stylesheet" href="~/css/style1.css" />
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/css/animate.css" />
+    <link rel="stylesheet" href="~/css/style1.css" />
+
+    <style>
+        .alert-success, .alert-danger, .alert-info {
+            top: 110px !important;
+            width: 60% !important;
+            margin: 0 auto;
+            z-index: 99;
+            position: fixed;
+            left: 50%;
+            transform: translateX(-40%);
+            text-align: center;
+            padding: 12px;
+            transition: all 1s linear;
+            box-shadow: 0px 0px 12px 3px rgba(0, 0, 0, 0.2);
+            font-size: 16px;
+        }
+
+        .alert-danger {
+            color: #80172a;
+            background-color: #fdd5dc;
+            border-color: #fcc4ce;
+        }
+
+            .alert-danger hr {
+                border-top-color: #fbacba;
+            }
+
+            .alert-danger .alert-link {
+                color: #550f1c;
+            }
+
+        .alert-success {
+            color: #1c6356;
+            background-color: #a8ffc3;
+            border-color: #13b755;
+        }
+
+            .alert-success hr {
+                border-top-color: #b4e7dd;
+            }
+
+            .alert-success .alert-link {
+                color: #113b33;
+            }
+    </style>
+</head>
+
+<div class="alert alert-danger alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="failureMessage"></span>
+</div>
+
+<body class="gray-bg customer-login-wrap">
+
+    <div class="middle-box text-center loginscreen  animated fadeInDown">
+        <div class="logo-wrapper">
+            <div>
+                <img src="~/images/Myavana Logo Black.png" />
+            </div>
+            <p class="logo-sub-heading">The healthy hair experts.</p>
+        </div>
+        <div class="loginInner">
+            <div class="form-group">
+                <label class="label-txt-info">E-mail*</label>
+                <input id="txtLogin" type="text" class="form-control" placeholder="Username">
+            </div>
+            <div class="form-group">
+                <label class="label-txt-info">Password*</label>
+                <input id="txtPassword" type="password" class="form-control" placeholder="Password">
+            </div>
+            <button type="submit" onclick="loginAdmin()" class="btn btn-primary block full-width mb-0" style="background:#EBC7C7; color:black">Login</button>
+
+        </div>
+    </div>
+</body>
+</html>
+
+
+<script type="text/javascript">
+
+    function loginAdmin() {
+
+        if ($('#txtLogin').val().trim() == '' || $('#txtPassword').val().trim() == '') {
+            $('#failureMessage').text("Please enter username and password!");
+            $('.alert-danger').css("display", "block");
+            $('.alert-danger').delay(2000).fadeOut();
+            return false;
+        }
+
+        if (!RegExp(/^[a-zA-Z0-9._-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/).test($('#txtLogin').val().trim())) {
+            $('#failureMessage').text("Please enter valid email!");
+            $('.alert-danger').css("display", "block");
+            $('.alert-danger').delay(2000).fadeOut();
+            return false;
+        }
+
+        alexaLinking = {
+            UserName: $('#txtLogin').val(),
+            Password: $('#txtPassword').val(),
+            state: $('#state').val(),
+            client_id: $('#client_id').val(),
+            response_type: $('#response_type').val(),
+            scope: $('#scope').val(),
+            redirect_uri: $('#redirect_uri').val()
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/Auth/AccountLinking",
+            data: alexaLinking,
+            success: function (response) {
+                if (response != 0) {
+                    window.location.href = response;
+                }
+                else {
+                    $('#failureMessage').text("UserName or Password is incorrect!");
+                    $('.alert-danger').css("display", "block");
+                    $('.alert-danger').delay(2000).fadeOut();
+                    $('#txtPassword').val('')
+                }
+            },
+            failure: function (response) {
+            },
+            error: function (response) {
+            },
+        });
+    }
+</script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+
+
+
+
+
+@*<button type="submit" onclick="AccountLinking()" class="btn btn-primary block full-width mb-0" style="background:#EBC7C7; color:black">AccountLinking</button>
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script type="text/javascript">
+
+
+        function AccountLinking() {
+
+            $.ajax({
+                type: "GET",
+                url: "/Auth/Authorize",
+                success: function (response) {
+                    $('.preloader').css('display', 'none');
+                    if (response == "0") {
+                    }
+                    else if (response == "1") {
+                        window.location.href = "https://www.amazon.com/ap/oa?client_id=amzn1.application-oa2-client.d88db04eb6b64342ab8f687cf5414ff1&scope=postal_code&response_type=code&redirect_uri=https://customer.myavana.com/Auth/token&state=someState";
+                    }
+
+                },
+                failure: function (response) {
+                },
+                error: function (response) {
+                },
+            });
+        }
+    </script>*@

@@ -1,0 +1,245 @@
+﻿
+@{
+    ViewData["Title"] = "Login";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @*<title>@ViewData["Title"] - MVC6_Seed_Project</title>*@
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="~/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="~/images/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="~/css/build/css/intlTelInput.css">
+
+    <link href="~/bootstrap/css/bootstrap.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="~/css/animate.css" />
+    <link rel="stylesheet" href="~/css/style1.css" />
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/css/animate.css" />
+    <link rel="stylesheet" href="~/css/style1.css" />
+
+    <style>
+        .alert-success, .alert-danger, .alert-info {
+            top: 110px !important;
+            width: 60% !important;
+            margin: 0 auto;
+            z-index: 99;
+            position: fixed;
+            left: 50%;
+            transform: translateX(-40%);
+            text-align: center;
+            padding: 12px;
+            transition: all 1s linear;
+            box-shadow: 0px 0px 12px 3px rgba(0, 0, 0, 0.2);
+            font-size: 16px;
+        }
+
+        .alert-danger {
+            color: #80172a;
+            background-color: #fdd5dc;
+            border-color: #fcc4ce;
+        }
+
+            .alert-danger hr {
+                border-top-color: #fbacba;
+            }
+
+            .alert-danger .alert-link {
+                color: #550f1c;
+            }
+
+        .alert-success {
+            color: #1c6356;
+            background-color: #a8ffc3;
+            border-color: #13b755;
+        }
+
+            .alert-success hr {
+                border-top-color: #b4e7dd;
+            }
+
+            .alert-success .alert-link {
+                color: #113b33;
+            }
+
+        .countrylistdropdown .iti__flag-container {
+            width: 100%;
+        }
+
+            .countrylistdropdown .iti__flag-container .iti__arrow {
+                position: absolute;
+                right: 10px;
+            }
+
+            .countrylistdropdown .iti__flag-container .iti__selected-flag {
+                background-color: #fff;
+            }
+    </style>
+</head>
+<div id="alert-success" class="alert alert-success alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="successMessage"></span>
+</div>
+<div class="alert alert-danger alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="failureMessage"></span>
+</div>
+
+<body class="gray-bg">
+    <div class="middle-box text-center loginscreen  animated fadeInDown">
+        <div class="loginInner">
+            <div>
+                <img src="~/images/Myavana Logo Black.png" />
+            </div>
+            @*<h3>Welcome to Myavana</h3>*@
+
+            @*<p>Login to make some hair magic</p>*@
+            <div class="form-group">
+                <input id="txtFirstName" type="text" class="form-control" placeholder="First Name*">
+            </div>
+            <div class="form-group">
+                <input id="txtLastName" type="text" class="form-control" placeholder="Last Name*">
+            </div>
+            <div class="form-group">
+                <input id="txtEmail" type="text" class="form-control" placeholder="Email*">
+            </div>
+            <div class="form-group">
+                <input id="txtPassword" type="password" class="form-control" placeholder="Password*">
+            </div>
+            <div class="form-group">
+                <input id="txtCPassword" type="password" class="form-control" placeholder="Re-Type Password*">
+            </div>
+            <div class="form-group">
+                <div class="form-group countrylistdropdown">
+                    <input id="txtCountryCode" type="number" maxlength="10" class="form-control" placeholder="">
+                    @*<select id="txtCountryCode"></select>*@
+                </div>
+
+                <div class="form-group">
+                    <input id="txtPhoneNo" type="text" class="form-control" placeholder="Phone Number*">
+                </div>
+
+                <div>
+                    <p>
+                        Your phone number required so that we may contact you in regards to your hair consultation and support while using our app.Your privacy is very important to us; we do not share your phone number with other companies.
+                    </p>
+                </div>
+                <div>
+                    <p>
+                        Registering will enable you to access the functionality of our app from any of your devices.
+                    </p>
+                </div>
+
+                <button type="submit" onclick="signupUser()" class="btn btn-primary block full-width mb-0" style="background:#EBC7C7; color:black">Signup</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+<script type="text/javascript">
+
+    function signupUser() {
+
+
+        if ($('#txtEmail').val().trim() == '' || $('#txtFirstName').val().trim() == '' || $('#txtLastName').val().trim() == '' || $('#txtPhoneNo').val().trim() == '' ||
+            $('#txtPassword').val().trim() == '' || $('#txtCPassword').val().trim() == '') {
+            $('#failureMessage').text("Please fill mandatory fields");
+            $('.alert-danger').css("display", "block");
+            $('.alert-danger').delay(2000).fadeOut();
+            return false;
+        }
+
+        if (!RegExp(/^[a-zA-Z0-9._-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/).test($('#txtEmail').val().trim())) {
+            $('#failureMessage').text("Please enter valid email!");
+            $('.alert-danger').css("display", "block");
+            $('.alert-danger').delay(2000).fadeOut();
+            return false;
+        }
+        var pattern = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/);
+        if (!pattern.test($('#txtCPassword').val().trim())) {
+            $('#failureMessage').text("Password pattern doesn't match. Must atleast 8 character length.One upper case, one lower case, one digit and 1 special chanracter");
+            $('.alert-danger').css("display", "block");
+            $('.alert-danger').delay(3000).fadeOut();
+            return false;
+        }
+        if ($('#txtCPassword').val().trim() != $('#txtPassword').val().trim()) {
+            $('#failureMessage').text("Password and confirm password doesn't match");
+            $('.alert-danger').css("display", "block");
+            $('.alert-danger').delay(3000).fadeOut();
+            return false;
+        }
+
+        //if ($("#txtPhoneNo").val().length > 15) {
+        //    $('#failureMessage').text("Phone Number must be less than 15 digits.");
+        //    $('.alert-danger').css("display", "block");
+        //    $('.alert-danger').delay(3000).fadeOut();
+        //    return false;
+        //}
+
+        if (! /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test($("#txtPhoneNo").val().trim())) {
+            $('#failureMessage').text("Enter valid phone no.");
+            $('.alert-danger').css("display", "block");
+            $('.alert-danger').delay(3000).fadeOut();
+            return false;
+        }
+        signup = {
+            Email: $('#txtEmail').val().trim(),
+            FirstName: $('#txtFirstName').val().trim(),
+            LastName: $('#txtLastName').val().trim(),
+            PhoneNo: $('#txtPhoneNo').val().trim(),
+            CountryCode: $("#txtCountryCode").intlTelInput("getSelectedCountryData").dialCode,
+            Password: $('#txtPassword').val().trim()
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/Auth/Signup",
+            data: signup,
+            success: function (response) {
+                if (response == "0") {
+                    $('#failureMessage').text("User already exist. Please try with different Username");
+                    $('.alert-danger').css("display", "block");
+                    $('.alert-danger').delay(3000).fadeOut();
+
+                }
+                else if (response == "-1") {
+                    $('#failureMessage').text("Something went wrong. Please try later");
+                    $('.alert-danger').css("display", "block");
+                    $('.alert-danger').delay(3000).fadeOut();
+
+                    //$('#txtLogin').val(''),
+                    //$('#txtPassword').val('')
+                }
+               else {
+                    window.location.href = "/Questionaire/start?id=" + response;
+                }
+                
+            },
+            failure: function (response) {
+            },
+            error: function (response) {
+            },
+        });
+    }
+</script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/css/build/js/intlTelInput.min.js"></script>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<script src="~/css/build/js/intlTelInput-jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#txtCountryCode").intlTelInput({
+            separateDialCode: true,
+        });
+    });
+</script>

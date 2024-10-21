@@ -1,0 +1,150 @@
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\bin\Release\netcoreapp2.2\appsettings.Development.json
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\bin\Release\netcoreapp2.2\appsettings.json
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\bin\Release\netcoreapp2.2\MyAvanaQuestionaire.deps.json
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\bin\Release\netcoreapp2.2\MyAvanaQuestionaire.runtimeconfig.json
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\bin\Release\netcoreapp2.2\MyAvanaQuestionaire.runtimeconfig.dev.json
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\bin\Release\netcoreapp2.2\MyAvanaQuestionaire.dll
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\bin\Release\netcoreapp2.2\MyAvanaQuestionaire.pdb
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\bin\Release\netcoreapp2.2\MyAvanaQuestionaire.Views.dll
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\bin\Release\netcoreapp2.2\MyAvanaQuestionaire.Views.pdb
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\bin\Release\netcoreapp2.2\MyAvanaQuestionaireApiClient.dll
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\bin\Release\netcoreapp2.2\MyAvanaQuestionaireModel.dll
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\bin\Release\netcoreapp2.2\MyAvanaQuestionaireApiClient.pdb
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\bin\Release\netcoreapp2.2\MyAvanaQuestionaireModel.pdb
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.csproj.AssemblyReference.cache
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.GeneratedMSBuildEditorConfig.editorconfig
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.AssemblyInfoInputs.cache
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.AssemblyInfo.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.csproj.CoreCompileInputs.cache
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.RazorAssemblyInfo.cache
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.RazorAssemblyInfo.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.TagHelpers.input.cache
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.TagHelpers.output.cache
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.RazorCoreGenerate.cache
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Pages\Shared\_CookieConsentPartial.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Pages\Shared\_Layout.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Pages\Shared\_ValidationScriptsPartial.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Pages\_ViewImports.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Pages\_ViewStart.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth - Copy\AccountLinking.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth - Copy\ChangePassword.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth - Copy\ForgotPassword.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth - Copy\Login.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth - Copy\PackagePayment.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth - Copy\PackagePayment1.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth - Copy\ResetPwd.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth - Copy\Signup.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth\AccountLinking.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth\ChangePassword.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth\DigitalAssessmentMarket.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth\ForgotPassword.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth\HairAICustomerSignup.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth\Login.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth\PackagePayment.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth\PackagePayment1.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth\ResetPwd.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth\Signup.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\HairProfile\CustomerHair.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\HairProfile\_customerHair.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\HairProfile\_hairAnalysis.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\LiveConsultation\LiveSchedule.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\LiveConsultation\_BookConsultation.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\LiveConsultation\_CheckHardwareCustomer.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\LiveConsultation\_JoinCustomerConsultation.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Questionaire\DigitalAssessment.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Questionaire\Login.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Questionaire\Questionaire.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Questionaire\Questionnaire.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Questionaire\start.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Shared\_Footer.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Shared\_Layout.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Shared\_Navigation.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Shared\_RightSidebar.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Shared\_TopNavbar.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\_ViewImports.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\_ViewStart.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\wwwroot\css\CustomerHair.cshtml.g.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.RazorTargetAssemblyInfo.cache
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.RazorTargetAssemblyInfo.cs
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.Views.pdb
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.csproj.CopyComplete
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.dll
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.pdb
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.genruntimeconfig.cache
+D:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\HairProfile\HairAI.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\bin\Release\netcoreapp2.2\appsettings.Development.json
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\bin\Release\netcoreapp2.2\appsettings.json
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\bin\Release\netcoreapp2.2\MyAvanaQuestionaire.deps.json
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\bin\Release\netcoreapp2.2\MyAvanaQuestionaire.runtimeconfig.json
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\bin\Release\netcoreapp2.2\MyAvanaQuestionaire.runtimeconfig.dev.json
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\bin\Release\netcoreapp2.2\MyAvanaQuestionaire.dll
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\bin\Release\netcoreapp2.2\MyAvanaQuestionaire.pdb
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\bin\Release\netcoreapp2.2\MyAvanaQuestionaire.Views.dll
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\bin\Release\netcoreapp2.2\MyAvanaQuestionaire.Views.pdb
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\bin\Release\netcoreapp2.2\MyAvanaQuestionaireApiClient.dll
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\bin\Release\netcoreapp2.2\MyAvanaQuestionaireModel.dll
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\bin\Release\netcoreapp2.2\MyAvanaQuestionaireApiClient.pdb
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\bin\Release\netcoreapp2.2\MyAvanaQuestionaireModel.pdb
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.csproj.AssemblyReference.cache
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.GeneratedMSBuildEditorConfig.editorconfig
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.AssemblyInfoInputs.cache
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.AssemblyInfo.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.csproj.CoreCompileInputs.cache
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.RazorAssemblyInfo.cache
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.RazorAssemblyInfo.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.TagHelpers.input.cache
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.TagHelpers.output.cache
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.RazorCoreGenerate.cache
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Pages\Shared\_CookieConsentPartial.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Pages\Shared\_Layout.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Pages\Shared\_ValidationScriptsPartial.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Pages\_ViewImports.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Pages\_ViewStart.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth - Copy\AccountLinking.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth - Copy\ChangePassword.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth - Copy\ForgotPassword.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth - Copy\Login.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth - Copy\PackagePayment.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth - Copy\PackagePayment1.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth - Copy\ResetPwd.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth - Copy\Signup.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth\AccountLinking.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth\ChangePassword.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth\DigitalAssessmentMarket.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth\ForgotPassword.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth\HairAICustomerSignup.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth\Login.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth\PackagePayment.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth\PackagePayment1.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth\ResetPwd.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Auth\Signup.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\HairProfile\CustomerHair.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\HairProfile\HairAI.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\HairProfile\_customerHair.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\HairProfile\_hairAnalysis.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\LiveConsultation\LiveSchedule.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\LiveConsultation\_BookConsultation.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\LiveConsultation\_CheckHardwareCustomer.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\LiveConsultation\_JoinCustomerConsultation.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Questionaire\DigitalAssessment.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Questionaire\Login.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Questionaire\Questionaire.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Questionaire\Questionnaire.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Questionaire\start.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Shared\_Footer.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Shared\_Layout.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Shared\_Navigation.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Shared\_RightSidebar.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\Shared\_TopNavbar.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\_ViewImports.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\_ViewStart.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\wwwroot\css\CustomerHair.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.RazorTargetAssemblyInfo.cache
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.RazorTargetAssemblyInfo.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.Views.pdb
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.csproj.CopyComplete
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.dll
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.pdb
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\MyAvanaQuestionaire.genruntimeconfig.cache
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\HairProfile\ManageSharedHHCP.cshtml.g.cs
+E:\Work2023\October2023\MyAvana\MyAvanaAdminV2\MyAvanaQuestionaire\MyAvanaQuestionaire\obj\Release\netcoreapp2.2\Razor\Views\HairProfile\ViewSharedHHCP.cshtml.g.cs

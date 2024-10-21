@@ -1,0 +1,154 @@
+@font-face {
+	font-family: 'AbsaraSans-Regular Regular';
+	src: url('/assets/fonts/AbsaraSans-Regular.otf');
+}
+
+/* *, body, html {
+	font-family: AbsaraSans-Regular Regular;
+} */
+
+.hairphotoinput li a {
+    border: none !important;
+    padding: 10px 15px;
+    text-transform: uppercase;
+    color: #383838 !important;
+}
+
+.hairphotoinput li.active a {
+    background: #ffefef;
+    border-radius: 8px;
+}
+    .hairphotoinput li.active a:hover, .hairphotoinput li a:hover {
+        background: #ffefef;
+        border-radius: 8px;
+    }
+.hairphotoinput .nav-tabs {
+    border-bottom: none;
+}
+.hairphotoinput
+.tab-content {
+    padding: 25px 15px;
+}
+.Observations p {
+    background: #ffefef;
+    padding: 10px 15px;
+    border-radius: 4px;
+}
+.Porosity p, .Elasticity p {
+    background: #a1a1a1;
+    color: #fff;
+    text-align: center;
+    padding: 7px 15px;
+    text-transform: uppercase;
+    border-radius: 4px;
+    max-width: 100px;
+}
+
+.crousalnav .owl-nav {
+	position: absolute;
+	top: 10px;
+	display: flex;
+	justify-content: flex-end;
+	width: 100%;
+}
+	.crousalnav .owl-nav button span {
+		background: #ccc !important;
+		padding: 0 16px 5px !important;
+		width: 25px;
+		font-size: 25px !important;
+		line-height: 35px !IMPORTANT;
+		vertical-align: bottom;
+		margin-left: 10px;
+	}
+.crousalslide .owl-nav {
+	position: absolute;
+	top: 0;
+	display: flex;
+	justify-content: flex-end;
+	width: 100%;
+}
+
+	.crousalslide .owl-nav button span {
+		background: #ccc !important;
+		padding: 0 16px 5px !important;
+		width: 25px;
+		font-size: 25px !important;
+		line-height: 35px !IMPORTANT;
+		vertical-align: bottom;
+		margin-left: 10px;
+	}
+.accordion-heading {
+	background: #dab6ab;
+	padding: 10px 15px;
+	border-radius: 0;
+	margin-top: 0;
+	border-bottom: 1px solid #ababab;
+}
+	.accordion-heading a {
+		color: #444;
+		font-size: 15px;
+		width: 100%;
+		display: block;
+	}
+.accordion-inner {
+	padding: 10px;
+	background: #f7efe8;
+}
+@import url('//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css');
+
+.accordion-toggle:after {
+	font-family: 'FontAwesome';
+	content: "\f078";
+	float: right;
+}
+
+.accordion-opened .accordion-toggle:after {
+	content: "\f054";
+}
+.regimencrousal .owl-nav {
+	position: relative;
+	top: 0;
+	display: flex;
+	justify-content: flex-start;
+	width: 100%;
+	margin-top: 15px;
+}
+	.regimencrousal .owl-nav button span {
+		background: #ccc !important;
+		padding: 0 16px 5px !important;
+		width: 25px;
+		font-size: 25px !important;
+		line-height: 35px !IMPORTANT;
+		vertical-align: bottom;
+		margin-left: 10px;
+	}
+
+
+.sliderimg {
+	height: 340px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+	margin-bottom: 20px;
+	background: #fff;
+	box-shadow: 0 0 10px #d4d4d4;
+	margin-top:10px;
+}
+.owl-carousel .owl-stage-outer {
+	padding: 5px;
+}
+
+.sliderimg img{
+	margin: 0px auto !important;
+}
+.stepslider img {
+	max-height: 200px;
+	width: auto !important;
+	margin: 0 auto;
+}
+
+div#accordion2 {
+	max-height: 800px;
+	overflow: auto;
+}

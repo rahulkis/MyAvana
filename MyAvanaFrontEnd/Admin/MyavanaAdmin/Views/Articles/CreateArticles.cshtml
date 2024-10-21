@@ -1,0 +1,269 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper AuthoringTagHelpers.TagHelpers.EmailTagHelper, AuthoringTagHelpers
+@model MyavanaAdminModels.BlogArticlePostModel
+@inject MyavanaAdminApiClient.ApiClient productType
+
+@{
+    Layout = "_Layout";
+}
+
+@if (Model != null)
+{
+    <input type="hidden" id="articleId" value="@Model.BlogArticleId" />
+
+}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.select2').select2({ placeholder: "--Select--" });
+        var response = @Html.Raw(Json.Serialize(Model));
+        if (response != null) {
+            var prodcutsList = response.articleProductsList.length;
+            if (prodcutsList > 0) {
+                var arr = [];
+                for (var i = 0; i < prodcutsList; i++) {
+                    arr.push(response.articleProductsList[i].productEntityId);
+                }
+                $('#products').val(arr);
+                $('#products').trigger('change');
+            }
+
+            var hairStylesList = response.articleHairStylesList.length;
+            if (hairStylesList > 0) {
+                var arr = [];
+                for (var i = 0; i < hairStylesList; i++) {
+                    arr.push(response.articleHairStylesList[i].hairStylesId);
+                }
+                $('#hairStyles').val(arr);
+                $('#hairStyles').trigger('change');
+            }
+
+            var moodList = response.articleMoodsList.length;
+            if (moodList > 0) {
+                var arr = [];
+                for (var i = 0; i < moodList; i++) {
+                    arr.push(response.articleMoodsList[i].moodId);
+                }
+                $('#moods').val(arr);
+                $('#moods').trigger('change');
+            }
+
+            var guidanceList = response.articleGuidancesList.length;
+            if (guidanceList > 0) {
+                var arr = [];
+                for (var i = 0; i < guidanceList; i++) {
+                    arr.push(response.articleGuidancesList[i].guidanceId);
+                }
+                $('#guidances').val(arr);
+                $('#guidances').trigger('change');
+            }
+        }
+
+
+    });
+</script>
+<style>
+    .alert-success, .alert-danger, .alert-info {
+        top: 110px !important;
+        width: 60% !important;
+        margin: 0 auto;
+        z-index: 99;
+        position: fixed;
+        left: 50%;
+        transform: translateX(-40%);
+        text-align: center;
+        padding: 12px;
+        transition: all 1s linear;
+        box-shadow: 0px 0px 12px 3px rgba(0, 0, 0, 0.2);
+        font-size: 16px;
+    }
+
+    .alert-danger {
+        color: #80172a;
+        background-color: #fdd5dc;
+        border-color: #fcc4ce;
+    }
+
+        .alert-danger hr {
+            border-top-color: #fbacba;
+        }
+
+        .alert-danger .alert-link {
+            color: #550f1c;
+        }
+
+    .alert-success {
+        color: #1c6356;
+        background-color: #a8ffc3;
+        border-color: #13b755;
+    }
+
+        .alert-success hr {
+            border-top-color: #b4e7dd;
+        }
+
+        .alert-success .alert-link {
+            color: #113b33;
+        }
+
+    .preloader {
+        width: calc(100% - 200px);
+        height: 100%;
+        top: 0px;
+        position: fixed;
+        z-index: 99999;
+        background: rgba(255, 255, 255, .8);
+    }
+
+        .preloader img {
+            position: absolute;
+            LEFT: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+        }
+
+    .loader {
+        overflow: visible;
+        padding-top: 2em;
+        height: 0;
+        width: 2em;
+    }
+</style>
+<div id="alert-success" class="alert alert-success alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="successMessage"></span>
+</div>
+<div class="alert alert-danger alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="failureMessage"></span>
+</div>
+<div class="preloader" style="display:none;">
+    <div class="loader">
+        <img src="~/images/loader.gif" />
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Post Blogs</h5>
+
+                </div>
+                <div class="ibox-content">
+                    @*<form method="post">*@
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label">HeadLine*</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="headline" placeholder="Enter Headline" asp-for="HeadLine" class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Details*</label>
+                        <div class="col-sm-10">
+                            @*<input type="text" id="details" placeholder="Enter Details" asp-for="Details" class="form-control">*@
+                            <textarea rows="4" id="details" placeholder="Enter Details" asp-for="Details" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    @*<div class="hr-line-dashed"></div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Image Upload</label>
+
+            <div class="custom-file">
+                <input id="uploadImage" type="file" class="custom-file-input">
+                <label for="logo" id="lblImage" class="custom-file-label">Choose file...</label>
+            </div>
+        </div>*@
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Image Url*</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="imageUrl" placeholder="Enter ImageUrl" asp-for="ImageUrl" class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Additional Url*</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" asp-for="Url" placeholder="Enter Url" id="additionalUrl" class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Products</label>
+
+                        <div class="col-sm-10">
+                            <select class="js-example-basic-multiple form-control select2" id="products"
+                                    asp-items="@productType.GetProductsList().Result.OrderBy(x => x.ActualName).Select(s => new SelectListItem() { Text = s.ActualName, Value=s.Id.ToString()})" multiple></select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Hair Styles</label>
+
+                        <div class="col-sm-10">
+                            <select class="js-example-basic-multiple form-control select2" id="hairStyles"
+                                    asp-items="@productType.GetHairStyles().Result.OrderBy(x => x.Style).Select(s => new SelectListItem() { Text = s.Style, Value=s.Id.ToString()})" multiple></select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Mood</label>
+
+                        <div class="col-sm-10">
+                            <select class="js-example-basic-multiple form-control select2" id="moods"
+                                    asp-items="@productType.GetMoods().Result.OrderBy(x => x.Mood).Select(s => new SelectListItem() { Text = s.Mood, Value=s.Id.ToString()})" multiple></select>
+                                @*<option value="">--Select--</option>
+                                <option value="Happy">Happy</option>
+                                <option value="Sad">Sad</option>
+                                <option value="Angry">Angry</option>
+                                <option value="Frustrated">Frustrated</option>
+                                <option value="Heartbroken">Heartbroken</option>
+                                <option value="Exhausted">Exhausted</option>
+                                <option value="Anxious">Anxious</option>
+                                <option value="Reflective">Reflective</option>
+                                <option value="Excited">Excited</option>
+                                <option value="Bored">Bored</option>
+                                <option value="Peaceful">Peaceful</option>
+                                <option value="Scared">Scared</option>
+                                <option value="Joyful">Joyful</option>
+                            </select>*@
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Guidance</label>
+
+                        <div class="col-sm-10">
+                            <select class="js-example-basic-multiple form-control select2" id="guidances"
+                                    asp-items="@productType.GetGuidances().Result.OrderBy(x => x.Guidance).Select(s => new SelectListItem() { Text = s.Guidance, Value=s.Id.ToString()})" multiple></select>
+                                @*<option value="">--Select--</option>
+                                <option value="Products Needed">Products Needed</option>
+                                <option value="Expert Consultation">Expert Consultation</option>
+                                <option value="New Hairstyle">New Hairstyle</option>
+                                <option value="Hair Health">Hair Health</option>
+                                <option value="Hair Coaching Session">Hair Coaching Session</option>
+                                <option value="Life Coaching Session">Life Coaching Session</option>
+                            </select>*@
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-4 col-sm-offset-2">
+                            <a class="btn btn-white btn-sm" asp-controller="Articles" asp-action="ViewArticles">Cancel</a>
+                            <button class="btn btn-primary btn-sm btnColorChange" onclick="SaveBlogs()">Save Article</button>
+                        </div>
+                    </div>
+                    @*</form>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/admin/blogpost.js"></script>

@@ -1,0 +1,545 @@
+﻿@inject MyAvanaQuestionaireApiClient.ApiClient clients
+@{
+    ViewData["Title"] = "Login";
+    var myavanahaircare = "@myavanahaircare";
+    
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @*<title>@ViewData["Title"] - MVC6_Seed_Project</title>*@
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="~/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="~/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="~/css/build/css/intlTelInput.css">
+
+    <link href="~/bootstrap/css/bootstrap.css" rel="stylesheet" />
+
+
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/css/animate.css" />
+    <link rel="stylesheet" href="~/css/style1.css" />
+    @*<style>
+            * {
+                font-family: 'Inter', sans-serif;
+            }
+        </style>*@
+    <style>
+        #txtCountryCode {
+            opacity: 0;
+        }
+
+        .countrylistdropdown .iti__flag-container {
+            width: 100%;
+        }
+
+            .countrylistdropdown .iti__flag-container .iti__arrow {
+                position: absolute;
+                right: 10px;
+            }
+    </style>
+</head>
+
+<div id="alert-success" class="alert alert-success alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="successMessage"></span>
+</div>
+<div class="alert alert-danger alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="failureMessage"></span>
+</div>
+<div class="preloader" style="display:none;">
+    <div class="loader">
+        <img src="~/images/loader.gif" />
+    </div>
+</div>
+<body id="newsignup">
+    <header>
+        <div class="brandHeader">
+            <img src="~/images/Logo.png" alt="" />
+        </div>
+    </header>
+    <div class="container_background">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="infocotainer">
+                        <div class="backPage">
+                            <div class="backElement">
+                                <a href="https://www.myavana.com/pages/artificial-intelligence">
+                                    <img src="~/images/backicon.png" alt="" />
+                                    BACK
+                                </a>
+                            </div>
+                            <div class="headingPage">
+                                <h1>Myavana HairAI<sup>TM</sup></h1>
+                            </div>
+                            <div class="body_content">
+                                <p>
+                                    Advanced first of its kind AI powered technology for textured hair, that analyzes your hair through your digital device's camera and makes product recommendations for your unique hair type and texture.
+                                </p>
+                                <p>
+                                    Subscribing to Myavana HairAI, means you will always know exactly what products your hair needs to thrive anytime you make a style or color change.
+                                </p>
+                                <p>
+                                    No more guesswork or wasting money on products that don't work on your hair. Myavana HairAI is truly personalized haircare.
+                                </p>
+                                <p>
+                                    Follow us on all your social channels <a href="#"> @myavanahaircare</a> and share your experience with our community at <a href="#">#mymyavanajourney</a>.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="middle-box text-center">
+                        <div class="loginInner newForm">
+                            <div id="SignUpForm">
+                                <div>
+                                    <h3>Complete the Form to Get Started</h3>
+                                </div>
+                                <div class="form-group">
+                                    <input id="txtFirstName" type="text" class="form-control" placeholder="First Name*">
+                                </div>
+                                <div class="form-group">
+                                    <input id="txtLastName" type="text" class="form-control" placeholder="Last Name*">
+                                </div>
+                                <div class="form-group">
+                                    <input id="txtEmail" type="text" class="form-control" placeholder="Email*">
+                                </div>
+                                <div class="form-group">
+                                    <input id="txtPassword" type="password" class="form-control" placeholder="Password*">
+                                </div>
+                                <div class="form-group">
+                                    <input id="txtCPassword" type="password" class="form-control" placeholder="Re-Type Password*">
+                                </div>
+                                <div class="tacbox text-left">
+                                    <input id="checkboxHairKit" name="checkboxHairKit" type="checkbox" />
+                                    <label for="checkboxHairKit"> I already purchased a Hair Kit.</label>
+                                </div>
+                                <div id="divSerialNumber" class="form-group" style="display:none">
+                                    <input id="txtSerialNumber" type="text" class="form-control" placeholder="Serial Number">
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-group countrylistdropdown">
+                                        <input id="txtCountryCode" type="number" maxlength="10" class="form-control" placeholder="">
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input id="txtPhoneNo" type="text" class="form-control" placeholder="Phone Number*">
+                                    </div>
+
+                                    <div>
+                                        <p>
+                                            Your phone number is required so that we may contact you in regards to your digital analysis and provide support while using our app.Your privacy is very important to us. We do not share your phone number with other companies.
+                                            Registering will enable you to access the functionality of our app from any of your devices.
+                                        </p>
+                                    </div>
+                                    <div class="tacbox">
+                                        <input id="checkboxTerms" type="checkbox" />
+                                        <label for="checkbox"> I agree to these <a target="_blank" href="https://www.myavana.com/pages/terms-of-service">Terms and Conditions</a> and <a target="_blank" href="https://www.myavana.com/pages/privacy-policy">Privacy Policy</a>.</label>
+                                    </div>
+                                    <button type="submit" onclick="showPaymentDiv()" class="btn btn-primary block full-width mb-0" style="background:#EBC7C7; color:black">Next</button>
+                                </div>
+                            </div>
+                            <div id="divPayment" style="display:none">
+                                <div class="form_box">
+                                    <div>
+                                        <h3>Complete the Form to Get Started</h3>
+                                    </div>
+                                    <div class="tab-content pt-3" id="pills-tabContent">
+                                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                                            <div class="row">
+
+                                                <div>
+                                                    <h3>Billing Address</h3>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <div class="expire_dropdown d-flex">
+                                                            <select class="form-control" id="txtCountry" name="country" onchange="changeStates()"
+                                                                    asp-items="@clients.GetCountriesList().Result.Select(x => new SelectListItem() { Text = x.Country, Value = x.CountryId.ToString() })">
+                                                                <option value="0">-- select country --</option>
+                                                            </select>
+                                                           
+                                                            <select id="txtState" class="form-control ml-1">
+                                                                <option value="0">-- select state --</option>
+                                                                
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <input id="txtAddress" class="form-control" type="text" placeholder="Address">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <input id="txtCity" class="form-control" type="text" placeholder="City">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <input id="txtZipCode" class="form-control" type="text" placeholder="ZipCode">
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <h3>Card Details</h3>
+                                                </div>
+                                                <div class="col-lg-12">
+
+                                                    <div class="form-group">
+                                                        <input id="txtCardName" type="text" class="form-control" placeholder="Cardholder Name*">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <input id="txtCardNumber" class="form-control" type="number" placeholder="Card Number*">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <label class="d-block text-left">Expiration Date <sup>*</sup></label>
+                                                        <div class="expire_dropdown d-flex">
+                                                            <select id="expireMonth" class="form-control mr-1">
+                                                                <option value="0">-- select month --</option>
+                                                                <option value="01">January</option>
+                                                                <option value="02">February</option>
+                                                                <option value="03">March</option>
+                                                                <option value="04">April</option>
+                                                                <option value="05">May</option>
+                                                                <option value="06">June</option>
+                                                                <option value="07">July</option>
+                                                                <option value="08">August</option>
+                                                                <option value="09">September</option>
+                                                                <option value="10">October</option>
+                                                                <option value="11">November</option>
+                                                                <option value="12">December</option>
+                                                            </select>
+                                                            <select id="expireYear" class="form-control ml-1">
+                                                                <option value="0">-- select year --</option>
+                                                                <option value="2023">2023</option>
+                                                                <option value="2024">2024</option>
+                                                                <option value="2025">2025</option>
+                                                                <option value="2026">2026</option>
+                                                                <option value="2027">2027</option>
+                                                                <option value="2028">2028</option>
+                                                                <option value="2029">2029</option>
+                                                                <option value="2030">2030</option>
+                                                                <option value="2031">2031</option>
+                                                                <option value="2032">2032</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12">
+                                                    <div class="form-group position-relative cvvFild">
+                                                        <input id="txtCvv" class="form-control" type="number" placeholder="CVV*">
+                                                        <i class="cvvcard"><img src="../images/card-ico.svg" /></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="secure_info">
+                                                        <p class="text-left"><i class="fa fa-lock" aria-hidden="true"></i> Your payment data is encrypted and secure.</p>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="mr-3">
+                                                        <div class="d-flex align-items-center pb-4 border-bottom mb-3">
+                                                            <div class="d-flex align-items-center">
+                                                                <input type="radio" id="subscriptionPayment" class="custom_radio" name="paymentType" value="subscription" checked>
+                                                                <label for="subscriptionPayment" class="ml-3 mb-0">Subscribe & save 15%</label>
+                                                            </div>
+                                                            <div class="ml-auto">
+                                                                @*<p class="mb-0">$24.65</p>*@
+                                                                <label id="lblSubscriptionPayment" class="mb-0">$24.65</label>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="mr-3">
+                                                        <div class="d-flex align-items-center pb-2 mb-3">
+                                                            <div class="d-flex align-items-center">
+                                                                <input type="radio" id="oneTimePayment" class="custom_radio" name="paymentType" value="oneTime">
+                                                                <label for="oneTimePayment" class="ml-3 mb-0">Buy Once</label>
+                                                            </div>
+                                                            <div class="ml-auto">
+                                                               
+                                                                <label id="lbloneTimePayment" class="mb-0">$29.00</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div id="DiscountDiv" style="display: none;">
+                                                        <div class="col-lg-12 p-0">
+                                                            <div class="form-group d-flex">
+                                                                <input id="txtCoupon" class="form-control" type="text" placeholder="Discount Code">
+                                                                <button id="btnApply" class="btn btn-primary" disabled>Apply</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="discountedTotalDiv" style="display: none;">
+                                                        <div class="mr-3">
+                                                            <div class="d-flex align-items-center pb-2 mb-3">
+                                                                <div class="d-flex align-items-center">
+
+                                                                    <label for="lblTotal" class="ml-3 mb-0">Total:</label>
+                                                                </div>
+                                                                <div class="ml-auto">
+                                                                    
+                                                                    <label id="lblDiscountedTotal" class="mb-0">$29.00</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="invalidDiscountDiv" style="display: none;">
+                                                        <label id="lblInvalidDiscount" class="text-danger">Invalid discount code</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row w-100 m-0">
+                                                    <div class="col-lg-12 d-flex">
+                                                        <button type="button" onclick="showSignUpForm()" class="btn btn-primary block col-lg-6 mb-0" style="background:#EBC7C7; color:black">BACK</button>
+                                                        <button type="button" onclick="HairAIPaymentViaStripe()" class="form_btn_ptm btn btn-primary block col-lg-6 mb-0">CHECKOUT NOW</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+</html>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/css/build/js/intlTelInput.min.js"></script>
+<script src="~/css/build/js/intlTelInput-jquery.min.js"></script>
+<script src="~/js/auth.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#expireYear').val(''); 
+        $('#txtCardNumber').val('');
+        $('#expireMonth').val('');
+        $('#txtCvv').val('');
+        $("#txtCountryCode").intlTelInput({
+            separateDialCode: true,
+        });
+        $('#checkboxHairKit').change(function () {
+            if (this.checked) {
+                $('#divSerialNumber').show();
+            } else {
+                $('#divSerialNumber').hide();
+            }
+
+        });
+        if ($("#oneTimePayment").is(":checked")) {
+            $("#DiscountDiv").show();
+        }
+        $("input[name='paymentType']").on("change", function () {
+            if ($("#oneTimePayment").is(":checked")) {
+                $("#DiscountDiv").show();
+            } else {
+                $("#DiscountDiv").hide();
+                $("#discountedTotalDiv").hide();
+
+                $("#btnApply").prop("disabled", true);
+            }
+        });
+       $("#txtCoupon").on("input", function () {
+            $("#btnApply").prop("disabled", !$(this).val());
+        });
+        $("#btnApply").on("click", function () {
+        ValidateDiscountCode(function (validationResult) {
+            if (validationResult.isValid) {
+                $("#lblDiscountedTotal").text(" $" + validationResult.discountedTotal.toFixed(2));
+                $("#discountedTotalDiv").show();
+                $("#invalidDiscountDiv").hide();
+            } else {
+                $("#lblDiscountedTotal").text(" $" + validationResult.discountedTotal.toFixed(2));
+                $("#discountedTotalDiv").hide();
+                $("#invalidDiscountDiv").show();
+            }
+        });
+    });
+       
+    });
+    
+    function ValidateDiscountCode(callback) {
+        var originalTotalText = $("#lbloneTimePayment").text();
+        var originalTotal = parseFloat(originalTotalText.replace('$', ''));
+
+        var enteredCouponCode = $("#txtCoupon").val().toLowerCase();
+        $.ajax({
+            url: "/Auth/GetDiscountCodesList",
+            method: "GET",
+            success: function (couponData) {
+                var couponInfo = getCouponInfo(couponData, enteredCouponCode);
+                if (couponInfo && !isCouponExpired(couponInfo)) {
+                    var discountPercentage = couponInfo.discountPercent;
+                    var discountedTotal = originalTotal * (1 - discountPercentage / 100);
+
+                  
+                    callback({ isValid: true, discountedTotal: discountedTotal });
+                } else {
+                  
+                    callback({ isValid: false, discountedTotal: originalTotal });
+                }
+            },
+            error: function () {
+                
+                console.error("Error fetching coupon data from the API");
+                
+                callback({ isValid: false, discountedTotal: originalTotal });
+            }
+        });
+    }
+    function getCouponInfo(couponData, enteredCouponCode) {
+        return couponData.find(function (coupon) {
+            return coupon.discountCode.toLowerCase() === enteredCouponCode;
+        });
+    }
+
+    function isCouponExpired(couponInfo) {
+        var currentDate = new Date();
+        var expirationDate = new Date(couponInfo.expireDate);
+
+        return currentDate > expirationDate;
+    }
+    function showSignUpForm() {
+        $('#SignUpForm').show();
+        $('#divPayment').hide();
+    }
+    function IsEmailExists(callback) {
+        var email = $('#txtEmail').val().trim();
+        $('.preloader').css('display', 'block');
+        $.ajax({
+            type: "post",
+            url: "/auth/IsEmailExists",
+            data: { email: email },
+            success: function (response) {
+                $('.preloader').css('display', 'none');
+                if (response === "2") {
+                    callback(false);
+                }
+                if (response === "1") {
+                    callback(true);
+                }
+                else {
+                    callback(false);
+                }
+                
+            },
+            error: function (response) {
+
+            },
+            complete: function () {
+
+            }
+        });
+    }
+    function showPaymentDiv() {
+        IsEmailExists(function (isexists) {
+            if (isexists) {
+                $('#failureMessage').text("A customer with this email address already exists, please sign in to your account rather than create a new account.If you have forgotten your password, use the reset password link to reset it.");
+                $('#failureMessage').css({
+                    'margin': '10px',   
+                    'padding': '10px',  
+                });
+                $('.alert-danger').css("display", "block");
+                $('.alert-danger').delay(3000).fadeOut();
+                return;
+            }
+            else {
+                if ($('#txtEmail').val().trim() == '' || $('#txtFirstName').val().trim() == '' || $('#txtLastName').val().trim() == '' || $('#txtPhoneNo').val().trim() == '' ||
+                    $('#txtPassword').val().trim() == '' || $('#txtCPassword').val().trim() == '') {
+                    $('#failureMessage').text("Please fill mandatory fields");
+                    $('.alert-danger').css("display", "block");
+                    $('.alert-danger').delay(2000).fadeOut();
+                    return false;
+                }
+
+                if (!RegExp(/^[a-zA-Z0-9._-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/).test($('#txtEmail').val().trim())) {
+                    $('#failureMessage').text("Please enter valid email!");
+                    $('.alert-danger').css("display", "block");
+                    $('.alert-danger').delay(2000).fadeOut();
+                    return false;
+                }
+                var pattern = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/);
+                if (!pattern.test($('#txtCPassword').val().trim())) {
+                    $('#failureMessage').text("Password pattern doesn't match. Must atleast 8 character length.One upper case, one lower case, one digit and 1 special chanracter");
+                    $('.alert-danger').css("display", "block");
+                    $('.alert-danger').delay(3000).fadeOut();
+                    return false;
+                }
+                if ($('#txtCPassword').val().trim() != $('#txtPassword').val().trim()) {
+                    $('#failureMessage').text("Password and confirm password doesn't match");
+                    $('.alert-danger').css("display", "block");
+                    $('.alert-danger').delay(3000).fadeOut();
+                    return false;
+                }
+
+                if (! /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/.test($("#txtPhoneNo").val().trim())) {
+                    $('#failureMessage').text("Enter valid phone no.");
+                    $('.alert-danger').css("display", "block");
+                    $('.alert-danger').delay(3000).fadeOut();
+                    return false;
+                }
+                if (!$('#checkboxTerms').is(":checked")) {
+                    $('#failureMessage').text("Please check Terms and Privacy policy");
+                    $('.alert-danger').css("display", "block");
+                    $('.alert-danger').delay(2000).fadeOut();
+                    return false;
+                }
+                $('#SignUpForm').hide();
+                $('#divPayment').show();
+            }
+            });
+        
+    }
+    function changeStates() {
+        // $('.preloader').css('display', 'block');
+        
+        $.ajax({
+            type: "GET",
+            url: "/Auth/GetStatesList?CountryId=" + $('#txtCountry').val().trim(),
+            success: function (response) {
+               
+                if (response === undefined || response === null) {
+                    return;
+                }
+                var states = {};
+                 states = response;
+
+               
+                $('#txtState').empty();
+                var defaultText = states.length > 0 ? '-- Select ' + states[0].type + ' --' : '-- Select State --';
+                $('#txtState').append('<option value="">' + defaultText + '</option>');
+               
+                $.each(states, function (index, state) {
+                    $('#txtState').append('<option value="' + state.stateId + '">' + state.state + '</option>');
+                });
+
+            },
+            failure: function (response) {
+            },
+            error: function (response) {
+            },
+        });
+
+
+    }
+</script>

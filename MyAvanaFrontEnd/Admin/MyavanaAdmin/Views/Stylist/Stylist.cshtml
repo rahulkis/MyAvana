@@ -1,0 +1,415 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper AuthoringTagHelpers.TagHelpers.EmailTagHelper, AuthoringTagHelpers
+@using DataTables.AspNetCore.Mvc
+@inject MyavanaAdminApiClient.ApiClient stylist
+@{
+    Layout = "_Layout";
+    var stylistList = stylist.GetStylistList().Result;
+}
+
+<style>
+    .alert-success, .alert-danger, .alert-info {
+        top: 110px !important;
+        width: 60% !important;
+        margin: 0 auto;
+        z-index: 99;
+        position: fixed;
+        left: 50%;
+        transform: translateX(-40%);
+        text-align: center;
+        padding: 12px;
+        transition: all 1s linear;
+        box-shadow: 0px 0px 12px 3px rgba(0, 0, 0, 0.2);
+        font-size: 16px;
+    }
+
+    .alert-danger {
+        color: #80172a;
+        background-color: #fdd5dc;
+        border-color: #fcc4ce;
+    }
+
+        .alert-danger hr {
+            border-top-color: #fbacba;
+        }
+
+        .alert-danger .alert-link {
+            color: #550f1c;
+        }
+
+    .alert-success {
+        color: #1c6356;
+        background-color: #a8ffc3;
+        border-color: #13b755;
+    }
+
+        .alert-success hr {
+            border-top-color: #b4e7dd;
+        }
+
+        .alert-success .alert-link {
+            color: #113b33;
+        }
+
+    span.align-right {
+        text-align: right;
+    }
+
+    .addnewbtn {
+        padding: 20px 10px 0;
+    }
+
+    i.fa.fa-pencil {
+        color: #1ab394;
+        background: #e2e2e2;
+        padding: 7px;
+        border-radius: 4px;
+    }
+
+        i.fa.fa-pencil:hover {
+            background: #cecece
+        }
+
+    i.fa.fa-trash:hover {
+        background: #cecece
+    }
+
+    i.fa.fa-trash {
+        color: red;
+        background: #e2e2e2;
+        padding: 7px;
+        border-radius: 4px;
+        margin-top: 10px;
+    }
+
+    div#RegimensList_filter input[type=search] {
+        border: 1px solid #ccc;
+    }
+
+    i.fa.fa-pencil {
+        color: #1ab394;
+        margin-right: 5px;
+    }
+
+    i.fa.fa-trash {
+        color: red;
+    }
+
+    tr.odd td {
+        background: #f8f8f8 !important;
+    }
+
+    tr.odd:hover td, tr.even:hover td {
+        background: #eee !important;
+    }
+
+    tr.even td {
+        background: #fff !important;
+    }
+
+    .ibox-content table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+        .ibox-content table td {
+            vertical-align: top;
+        }
+
+    .instruction-width {
+        min-width: 200px;
+    }
+
+    .ibox-content table {
+        display: table;
+    }
+
+    .ibox-content th.footable-visible.footable-last-column.footable-sortable {
+        width: 80px;
+    }
+
+    .ibox-content .footable-row-detail-inner {
+        display: table;
+        width: 100%;
+    }
+
+    .ibox-content .footable-row-detail-value {
+        border-bottom: 1px solid #eee;
+        padding: 15px 0;
+    }
+
+    .ibox-content td.footable-last-column.footable-visible {
+        padding-top: 0;
+    }
+
+    .ibox-content .instrustioncontent {
+        max-height: 100px;
+        overflow-y: auto;
+    }
+
+    .stgQuestion {
+        /* border-left: 2px solid #383838;*/
+        padding-left: 3px;
+        margin-bottom: 5px !important;
+        margin-top: 15px;
+    }
+
+    .divAnswer {
+        padding-left: 20px;
+        /* margin-bottom: 5px; */
+        position: relative;
+        background: #ececec;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #dadada;
+    }
+
+    .viewuser {
+        background: #eee;
+        padding: 5px 7px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        margin-top: 5px;
+        color: #1ab394;
+    }
+
+    .preloader {
+        width: calc(100% - 200px);
+        height: 100%;
+        top: 0px;
+        position: fixed;
+        z-index: 99999;
+        background: rgba(255, 255, 255, .8);
+    }
+
+        .preloader img {
+            position: absolute;
+            LEFT: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+        }
+
+    .loader {
+        overflow: visible;
+        padding-top: 2em;
+        height: 0;
+        width: 2em;
+    }
+</style>
+
+<link rel="stylesheet" href="~/lib/footable/css/footable.core.css" />
+<script src="~/lib/footable/dist/footable.all.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.7.7/xlsx.core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xls/0.7.4-a/xls.core.min.js"></script>
+<script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
+
+<div class="addnewbtn">
+    <span class="align-right">
+        <a class="btn btn-primary" href="@Url.Action("AddStylist", "Stylist")">Add New Stylist</a>
+    </span>
+</div>
+
+<div id="alert-success" class="alert alert-success alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="successMessage"></span>
+</div>
+
+<div class="alert alert-danger alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="failureMessage"></span>
+</div>
+
+<div class="preloader" style="display:none;">
+    <div class="loader">
+        <img src="~/images/loader.gif" />
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Stylist</h5>
+
+                    <div class="ibox-tools d-flex">
+                        <input type="file" id="excelUpload" accept="*" onchange="changeImage(this)" style="display:none;" />
+                        <a class="dropdown-item p-1" title="Upload Stylists" id="excelUploadChange" onclick="UploadSelectedExcelsheet()">
+                            <i class="fa fa-upload" aria-hidden="true"></i>
+                        </a>
+                        <a class="dropdown-item p-1" title="Download Template" id="excelDownloadChange"><i class="fa fa-download" aria-hidden="true"></i></a>
+                    </div>
+
+
+                </div>
+                <div class="ibox-content">
+
+                    <table class="footable table table-stripped toggle-arrow-tiny" id="stylistTable" data-page-size="8">
+                        <thead>
+                            <tr>
+                                <th data-toggle="true">Stylist Name</th>
+                                <th data-hide="all"></th>
+                                <th>Salon Name</th>
+                                <th>State</th>
+                                <th>City</th>
+                                <th>Email</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (stylistList.Count > 0)
+                            {
+                                @foreach (var sty in stylistList)
+                                {
+                                    int i = 0;
+                                    int?[] specialtyIds = new int?[50];
+                                    <tr>
+                                        <td>@sty.StylistName</td>
+                                        <td>
+                                            <strong class="d-block mb-2 stgQuestion">Specialty </strong>
+                                            @foreach (var st in sty.stylistSpecialties)
+                                            {
+                                                @if (!specialtyIds.Contains(st.StylistSpecialtyId) && st.StylistSpecialtyId != 0)
+                                                {
+                                                    specialtyIds[i] = st.StylistSpecialtyId;
+                                                    i++;
+                                                }
+                                                <div class="d-flex justify-content-between divAnswer  m-b-xxs">
+                                                    <span class="instrustioncontent">@st.Description</span>
+                                                </div>
+                                            }
+                                            @if (sty.ZipCode != null)
+                                            {
+                                                <strong class="d-block mb-2 stgQuestion">Zip Code </strong>
+                                                <div class="d-flex justify-content-between divAnswer">
+                                                    <span class="instrustioncontent">@sty.ZipCode</span>
+                                                </div>
+                                            }
+                                            @if (sty.Website != null)
+                                            {
+                                                <strong class="d-block mb-2 stgQuestion">Website </strong>
+                                                <div class="d-flex justify-content-between divAnswer">
+                                                    <span class="instrustioncontent">@sty.Website</span>
+                                                </div>
+                                            }
+                                            <strong class="d-block mb-2 stgQuestion">Phone Number </strong>
+                                            <div class="d-flex justify-content-between divAnswer">
+                                                <span class="instrustioncontent">@sty.PhoneNumber</span>
+                                            </div>
+
+                                            <strong class="d-block mb-2 stgQuestion">Address </strong>
+                                            <div class="d-flex justify-content-between divAnswer">
+                                                <span class="instrustioncontent">@sty.Address</span>
+                                            </div>
+                                            @if (sty.Instagram != null)
+                                            {
+                                                <strong class="d-block mb-2 stgQuestion">Instagram </strong>
+                                                <div class="d-flex justify-content-between divAnswer">
+                                                    <span class="instrustioncontent">@sty.Instagram</span>
+                                                </div>
+                                            }
+                                            @if (sty.Facebook != null)
+                                            {
+                                                <strong class="d-block mb-2 stgQuestion">Facebook </strong>
+                                                <div class="d-flex justify-content-between divAnswer">
+                                                    <span class="instrustioncontent">@sty.Facebook</span>
+                                                </div>
+                                            }
+                                            <strong class="d-block mb-2 stgQuestion">Background </strong>
+                                            <div class="d-flex justify-content-between divAnswer">
+                                                <span class="instrustioncontent">@sty.Background</span>
+                                            </div>
+
+                                            <strong class="d-block mb-2 stgQuestion">Notes </strong>
+                                            <div class="d-flex justify-content-between divAnswer">
+                                                <span class="instrustioncontent">@sty.Notes</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @sty.SalonName
+                                        </td>
+                                        <td>
+                                            @sty.State
+                                        </td>
+                                        <td>
+                                            @sty.City
+                                        </td>
+                                        <td>
+                                            @sty.Email
+                                        </td>
+                                        <td>
+                                            <a href="/Stylist/AddStylist?id=@sty.StylistId" Title="Edit Stylist"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                                            <a Title="Delete Stylist" onclick="deleteConfirmStylist(this)" data-code="@sty.StylistId"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr><td>  <span>  <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No data to display</strong></span></td></tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5">
+                                    <ul class="pagination float-right"></ul>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<table id="stylistTableToDownload" style="display:none;">
+    <thead>
+        <tr>
+            <th><strong>StylistName</strong></th>
+            <th><strong>SalonName</strong></th>
+            <th><strong>City</strong></th>
+            <th><strong>State</strong></th>
+            <th><strong>ZipCode</strong></th>
+            <th><strong>Website</strong></th>
+            <th><strong>Email</strong></th>
+            <th><strong>PhoneNumber</strong></th>
+            <th><strong>Address</strong></th>
+            <th><strong>Instagram</strong></th>
+            <th><strong>Facebook</strong></th>
+            <th><strong>Background</strong></th>
+            <th><strong>Notes</strong></th>
+            <th><strong>StylistSpecialty</strong></th>
+        </tr>
+    </thead>
+</table>
+
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="confirmModalHeader" class="font-bold">Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span id="confirmModalText"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelMethod" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmMethod">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/admin/Stylist.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.footable').footable();
+        $('.footable2').footable();
+    });
+</script>

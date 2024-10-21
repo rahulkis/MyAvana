@@ -1,0 +1,228 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper AuthoringTagHelpers.TagHelpers.EmailTagHelper, AuthoringTagHelpers
+@model MyavanaAdminModels.UserEntityEditModel
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "CreateNewCustomer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var editMode = false;
+}
+@if (Model.FirstName != null)
+{
+    editMode = true;
+}
+
+<link rel="stylesheet" href="~/css/intlTelInput.css" />
+<style>
+    .alert-success, .alert-danger, .alert-info {
+        top: 110px !important;
+        width: 60% !important;
+        margin: 0 auto;
+        z-index: 99;
+        position: fixed;
+        left: 50%;
+        transform: translateX(-40%);
+        text-align: center;
+        padding: 12px;
+        transition: all 1s linear;
+        box-shadow: 0px 0px 12px 3px rgba(0, 0, 0, 0.2);
+        font-size: 16px;
+    }
+
+    .alert-danger {
+        color: #80172a;
+        background-color: #fdd5dc;
+        border-color: #fcc4ce;
+    }
+
+        .alert-danger hr {
+            border-top-color: #fbacba;
+        }
+
+        .alert-danger .alert-link {
+            color: #550f1c;
+        }
+
+    .alert-success {
+        color: #1c6356;
+        background-color: #a8ffc3;
+        border-color: #13b755;
+    }
+
+        .alert-success hr {
+            border-top-color: #b4e7dd;
+        }
+
+        .alert-success .alert-link {
+            color: #113b33;
+        }
+
+    .preloader {
+        width: calc(100% - 200px);
+        height: 100%;
+        top: 0px;
+        position: fixed;
+        z-index: 99999;
+        background: rgba(255, 255, 255, .8);
+    }
+
+        .preloader img {
+            position: absolute;
+            LEFT: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+        }
+
+    .loader {
+        overflow: visible;
+        padding-top: 2em;
+        height: 0;
+        width: 2em;
+    }
+
+    .countrylistdropdown .iti__flag-container {
+        width: 100%;
+    }
+
+        .countrylistdropdown .iti__flag-container .iti__arrow {
+            position: absolute;
+            right: 10px;
+        }
+
+        .countrylistdropdown .iti__flag-container .iti__selected-flag {
+            background-color: #fff;
+        }
+</style>
+<div id="alert-success" class="alert alert-success alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="successMessage"></span>
+</div>
+<div class="alert alert-danger alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="failureMessage"></span>
+</div>
+<div class="preloader" style="display:none;">
+    <div class="loader">
+        <img src="~/images/loader.gif" />
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Post User</h5>
+
+                </div>
+                <div class="ibox-content">
+                    @*<form method="post">*@
+                    <div class="form-group">
+                        <input id="txtFirstName" type="text" value="@Model.FirstName" class="form-control" placeholder="First Name*">
+                    </div>
+                    <div class="form-group">
+                        <input id="txtLastName" type="text" value="@Model.LastName" class="form-control" placeholder="Last Name*">
+                    </div>
+                    <div class="form-group">
+                        <input id="txtEmail" value="@Model.Email" type="text" class="form-control" placeholder="Email*">
+                    </div>
+                    @if (@editMode == false)
+                    {
+                        <div class="form-group">
+                            <input id="txtPassword" type="password" class="form-control" placeholder="Password*">
+                        </div>
+                        <div class="form-group">
+                            <input id="txtCPassword" type="password" class="form-control" placeholder="Re-Type Password*">
+                        </div>
+                        <div class="form-group">
+                            <input class="" type="checkbox" id="chkAutoPwd" />
+                            <label class="" for="flexCheckDefault">
+                                Auto Generate Password
+                            </label>
+                        </div>
+                    }
+                    @if (HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"].ToString() == "1")
+                    {<div class="form-group">
+                            <input id="IsInfluencer" name="IsInfluencer" type="checkbox" checked="@(Model.IsInfluencer ?? false)" />
+                            <label for="IsInfluencer">Is Influencer</label>
+                        </div>
+                    }
+                    <div class="form-group">
+                        @if (@editMode == false)
+                        {
+                            <div class="form-group countrylistdropdown">
+                                <input id="txtCountryCode" type="number" maxlength="10" class="form-control" placeholder="">
+                                @*<select id="txtCountryCode"></select>*@
+                            </div>
+                        }
+
+
+                        <div class="form-group">
+                            <input id="txtPhoneNo" value="@Model.PhoneNumber" type="text" class="form-control" placeholder="Phone Number">
+                        </div>
+                        @if (@editMode == false)
+                        {
+
+
+                            <div>
+                                <p>
+                                    Your phone number required so that we may contact you in regards to your hair consultation and support while using our app.Your privacy is very important to us; we do not share your phone number with other companies.
+                                </p>
+                            </div>
+
+
+                            <div>
+                                <p>
+                                    Registering will enable you to access the functionality of our app from any of your devices.
+                                </p>
+                            </div>
+
+
+                            <a class="btn btn-white btn-sm" asp-controller="Questionnaire" asp-action="QuestionnaireCustomer">Cancel</a>
+
+                            <button type="submit" onclick="signupUser()" class="btn btn-primary btn-sm" style="background:#EBC7C7; color:black">Signup</button>
+
+                        }
+                        else
+                        {
+                            <a class="btn btn-white btn-sm" asp-controller="Questionnaire" asp-action="QuestionnaireCustomer">Cancel</a>
+
+                            <button type="submit" onclick="updateUser()" class="btn btn-primary btn-sm" style="background:#EBC7C7; color:black">Update</button>
+                            <input type="text" style="display:none" id="txtUserId" value="@Model.Id" />
+                            <input type="text" style="display:none" id="txtOrgEmail" value="@Model.Email" />
+                        }
+                    </div>
+                </div>
+                @*</form>*@
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/admin/intlTelInput.min.js"></script>
+<script src="~/js/admin/intlTelInput-jquery.min.js"></script>
+<script src="~/js/admin/QuestionaireCustomer.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#txtCountryCode").intlTelInput({
+            separateDialCode: true,
+        });
+
+        //$('#txtEmail').val('');
+        $('#txtPassword').val('')
+        $('#chkAutoPwd').change(function () {
+            if (this.checked) {
+                $("#txtPassword").val('');
+                $("#txtCPassword").val('');
+                $("#txtPassword").prop('disabled', true);
+                $("#txtCPassword").prop('disabled', true);
+            } else {
+                $("#txtPassword").prop('disabled', false);
+                $("#txtCPassword").prop('disabled', false);
+            }
+        });
+    });
+
+</script>
+

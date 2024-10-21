@@ -1,0 +1,780 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper AuthoringTagHelpers.TagHelpers.EmailTagHelper, AuthoringTagHelpers
+@using DataTables.AspNetCore.Mvc
+@model MyavanaAdminModels.ProductsEntity
+@inject MyavanaAdminApiClient.ApiClient productType
+
+@{
+    Layout = "_Layout";
+}
+
+<style>
+    .preloader {
+        width: calc(100% - 200px);
+        height: 100%;
+        top: 0px;
+        position: fixed;
+        z-index: 99999;
+        background: rgba(255, 255, 255, .8);
+    }
+
+    table#ProductList.clsProduct th:nth-child(6) {
+        min-width: 120px !important;
+        max-width: 120px !important;
+    }
+
+    .preloader img {
+        position: absolute;
+        LEFT: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 80px;
+    }
+
+    .loader {
+        overflow: visible;
+        padding-top: 2em;
+        height: 0;
+        width: 2em;
+    }
+
+    .alert-success, .alert-danger, .alert-info {
+        top: 110px !important;
+        width: 60% !important;
+        margin: 0 auto;
+        z-index: 99;
+        position: fixed;
+        left: 50%;
+        transform: translateX(-40%);
+        text-align: center;
+        padding: 12px;
+        transition: all 1s linear;
+        box-shadow: 0px 0px 12px 3px rgba(0, 0, 0, 0.2);
+        font-size: 16px;
+    }
+
+    .alert-danger {
+        color: #80172a;
+        background-color: #fdd5dc;
+        border-color: #fcc4ce;
+    }
+
+        .alert-danger hr {
+            border-top-color: #fbacba;
+        }
+
+        .alert-danger .alert-link {
+            color: #550f1c;
+        }
+
+    .alert-success {
+        color: #1c6356;
+        background-color: #a8ffc3;
+        border-color: #13b755;
+    }
+
+        .alert-success hr {
+            border-top-color: #b4e7dd;
+        }
+
+        .alert-success .alert-link {
+            color: #113b33;
+        }
+
+    span.align-right {
+        text-align: right;
+    }
+
+    .productClass {
+        width: 100%
+    }
+
+    .addnewbtn {
+        padding: 20px 10px 0;
+    }
+
+    div#ProductList_filter input[type=search] {
+        border: 1px solid #ccc;
+    }
+
+    i.fa.fa-pencil {
+        color: #1ab394;
+        background: #e2e2e2;
+        padding: 7px;
+        border-radius: 4px;
+    }
+
+        i.fa.fa-pencil:hover {
+            background: #cecece
+        }
+
+    i.fa.fa-trash:hover {
+        background: #cecece
+    }
+
+    i.fa.fa-trash {
+        color: red;
+        background: #e2e2e2;
+        padding: 7px;
+        border-radius: 4px;
+        margin-top: 10px;
+    }
+
+    tr.odd td {
+        background: #f8f8f8 !important;
+    }
+
+    tr.odd:hover td, tr.even:hover td {
+        background: #eee !important;
+    }
+
+    tr.even td {
+        background: #fff !important;
+    }
+
+    #ProductList tr td {
+        padding: 8px 10px;
+        vertical-align: top;
+    }
+
+    #ProductList tr th {
+        white-space: nowrap !important;
+        padding: 8px 18px 8px 10px;
+    }
+
+    table#ProductList th:nth-child(1) {
+        min-width: 80px !important;
+    }
+
+    table#ProductList th:nth-child(2) {
+        min-width: 80px !important;
+    }
+
+    table#ProductList th:nth-child(3) {
+        min-width: 80px !important;
+    }
+
+    table#ProductList th:nth-child(4) {
+        min-width: 80px !important;
+    }
+
+    table#ProductList th:nth-child(5) {
+        min-width: 80px !important;
+    }
+
+    table#ProductList th:nth-child(6) {
+        min-width: 250px !important;
+        max-width: 300px !important
+    }
+
+    table#ProductList th:nth-child(7) {
+        min-width: 400px !important;
+    }
+
+    table#ProductList th:nth-child(8) {
+        min-width: 400px !important;
+    }
+
+    table#ProductList.no-footer {
+        border-bottom: none !important;
+    }
+
+    table#ProductList tr td:nth-child(6) {
+        word-break: break-all;
+    }
+
+    .ibox-content table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        height: calc(100vh - 385px);
+    }
+    /* td.commonlist span {
+        border: 1px solid #939393;
+        padding: 0px 8px;
+        margin: 4px 7px 4px 0px !important;
+        white-space: nowrap;
+        line-height: 26px;
+        background: #fff;
+        display: inline-block;
+    }*/
+    .advance-search {
+        padding: 0 12px;
+        margin-top: 15px;
+    }
+    #myavana-panel {
+        display: none;
+        width: 100%;
+        height: auto;
+        padding: 15px 20px;
+        padding: 15px 20px 1px;
+        background: #fff;
+    }
+    .ad-serch-bt {
+        text-align: right;
+    }
+    .fom-col {
+        padding: 10px;
+    }
+    .form-group {
+        margin-bottom: 1rem;
+    }
+    #myavana-panel .select2-container {
+        width: 100% !important;
+    }
+    table#ProductList thead > tr > th.sorting:after {
+        top: 52%;
+        right: 5px;
+    }
+
+    table#ProductList thead > tr > th.sorting:before {
+        bottom: 48%;
+        right: 5px;
+    }
+
+
+</style>
+
+<script src="//cdn.rawgit.com/rainabba/jquery-table2excel/1.1.0/dist/jquery.table2excel.min.js"></script>
+@*<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/b-1.4.2/b-html5-1.4.2/b-print-1.4.2/sl-1.2.3/datatables.min.css" />*@
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" />
+Markup
+
+@*<script src="https://code.jquery.com/jquery-1.12.4.js">
+    </script>*@
+@*<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/b-1.4.2/b-html5-1.4.2/b-print-1.4.2/sl-1.2.3/datatables.min.js"></script>*@
+<script type="text/javascript" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<div class="addnewbtn d-flex justify-content-between">
+    <span class="align-right">
+        <a class="btn btn-primary" href="@Url.Action("CreateProduct", "Products")">Add New Product</a>
+
+    </span>
+   
+    <div>
+        <button class="fa fa-download export_button_product" id="exportButton" title="Export to CSV"></button>
+        <input class="btn btn-primary" type='button' value='Advanced Search' id="advSearchPanel" />
+    </div>
+   
+
+</div>
+
+<div class="advance-search">
+    @*<div class="ad-serch-bt">
+    </div>*@
+    <div id="myavana-panel" class="openPanel">
+        <div class="form-group row">
+            <div class="fom-col  col-md-6 pt-0">
+                <label class="col-form-label">Product Classification</label>
+                <div class="">
+                    <select class="js-example-basic-multiple form-control select2" id="productClassification"
+                            asp-items="@productType.GetProductClassificationList().Result.OrderBy(x => x.Description).Select(s => new SelectListItem() { Text = s.Description, Value=s.ProductClassificationId.ToString()})" multiple></select>
+                </div>
+            </div>
+            <div class="fom-col  col-md-6 pt-0">
+                <label class=" col-form-label">Product Type</label>
+                <div class="">
+                    <select class="js-example-basic-multiple form-control select2" id="productType"
+                            asp-items="@productType.GetProductType().Result.OrderBy(x => x.ProductName).Select(s => new SelectListItem() { Text = s.ProductName, Value=s.Id.ToString()})" multiple>
+                    </select>
+                </div>
+            </div>
+            <div class="fom-col  col-md-6 pt-0">
+                <label class=" col-form-label">Product Indicator</label>
+                <div class="">
+                    <select class="js-example-basic-multiple form-control select2" id="productIndicators"
+                            asp-items="@productType.GetProductIndicatorsList().Result.OrderBy(x => x.Description).Select(s => new SelectListItem() { Text = s.Description, Value=s.ProductIndicatorId.ToString()})" multiple></select>
+                </div>
+            </div>
+            <div class="fom-col  col-md-6  pt-0">
+                <label class="col-form-label"> Hair Challenges</label>
+                <div class="">
+                    <select class="js-example-basic-multiple form-control select2" id="hairChallenges"
+                            asp-items="@productType.GetHairChallengesList().Result.OrderBy(x => x.Description).Select(s => new SelectListItem() { Text = s.Description, Value=s.HairChallengeId.ToString()})" multiple></select>
+                </div>
+            </div>
+            <div class="fom-col  col-md-6  pt-0">
+                <label class=" col-form-label">Product Tags</label>
+
+                <div class="">
+                    <select class="js-example-basic-multiple form-control select2" id="productTags"
+                            asp-items="@productType.GetProductTagList().Result.OrderBy(x => x.Description).Select(s => new SelectListItem() { Text = s.Description, Value=s.ProductTagsId.ToString()})" multiple></select>
+                </div>
+            </div>
+            <div class="fom-col  col-md-6  pt-0">
+                <label class="col-form-label">Product Brands</label>
+                <div class="">
+                    <select class="js-example-basic-multiple form-control select2" id="productBrands"
+                            asp-items="@productType.GetAllBrandsList().Result.OrderBy(x => x.BrandName).Select(s => new SelectListItem() { Text = s.BrandName, Value=s.BrandId.ToString()})" multiple></select>
+                </div>
+            </div>
+            <div class="fom-col  col-md-6  pt-0">
+                <label class="col-form-label">Hair Goals</label>
+                <div class="">
+                    <select class="js-example-basic-multiple form-control select2" id="hairGoals"
+                            asp-items="@productType.GetHairGoalsList().Result.OrderBy(x => x.Description).Select(s => new SelectListItem() { Text = s.Description, Value=s.HairGoalId.ToString()})" multiple></select>
+                </div>
+            </div>
+            <div class="fom-col  col-md-6  pt-0">
+                <label class="col-form-label"> Hair Type/ Texture</label>
+                <div class="">
+                    <select class="js-example-basic-multiple form-control select2" id="hairType"
+                            asp-items="@productType.GetHairTypesList().Result.OrderBy(x => x.Description).Select(s => new SelectListItem() { Text = s.Description, Value=s.HairTypeId.ToString()})" multiple></select>
+                </div>
+            </div>
+            <div class="fom-col  col-md-6  pt-0">
+                <label class="col-form-label"> Customer Preference</label>
+                <div class="">
+                    <select class="js-example-basic-multiple form-control select2" id="customerPreference"
+                            asp-items="@productType.GetCustomerPreferenceList().Result.OrderBy(x => x.Description).Select(s => new SelectListItem() { Text = s.Description, Value=s.CustomerPreferenceId.ToString()})" multiple></select>
+                </div>
+            </div>
+            <div class="fom-col  col-md-6  pt-0">
+                <label class="col-form-label"> Hair Styles</label>
+                <div class="">
+                    <select class="js-example-basic-multiple form-control select2" id="hairStyles"
+                            asp-items="@productType.GetHairStyles().Result.OrderBy(x => x.Style).Select(s => new SelectListItem() { Text = s.Style, Value=s.Id.ToString()})" multiple></select>
+                </div>
+            </div>
+            <div class="fom-col  col-md-12 pt-0 pb-0">
+                <div class="text-right" style="  width: 100%;">
+                    <input type="button" class="btn btn-primary" value="Search" id="btnSearch" />
+                    <input type="button" class="btn btn-primary" value="Clear" id="btnClear" />
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div id="alert-success" class="alert alert-success alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="successMessage"></span>
+</div>
+
+<div class="alert alert-danger alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="failureMessage"></span>
+</div>
+
+<div class="preloader" style="display:none;">
+    <div class="loader">
+        <img src="~/images/loader.gif" />
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        @*<input class="form-control my-0 py-1 red-border" id="search" type="search" placeholder="search">*@
+        @*<div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Products</h5>
+                    <div class="ibox-tools d-flex">
+
+                        <input type="file" id="excelUpload" accept="*" onchange="changeImage(this)" style="display:none;" />
+                        <a class="dropdown-item p-1" title="Upload Products" id="excelUploadChange" onclick="UploadSelectedExcelsheet()">
+                            <i class="fa fa-upload" aria-hidden="true"></i>
+                        </a>
+                        <a class="dropdown-item p-1" title="Download Template" id="excelDownloadChange"><i class="fa fa-download" aria-hidden="true"></i></a>
+
+                    </div>
+                </div>
+                <div class="ibox-content">
+
+                    @(Html.Ext().Grid<MyavanaAdminModels.ProductsEntity>().Name("ProductList")
+                                        .Columns(cols =>
+                                        {
+                                            cols.Add(c => c.ProductName).Title("Product Name");
+                                            cols.Add(c => c.ProductTypes).Title("Product Type");
+                                            cols.Add(c => c.ActualName).Title("Actual Name");
+                                            cols.Add(c => c.BrandName).Title("Brand Name");
+                                            cols.Add(c => c.HairTypes).Title("Hair Type/ Texture").Orderable(false);
+                                            //cols.Add(c => c.HairType).Title("Hair Type/ Texture").ClassName("commonlist").Render(() => "onCreatedOnRenderHairType");
+                                            cols.Add(c => c.ImageName).Title("Product Image").Render(() => "onRenderImage").Searchable(false).Orderable(false);
+                                            cols.Add(c => c.Ingredients).Title("Ingredients").Searchable(false).Orderable(false);
+                                            cols.Add(c => c.ProductDetails).Title("Product Details").Searchable(false).Orderable(false);
+                                            cols.Add(c => c.ProductLink).Title("Product Link").Searchable(false).Orderable(false);
+                                            cols.Add(c => c.Price).Title("Price");
+                                            cols.Add(c => c.HairChallenges).Title("Hair Challenges").Orderable(false);
+                                            // cols.Add(c => c.HairChallenge).Title("Hair Challenges").ClassName("commonlist").Render(() => "onCreatedOnRenderHairChallenge");
+                                            cols.Add(c => c.ProductIndicates).Title("Product Indicator").Orderable(true);
+                                            //cols.Add(c => c.ProductIndicate).Title("Product Indicator").ClassName("commonlist").Render(() => "onCreatedOnRenderProductIndicator");
+                                            cols.Add(c => c.ProductTags).Title("Product Tags").Orderable(false);
+                                            //cols.Add(c => c.ProductTag).Title("Product Tags").ClassName("commonlist").Render(() => "onCreatedOnRenderProductTags");
+                                            cols.Add(c => c.ProductClassifications).Title("Product Classification").Orderable(true);
+                                            //cols.Add(c => c.ProductClassificatio).Title("Product Classification").ClassName("commonlist").Render(() => "onCreatedOnRenderProductClassification");
+                                            cols.Add(c => c.IsActive).Render(() => "onRender").Orderable(false);
+                                        })
+                                        .ServerSide(true)
+                                        .Ordering(true)
+                                        .DeferRender(true)
+                                        .Paging(true)
+                                        .Searching(true)
+                                        .Info(false)
+                                        .DataSource(c =>
+                                        c.Ajax().Url("GetProductsList").Method("Post")
+                                        )
+                    )
+
+                </div>
+            </div>
+        </div>*@
+
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-content">
+                    <table id="ProductList" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Product Name</th>
+                                <th>Product Type</th>
+                                <th>Actual Name</th>
+                                <th>Brand Name</th>
+                                <th>Hair Type/ Texture</th>
+                                <th>Product Image</th>
+                                <th>Ingredients</th>
+                                <th>Product Details</th>
+                                <th>Product Link</th>
+                                <th>Price</th>
+                                <th>Hair Challenges</th>
+                                <th>Product Indicator</th>
+                                <th>Product Tags</th>
+                                <th>Product Classification</th>
+                                <th>Hair Goal</th>
+                                <th>Hair Styles</th>
+                                <th>Customer Preference</th>
+                                <th>Product Recommendation Status</th>
+                                <th>MolecularWeight</th>
+                                <th>Show/Hide Product</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="confirmModalHeader" class="font-bold">Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span id="confirmModalText"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelMethod" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmMethod">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="confirmHideInSearchModal" tabindex="-1" role="dialog" aria-labelledby="confirmModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="confirmHideModalHeader" class="font-bold">Show/Hide Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span id="confirmHideModalText"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelHideMethod" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmHideMethod">Change</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/admin/Product.js"></script>
+<script>
+    var hairType = [];
+    var hairChallenges = [];
+    var productTypes = [];
+    var productIndicators = [];
+    var productTags = [];
+    var productClassification = [];
+    var brandClassification = [];
+    var productBrands = [];
+    var hairGoals = [];
+    var customerPreferences = [];
+    $(document).ready(function () {
+        $('.select2').select2({ placeholder: "--Select--" });
+
+        $("#advSearchPanel").click(function () {
+            if ($("#myavana-panel").hasClass("openPanel")) {
+                $("#myavana-panel").slideDown("slow");
+                $("#myavana-panel").removeClass("openPanel");
+            } else {
+                $("#myavana-panel").slideUp("fast");
+                $("#myavana-panel").addClass("openPanel");
+            }
+        });
+
+        $("input[type='search']").val("");
+    });
+
+
+    var dt = $("#ProductList").DataTable({
+        "processing": true,
+        "serverSide": true,
+        "filter": true,
+        "Ordering": true,
+        "ajax": {
+            "url": "/Products/GetProducts",
+            "type": "POST",
+            "datatype": "json",
+            data: function (data) {
+                data.ProductIndicator = JSON.stringify(productIndicators);
+                data.HairChallenges = JSON.stringify(hairChallenges);
+                data.ProductTypes = JSON.stringify(productTypes);
+                data.ProductTags = JSON.stringify(productTags);
+                data.ProductClassification = JSON.stringify(productClassification);
+                data.BrandClassification = JSON.stringify(brandClassification);
+                data.ProductBrands = JSON.stringify(productBrands);
+                data.HairGoals = JSON.stringify(hairGoals);
+                data.HairTypes = JSON.stringify(hairType);
+                data.CustomerPreferences = JSON.stringify(customerPreferences);
+                data.HairStyles = JSON.stringify(hairStyles);
+                data.ProductRecommendationStatuses = JSON.stringify(productRecommendationStatuses);
+                data.MolecularWeights = JSON.stringify(molecularWeights);
+               /* data.HideInSearch = JSON.stringify(HideInSearch);*/
+            }
+        },
+        "columnDefs": [{
+            //"targets": [0],
+            //"visible": false,
+            //"searchable": false
+        }],
+        "columns": [
+            { "data": "ProductName", "name": "ProductName" },
+            { "data": "ProductTypes", "name": "ProductTypes" },
+            { "data": "ActualName", "name": "ActualName" },
+            { "data": "BrandName", "name": "BrandName" },
+            { "data": "HairTypes", "name": "HairTypes" },
+
+            {
+                "data": "ImageName", "name": "ImageName",
+                render: function (data, type, row, meta) {
+                    return "<a href='" + data + "' target='_blank'><img src='" + data + "' style='width:100px;height:auto;' /></a>";
+                }
+            },
+            { "data": "Ingredients", "name": "Ingredients" },
+            { "data": "ProductDetails", "name": "ProductDetails" },
+            { "data": "ProductLink", "name": "ProductLink" },
+            { "data": "Price", "name": "Price" },
+
+            { "data": "HairChallenges", "name": "HairChallenges" },
+            { "data": "ProductIndicates", "name": "ProductIndicates" },
+            { "data": "ProductTags", "name": "ProductTags" },
+            { "data": "ProductClassifications", "name": "ProductClassifications" },
+            { "data": "HairGoalsDes", "name": "HairGoals" },
+            { "data": "HairStyles", "name": "HairStyles" },
+            { "data": "CustomerPreferences", "name": "CustomerPreferences" },
+            { "data": "ProductRecommendationStatuses", "name": "ProductRecommendationStatuses" },
+            { "data": "MolecularWeights", "name": "MolecularWeights" },
+            {
+                "data": "", "name": "HideInSearch",
+                render: function (data, type, row, meta) {
+                    var tr;
+                    if (row.HideInSearch == false || row.HideInSearch == null)
+                        tr = '<a onclick="openHideModal(\'' + row.guid + '\',\'' + row.HideInSearch + '\')" Title="Hide Product" ><i id="check_' + row.guid + '" class="fa fa-toggle-off" style="padding-left:34px;"></i></a>';
+                    else
+                        tr = '<a onclick="openHideModal(\'' + row.guid + '\',\'' + row.HideInSearch + '\')" Title="Show Product" ><i id="check_' + row.guid + '" class="fa fa-toggle-on" style="padding-left:34px;"></i></a>';
+                    return tr;
+                },
+                orderable: false
+            },
+            {
+                "data": "", "name": "",
+                render: function (data, type, row, meta) {
+                    var tr = '<a href="/Products/CreateProduct/' + row.guid + '" Title="Edit Product" ><i class="fa fa-pencil" aria-hidden="true"></i></a>';
+                    var userTypeId = getCookie("UserTypeId");
+                    if (userTypeId !== "3") {
+                        tr += '<a Title="Delete Product" onclick="deleteConfirmProduct(this)" data-code="' + row.guid + '"><i class="fa fa-trash" aria-hidden="true"></i></a>';
+                    }
+                     return tr;
+                },
+                orderable: false
+            },
+           
+        ]
+    });
+
+    $('#btnSearch').on('click', function () {
+        createSearchModel();
+        dt.ajax.reload();
+    });
+    $('#btnClear').on('click', function () {
+        clearSearchModel();
+        dt.ajax.reload();
+    });
+
+    dt.on('search.dt', function () {
+        createSearchModel();
+    });
+    $("#exportButton").click(function () {
+        $('.preloader').css('display', 'block');
+        createSearchModel();
+        var advanceSearchProduct = {};
+        advanceSearchProduct.ProductIndicator = JSON.stringify(productIndicators);
+        advanceSearchProduct.HairChallenges = JSON.stringify(hairChallenges);
+        advanceSearchProduct.ProductTypes = JSON.stringify(productTypes);
+        advanceSearchProduct.ProductTags = JSON.stringify(productTags);
+        advanceSearchProduct.ProductClassification = JSON.stringify(productClassification);
+        advanceSearchProduct.BrandClassification = JSON.stringify(brandClassification);
+        advanceSearchProduct.ProductBrands = JSON.stringify(productBrands);
+        advanceSearchProduct.HairGoals = JSON.stringify(hairGoals);
+        advanceSearchProduct.HairTypes = JSON.stringify(hairType);
+        advanceSearchProduct.CustomerPreferences = JSON.stringify(customerPreferences);
+        advanceSearchProduct.HairStyles = JSON.stringify(hairStyles);
+        advanceSearchProduct.ProductRecommendationStatuses = JSON.stringify(productRecommendationStatuses);
+        advanceSearchProduct.MolecularWeights = JSON.stringify(molecularWeights);
+        $.ajax({
+            type: "POST",
+            url: "/Products/ExportToCsv",
+            data: advanceSearchProduct,
+            success: function (response) {
+                if (response) {
+                    $('.preloader').css('display', 'none');
+                    var blob = new Blob([response], { type: "text/csv" });
+                    var url = window.URL.createObjectURL(blob);
+
+                    var a = document.createElement("a");
+                    a.href = url;
+                    a.download = "Products.csv";
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                } else {
+                    alert('No file data found in the response');
+                }
+            },
+            error: function () {
+                alert('Error exporting data to CSV');
+            }
+        });
+    });
+   
+   
+    function createSearchModel() {
+        productIndicators = [];
+        hairChallenges = [];
+        productTypes = [];
+        productTags = [];
+        productClassification = [];
+        brandClassification = [];
+        productBrands = [];
+        hairGoals = [];
+        hairType = [];
+        customerPreferences = [];
+
+        $('#hairChallenges option:selected').each(function (i, sel) {
+            var hairChallengesList = {};
+            hairChallengesList.HairChallengeId = $(this).val();
+            hairChallengesList.Description = $(this).text();
+            hairChallenges.push(hairChallengesList);
+        });
+        $('#productType option:selected').each(function (i, sel) {
+            var productTypesList = {};
+            productTypesList.Id = $(this).val();
+            productTypesList.Description = $(this).text();
+            productTypes.push(productTypesList);
+        });
+        $('#productIndicators option:selected').each(function (i, sel) {
+            var productIndicatorsList = {};
+            productIndicatorsList.ProductIndicatorId = $(this).val();
+            productIndicatorsList.Description = $(this).text();
+            productIndicators.push(productIndicatorsList);
+        });
+
+        $('#productTags option:selected').each(function (i, sel) {
+            var productTagsList = {};
+            productTagsList.ProductTagsId = $(this).val();
+            productTagsList.Description = $(this).text();
+            productTags.push(productTagsList);
+        });
+
+        $('#productClassification option:selected').each(function (i, sel) {
+            var productClassificationList = {};
+            productClassificationList.ProductClassificationId = $(this).val();
+            productClassificationList.Description = $(this).text();
+            productClassification.push(productClassificationList);
+        });
+
+        $('#productBrands option:selected').each(function (i, sel) {
+            var productBrandsList = {};
+            productBrandsList.BrandName = $(this).text();
+            productBrands.push(productBrandsList);
+        });
+
+        $('#hairGoals option:selected').each(function (i, sel) {
+            var hairGoalsList = {};
+            hairGoalsList.HairGoalId = $(this).val();
+            hairGoalsList.Description = $(this).text();
+            hairGoals.push(hairGoalsList);
+        });
+        $('#hairType option:selected').each(function (i, sel) {
+            var hairTypeList = {};
+            hairTypeList.HairTypeId = $(this).val();
+            hairTypeList.Description = $(this).text();
+            hairType.push(hairTypeList);
+        });
+        $('#customerPreference option:selected').each(function (i, sel) {
+            var customerPreferenceList = {};
+            customerPreferenceList.CustomerPreferenceId = $(this).val();
+            customerPreferenceList.Description = $(this).text();
+            customerPreferences.push(customerPreferenceList);
+        });
+    }
+
+    function clearSearchModel() {
+        productIndicators = [];
+        hairChallenges = [];
+        productTypes = [];
+        productTags = [];
+        productClassification = [];
+        brandClassification = [];
+        productBrands = [];
+        hairGoals = [];
+        hairType = [];
+        customerPreferences = [];
+
+        $('.js-example-basic-multiple').val(null).trigger('change');
+    }
+
+</script>
+
+<table id="productsTableToDownload" style="display:none;">
+    <thead>
+        <tr>
+            <th><strong>ProductName</strong></th>
+            <th><strong>ActualName</strong></th>
+            <th><strong>BrandName</strong></th>
+            <th><strong>ProductClassification</strong></th>
+            <th><strong>ProductType</strong></th>
+            <th><strong>ProductIndicator</strong></th>
+            <th><strong>HairChallenges</strong></th>
+            <th><strong>TypeFor</strong></th>
+            <th><strong>ImageName</strong></th>
+            <th><strong>Ingredients</strong></th>
+            <th><strong>ProductDetails</strong></th>
+            <th><strong>ProductTags</strong></th>
+            <th><strong>ProductLink</strong></th>
+            <th><strong>Price</strong></th>
+        </tr>
+    </thead>
+</table>

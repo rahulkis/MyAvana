@@ -1,0 +1,215 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper AuthoringTagHelpers.TagHelpers.EmailTagHelper, AuthoringTagHelpers
+@model MyavanaAdminModels.MobileHelpFAQ
+@inject MyavanaAdminApiClient.ApiClient client
+
+@{
+    ViewData["Title"] = "CreateMobileHelpFAQ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model != null)
+{
+    <input type="hidden" id="MobileFaqId" value="@Model.MobileHelpFAQId" />
+    <input type="hidden" id="image" value="@Model.ImageLink" />
+    <input type="hidden" id="videothumbnail" value="@Model.VideoThumbnail" />
+}
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        if ($("#image").val() !== null && $("#image").val() !== undefined && $("#image").val() != '') {
+
+            $('#removeImageButton').show();
+        } else {
+            $('#removeImageButton').hide();
+        }
+        if ($("#videothumbnail").val() != null && $("#videothumbnail").val() !== undefined && $("#videothumbnail").val() != '') {
+            $('#removeVideoThumbnailButton').show();
+        } else {
+            $('#removeVideoThumbnailButton').hide();
+        }
+        $('.select2').select2({ placeholder: "--Select--" });
+        
+        $('#txtImageName').text($('#image').val() ? $('#image').val().substring($('#image').val().lastIndexOf('/') + 1) : '');
+        $('.select2').select2({ placeholder: "--Select--" });
+       
+        $('#txtVideothumbnailName').text($('#videothumbnail').val() ? $('#videothumbnail').val().substring($('#videothumbnail').val().lastIndexOf('/') + 1) : '');
+    });
+</script>
+<style>
+    .preloader {
+        width: calc(100% - 200px);
+        height: 100%;
+        top: 0px;
+        position: fixed;
+        z-index: 99999;
+        background: rgba(255, 255, 255, .8);
+    }
+
+        .preloader img {
+            position: absolute;
+            LEFT: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+        }
+
+    .loader {
+        overflow: visible;
+        padding-top: 2em;
+        height: 0;
+        width: 2em;
+    }
+
+    .alert-success, .alert-danger, .alert-info {
+        top: 110px !important;
+        width: 60% !important;
+        margin: 0 auto;
+        z-index: 99;
+        position: fixed;
+        left: 50%;
+        transform: translateX(-40%);
+        text-align: center;
+        padding: 12px;
+        transition: all 1s linear;
+        box-shadow: 0px 0px 12px 3px rgba(0, 0, 0, 0.2);
+        font-size: 16px;
+    }
+
+    .alert-danger {
+        color: #80172a;
+        background-color: #fdd5dc;
+        border-color: #fcc4ce;
+    }
+
+        .alert-danger hr {
+            border-top-color: #fbacba;
+        }
+
+        .alert-danger .alert-link {
+            color: #550f1c;
+        }
+
+    .alert-success {
+        color: #1c6356;
+        background-color: #a8ffc3;
+        border-color: #13b755;
+    }
+
+        .alert-success hr {
+            border-top-color: #b4e7dd;
+        }
+
+        .alert-success .alert-link {
+            color: #113b33;
+        }
+
+    .remove-icon {
+        cursor: pointer;
+        margin-left: 5px;
+        font-size: 16px;
+        color: grey;
+    }
+</style>
+<div id="alert-success" class="alert alert-success alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="successMessage"></span>
+</div>
+<div class="alert alert-danger alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="failureMessage"></span>
+</div>
+
+<div class="preloader" style="display:none;">
+    <div class="loader">
+        <img src="~/images/loader.gif" />
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Add Mobile Help FAQ</h5>
+
+                </div>
+                <div class="ibox-content">
+
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label">Topic*</label>
+                        <div class="col-sm-10">
+                            <select class="js-example-basic-multiple form-control" asp-for="MobileHelpTopicId"
+                                    asp-items="@client.GetMobileHelpTopicList().Result.Select(s => new SelectListItem() { Text = s.Description, Value=s.Id.ToString()})">
+                                <option value="">Select Topic</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label">Title*</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="txtTitle" placeholder="Enter title" asp-for="Title" class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Description*</label>
+                        <div class="col-sm-10">
+                            @*<input type="text" id="txtDescription" placeholder="Enter description" asp-for="Description" class="form-control">*@
+                            <textarea id="txtDescription" rows="4" asp-for="Description" style="width:100%" placeholder="Enter description"></textarea>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Image</label>
+                        <div class="col-sm-10">
+                            <button id="btnImageClick" class="btn btn-outline-secondary">Choose image</button>
+                            <span id="txtImageName">@ViewBag.UploadedFile</span>
+                            <input type="file" id="mobileHelpImage" accept="image/*" style="display:none" />
+                            @*@if (!string.IsNullOrEmpty(Model?.ImageLink))
+                                {*@
+                            <span class="remove-icon" onclick="removeImage()" id="removeImageButton" data-remove="false">✖</span>
+                        </div>
+                    </div>
+
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label">Video</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="txtVideo" placeholder="Enter Video URL" asp-for="Videolink" class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Video Thumbnail Image</label>
+                        <div class="col-sm-10">
+                            <button id="btnVideothumbnailClick" class="btn btn-outline-secondary">Choose video thumbnail image</button>
+                            <span id="txtVideothumbnailName">@ViewBag.UploadedFile</span>
+                            <input type="file" id="mobileHelpVideothumbnail" accept="image/*" style="display:none" />
+                            @*@if (!string.IsNullOrEmpty(Model?.VideoThumbnail))
+                                {*@
+                            <span class="remove-icon" onclick="removeVideoThumbnail()" id="removeVideoThumbnailButton" data-remove="false">✖</span>
+                        </div>
+                    </div>
+
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-4 col-sm-offset-2">
+                            <a class="btn btn-white btn-sm" asp-controller="MobileHelp" asp-action="MobileHelpFAQList">Cancel</a>
+                            <button class="btn btn-primary btn-sm" onclick="SaveMobileHelpFAQ()">Save Mobile Help FAQ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/admin/MobileHelpFAQ.js"></script>

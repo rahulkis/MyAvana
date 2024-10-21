@@ -1,0 +1,506 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper AuthoringTagHelpers.TagHelpers.EmailTagHelper, AuthoringTagHelpers
+@using Microsoft.AspNetCore.Http
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model MyAvanaQuestionaireModel.QuestionAnswerModel
+
+@{
+    ViewData["Title"] = "Digital Hair Assessment";
+    Layout = "_Layout";
+
+
+    var result1 = Model.questionModel.Where(z => z.SerialNo >= 1 && z.SerialNo <= 3).OrderBy(x => x.SerialNo);
+
+    var result2 = Model.questionModel.Where(z => z.SerialNo >= 4 && z.SerialNo <= 11).OrderBy(x => x.SerialNo);
+
+    var result3 = Model.questionModel.Where(z => z.SerialNo >= 12 && z.SerialNo <= 14).OrderBy(x => x.SerialNo);
+
+    var result4 = Model.questionModel.Where(z => z.SerialNo >= 15 && z.SerialNo <= 16).OrderBy(x => x.SerialNo);
+
+    var result5 = Model.questionModel.Where(z => z.SerialNo >= 17 && z.SerialNo <= 23).OrderBy(x => x.SerialNo);
+
+    var result6 = Model.questionModel.Where(z => z.SerialNo >= 24 && z.SerialNo <= 25).OrderBy(x => x.SerialNo);
+
+    var result7 = Model.questionModel.Where(z => z.SerialNo >= 26 && z.SerialNo <= 30).OrderBy(x => x.SerialNo);
+
+    var sno = 1;
+
+}
+
+<style>
+    .alert-success, .alert-danger, .alert-info {
+        top: 110px !important;
+        width: 60% !important;
+        margin: 0 auto;
+        z-index: 99;
+        position: fixed;
+        left: 50%;
+        transform: translateX(-40%);
+        text-align: center;
+        padding: 12px;
+        transition: all 1s linear;
+        box-shadow: 0px 0px 12px 3px rgba(0, 0, 0, 0.2);
+        font-size: 16px;
+    }
+
+    .alert-danger {
+        color: #80172a;
+        background-color: #fdd5dc;
+        border-color: #fcc4ce;
+    }
+
+        .alert-danger hr {
+            border-top-color: #fbacba;
+        }
+
+        .alert-danger .alert-link {
+            color: #550f1c;
+        }
+
+    .alert-success {
+        color: #1c6356;
+        background-color: #a8ffc3;
+        border-color: #13b755;
+    }
+
+        .alert-success hr {
+            border-top-color: #b4e7dd;
+        }
+
+        .alert-success .alert-link {
+            color: #113b33;
+        }
+
+    span.align-right {
+        text-align: right;
+    }
+
+    .addnewbtn {
+        padding: 20px 10px 0;
+    }
+
+    i.fa.fa-pencil {
+        color: #1ab394;
+        background: #e2e2e2;
+        padding: 7px;
+        border-radius: 4px;
+    }
+
+        i.fa.fa-pencil:hover {
+            background: #cecece
+        }
+
+    i.fa.fa-trash:hover {
+        background: #cecece
+    }
+
+    i.fa.fa-trash {
+        color: red;
+        background: #e2e2e2;
+        padding: 7px;
+        border-radius: 4px;
+        margin-top: 10px;
+    }
+
+    div#RegimensList_filter input[type=search] {
+        border: 1px solid #ccc;
+    }
+
+    i.fa.fa-pencil {
+        color: #1ab394;
+        margin-right: 5px;
+    }
+
+    i.fa.fa-trash {
+        color: red;
+    }
+
+    tr.odd td {
+        background: #f8f8f8 !important;
+    }
+
+    tr.odd:hover td, tr.even:hover td {
+        background: #eee !important;
+    }
+
+    tr.even td {
+        background: #fff !important;
+    }
+
+    .ibox-content table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+        .ibox-content table td {
+            vertical-align: top;
+        }
+
+    .instruction-width {
+        min-width: 200px;
+    }
+
+    .ibox-content table {
+        display: table;
+    }
+
+    .ibox-content th.footable-visible.footable-last-column.footable-sortable {
+        width: 80px;
+    }
+
+    .ibox-content .footable-row-detail-inner {
+        display: table;
+        width: 100%;
+    }
+
+    .ibox-content .footable-row-detail-value {
+        border-bottom: 1px solid #eee;
+        padding: 15px 0;
+    }
+
+    .ibox-content td.footable-last-column.footable-visible {
+        padding-top: 0;
+    }
+
+    .ibox-content .instrustioncontent {
+        max-height: 100px;
+        overflow-y: auto;
+    }
+
+    .stgQuestion {
+        /* border-left: 2px solid #383838;*/
+        padding-left: 3px;
+        margin-bottom: 5px !important;
+        margin-top: 15px;
+    }
+
+    .divAnswer {
+        padding-left: 20px;
+        /* margin-bottom: 5px; */
+        position: relative;
+        background: #ececec;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #dadada;
+    }
+
+    .viewuser {
+        background: #eee;
+        padding: 5px 7px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        margin-top: 5px;
+        color: #1ab394;
+    }
+</style>
+
+<link rel="stylesheet" href="~/lib/footable/css/footable.core.css" />
+<script src="~/lib/footable/dist/footable.all.min.js"></script>
+
+<div id="alert-success" class="alert alert-success alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="successMessage"></span>
+</div>
+
+<div class="addnewbtn">
+    <span class="align-right">
+        @*<a class="btn btn-primary" href="@Url.Action(" Questionaire", "Questionaire" , new { id="update" })">Update Digital Hair Assessment</a>*@
+        @if (ViewBag.qas.Count != 0)
+        {<a class="btn btn-primary" onclick="CheckForDate(true)" href="#">Update Digital Hair Assessment</a>}
+    <a class="btn btn-primary" href="#" onclick="CheckForDate(false)">New Digital Hair Assessment</a>
+        @if (HttpContextAccessor.HttpContext.Session.GetString("isprocustomer").ToString().ToLower() == "false")
+        {
+            <a class="btn btn-primary" href="javascript:;" onclick="redirectDigAss()">Digital Hair Assessment</a>
+        }
+    </span>
+    @if (ViewBag.qas.Count != 0)
+    {<select name="questionaire" id="questionaire" onchange="changesQA(this)" class="form-control mt-3" asp-items="@ViewBag.qas"></select>
+    }
+    @*<select class="btn btn-primary" asp-for="@ViewBag." asp-items="@(new SelectList(Model.questionModel.Select(x => x.QAType).Distinct(),"Cid","Cname"))"></select>*@
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+
+                <div class="ibox-content">
+
+                    <table class="footable table table-stripped toggle-arrow-tiny">
+                        <thead>
+                            <tr>
+
+                                <th data-toggle="true">Name</th>
+
+                                @*<th data-hide="all"></th>*@
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                <tr>
+                                    <td>@Model.UserName</td>
+                                    <td>
+                                        <br />
+                                        <h3 class="text-center"><u>Getting to Know You and Your Hair</u></h3>
+                                        <br />
+                                        @foreach (var questions in result1)
+                                        {
+                                            <strong class="d-block mb-2 stgQuestion">@sno.  @questions.Question </strong>
+                                            foreach (var ans in questions.AnswerList)
+                                            {
+                                                <div class="d-flex justify-content-between divAnswer">
+                                                    <span class="instrustioncontent">@ans.Answer</span>
+                                                </div>
+                                            }
+                                            sno = sno+1;
+            }
+                                        <br />
+                                        <h3 class="text-center"><u>Hair and Scalp Characteristics</u></h3>
+                                        <br />
+                                        @foreach (var questions in result2)
+                                        {
+                                    <strong class="d-block mb-2 stgQuestion">@sno.  @questions.Question </strong>
+                                            foreach (var ans in questions.AnswerList)
+                                            {
+                                                <div class="d-flex justify-content-between divAnswer">
+                                                    <span class="instrustioncontent">@ans.Answer</span>
+                                                </div>
+                                            }
+                                            sno = sno + 1;
+                                        }
+                                        <br />
+                                        <h3 class="text-center"><u>Hair Color</u></h3>
+                                        <br />
+                                        @foreach (var questions in result3)
+                                        {
+                                    <strong class="d-block mb-2 stgQuestion">@sno.  @questions.Question </strong>
+                                            foreach (var ans in questions.AnswerList)
+                                            {
+                                                <div class="d-flex justify-content-between divAnswer">
+                                                    <span class="instrustioncontent">@ans.Answer</span>
+                                                </div>
+                                            }
+                                            sno = sno + 1;
+                                        }
+                                        <br />
+                                        <h3 class="text-center"><u>Chemical Hair Services</u></h3>
+                                        <br />
+                                        @foreach (var questions in result4)
+                                        {
+                                    <strong class="d-block mb-2 stgQuestion">@sno.  @questions.Question </strong>
+                                            foreach (var ans in questions.AnswerList)
+                                            {
+                                                <div class="d-flex justify-content-between divAnswer">
+                                                    <span class="instrustioncontent">@ans.Answer</span>
+                                                </div>
+                                            }
+                                            sno = sno + 1;
+                                        }
+                                        <br />
+                                        <h3 class="text-center"><u>Hair Care Maintenance</u></h3>
+                                        <br />
+                                        @foreach (var questions in result5)
+                                        {
+                                            <strong class="d-block mb-2 stgQuestion">@sno.  @questions.Question </strong>
+                                            foreach (var ans in questions.AnswerList)
+                                            {
+                                                <div class="d-flex justify-content-between divAnswer">
+                                                    <span class="instrustioncontent">@ans.Answer</span>
+                                                </div>
+                                            }
+                                            sno = sno + 1;
+                                        }
+                                        <br />
+                                        <h3 class="text-center"><u>Hair Styling</u></h3>
+                                        <br />
+                                        @foreach (var questions in result6)
+                                        {
+                                            <strong class="d-block mb-2 stgQuestion">@sno.  @questions.Question </strong>
+                                            foreach (var ans in questions.AnswerList)
+                                            {
+                                                <div class="d-flex justify-content-between divAnswer">
+                                                    <span class="instrustioncontent">@ans.Answer</span>
+                                                </div>
+                                            }
+                                            sno = sno + 1;
+                                        }
+                                        <br />
+                                        <h3 class="text-center"><u>Hair Product Preference</u></h3>
+                                        <br />
+                                        @foreach (var questions in result7)
+                                        {
+                                            <strong class="d-block mb-2 stgQuestion">@sno.  @questions.Question </strong>
+                                            foreach (var ans in questions.AnswerList)
+                                            {
+                                                @if (questions.QuestionId == 22)
+                                                {
+
+                                                    <div class="d-flex justify-content-between divAnswer">
+                                                        <a href="@ans.Answer" target="_blank"><img src="@ans.Answer" style="height:100px; width:100px" /></a>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <div class="d-flex justify-content-between divAnswer">
+                                                        <span class="instrustioncontent">@ans.Answer</span>
+                                                    </div>
+                                                }
+                                            }
+                                            sno = sno + 1;
+                                        }
+                                    </td>
+                                    <td>
+                                        @Model.UserEmail
+
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr><td>  <span>  <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No data to display</strong></span></td></tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5">
+
+                                    <ul class="pagination float-right"></ul>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="confirmModalHeader" class="font-bold">Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span id="confirmModalText"></span>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelMethod" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmMethod">Save</button>
+            </div>
+        </div>
+    </div>v
+</div>
+@*``
+    <script src="~/js/admin/regimens.js"></script>*@
+<script type="text/javascript">
+
+
+    function changesQA(item) {
+        var qid = $('#questionaire :selected').val();
+        window.location.href = '/Questionaire/RefreshQuestionaire' + '?typeOfQA=' + qid;
+    }
+
+    $(document).ready(function () {
+
+
+
+        var quest = $('#questionaire :selected').text();
+       // $("#questionaire").change(function () { debugger; url.action('Questionaire', 'RefreshQuestionaire') })
+        // $('.qa2').hide();
+
+        @*let ss =@TempData["QAresult"];
+        alert(ss);*@
+
+        $('.footable').footable();
+        $('.footable2').footable();
+
+
+    });
+    function changeresult(data) {
+
+        if (data == '1') {
+            $('.qa2').hide();
+            $('.qa1').show();
+
+
+
+        }
+        if (data == '2') {
+            $('.qa1').hide();
+            $('.qa2').show();
+
+
+        }
+        //var appBanners = document.getElementsByClassName('qa2');
+        //console.log(appBanners);
+        //for (var i = 0; i < appBanners.length; i++) {
+        //    appBanners[i].style.display = 'none';
+        //}
+    }
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+        return false;
+    };
+    function CheckForDate(editQA) {
+        debugger;
+        var date = new Date(), m = date.getMonth();
+        var qid = $('#questionaire :selected').val();
+        var q2date = $('#dateqa2').text();
+        if (q2date != "") {
+            var q2date = $('#dateqa2').text().split("/");
+            var month = q2date[0];
+             if (month == m + 1) {
+            alert("You have already filled the QA for this month");
+        }
+             else {
+                 if (editQA) {
+                     window.location.href = "/Questionaire/Questionaire?qa=" + qid + "&userId=@ViewBag.UserId&id=update";
+                 }
+                 else { window.location.href = "/Questionaire/Questionaire?userId=@ViewBag.UserId"; }
+        }
+        }
+        else if (q1date != "") {
+            var q1date = $('#dateqa1').text().split("/");
+            var monthnum = q1date[0];
+         if (monthnum == m + 1) {
+            alert("You have already filled the QA for this month");
+        }
+         else {
+             if (editQA) {
+                 window.location.href = "/Questionaire/Questionaire?qa=" + qid + "&userId=@ViewBag.UserId&id=update";
+             } else {
+                 window.location.href = "/Questionaire/Questionaire?userId=@ViewBag.UserId";
+             }
+        }}
+
+
+
+    }
+
+        function redirectDigAss() {
+            window.location.href = "/Questionaire/DigitalAssessment?userId=@ViewBag.UserId";
+        }
+
+</script>
+

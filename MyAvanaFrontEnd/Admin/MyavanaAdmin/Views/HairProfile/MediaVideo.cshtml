@@ -1,0 +1,18 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>MediaVideo</title>
+</head>
+<body>
+    <div class="">
+        <iframe src="@ViewBag.video.Substring(0, ViewBag.video.Length - 1)/embed" style="height: 400px; width: auto;"></iframe>
+    </div>
+</body>
+</html>

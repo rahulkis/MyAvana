@@ -1,0 +1,23 @@
+﻿.preloader {
+	width: calc(100% - 200px);
+	height: 100%;
+	top: 0px;
+	position: fixed;
+	z-index: 99999;
+	background: rgba(255, 255, 255, .8);
+}
+
+	.preloader img {
+		position: absolute;
+		LEFT: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		width: 80px;
+	}
+
+.loader {
+	overflow: visible;
+	padding-top: 2em;
+	height: 0;
+	width: 2em;
+}

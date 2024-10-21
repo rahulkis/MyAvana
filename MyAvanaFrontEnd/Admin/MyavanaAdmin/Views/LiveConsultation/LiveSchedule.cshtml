@@ -1,0 +1,1215 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers//
+@addTagHelper AuthoringTagHelpers.TagHelpers.EmailTagHelper, AuthoringTagHelpers
+@using DataTables.AspNetCore.Mvc
+@model MyavanaAdminModels.GetCustomerScheduleDetails
+
+@inject MyavanaAdminApiClient.ApiClient LiveSchedule
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    ViewData["Title"] = "LiveSchedule";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var LiveConsultationList = LiveSchedule.GetConsultationList().Result.Where(x => x.CustomerType.ToString() == HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"].ToString()).ToList();
+    //var indiuserDetails = LiveSchedule.GetUserDetailsById(uni_ID).Result;
+}
+
+<!-- Add local styles, mostly for plugins css file -->
+<link href="~/bootstrap/css/bootstrap.css" rel="stylesheet" />
+<link href="~/css/animate.css" rel="stylesheet" />
+<link href="~/css/Style2.css" rel="stylesheet" />
+<link href="~/css/stylecustom.css" rel="stylesheet" />
+<link href="~/css/myStyle.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/js/popper.min.js"></script>
+<script src="~/bootstrap/js/bootstrap.js"></script>
+<script src="~/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="~/js/plugins/slimscroll/jquery.slimscroll.js"></script>
+
+
+
+<!-- Wrapper-->
+<div id="wrapper">
+    <!-- Navigation -->
+
+    <script type="text/javascript">
+        $('#menuCollapse').click(function () {
+            $('#menuCollapse').toggleClass('showList');
+        });
+
+        function IfQuestionaireSubmitted() {
+            if ("True" == "True") {
+                window.location.href = "/Questionaire/Questionnaire";
+            }
+            else
+                window.location.href = "/Questionaire/start";
+        }
+
+    </script>
+    <!-- Page wraper -->
+    <div id="page-wrapper" class="gray-bg">
+        <!-- Top Navbar -->
+
+        <script>
+            function logout() {
+                $.ajax({
+                    type: "GET",
+                    url: "/Auth/Logout",
+                    success: function (response) {
+                        if (response) {
+                            window.location.href = "/Auth/Login";
+                        }
+                    },
+                    failure: function (response) {
+                    },
+                    error: function (response) {
+                    }
+                });
+            }
+            $('.togglemenu').click(function () {
+
+                var data = $('.navbar-static-side').is(":visible");
+                if (data)
+                    $('.navbar-static-side').css('display', 'none');
+                else
+                    $('.navbar-static-side').css('display', 'block');
+            });
+
+
+
+        </script>
+        <!-- Main view  -->
+        <link href="~/css/styleCustomer.css" rel="stylesheet" />
+
+        <link href="~/css/owl.carousel.min.css" rel="stylesheet" />
+
+        <link href="~/css/owl.theme.default.css" rel="stylesheet" />
+        <link href="~/css/jquery.nailthumb.1.1.min.css" rel="stylesheet" />
+        <script src="~/js/shadowbox.js"></script>
+        <script src="~/js/jquery.nailthumb.1.1.min.js"></script>
+        <link href="~/css/shadowbox.css" rel="stylesheet" />
+
+
+        <style>
+
+            .alert-success, .alert-danger, .alert-info {
+                top: 110px !important;
+                width: 60% !important;
+                margin: 0 auto;
+                z-index: 99;
+                position: fixed;
+                left: 50%;
+                transform: translateX(-40%);
+                text-align: center;
+                padding: 12px;
+                transition: all 1s linear;
+                box-shadow: 0px 0px 12px 3px rgba(0, 0, 0, 0.2);
+                font-size: 16px;
+            }
+
+            .txtFormat {
+                white-space: pre-line;
+                white-space: pre-wrap;
+                border: none;
+            }
+
+                .txtFormat:focus {
+                    outline: none;
+                }
+
+            .alert-danger {
+                color: #80172a;
+                background-color: #fdd5dc;
+                border-color: #fcc4ce;
+            }
+
+                .alert-danger hr {
+                    border-top-color: #fbacba;
+                }
+
+                .alert-danger .alert-link {
+                    color: #550f1c;
+                }
+
+            .alert-success {
+                color: #1c6356;
+                background-color: #a8ffc3;
+                border-color: #13b755;
+            }
+
+                .alert-success hr {
+                    border-top-color: #b4e7dd;
+                }
+
+                .alert-success .alert-link {
+                    color: #113b33;
+                }
+
+            .select2-container, .select2-container li.select2-search {
+                width: 100% !important;
+            }
+
+            .preloader {
+                width: 100%;
+                height: 100%;
+                top: 0px;
+                position: fixed;
+                z-index: 99999;
+                background: rgba(255, 255, 255, .8);
+            }
+
+                .preloader img {
+                    position: absolute;
+                    LEFT: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 80px;
+                }
+
+            .loader {
+                overflow: visible;
+                padding-top: 2em;
+                height: 0;
+                width: 2em;
+            }
+
+            .centertextdiv {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                height: calc(100% - 80px);
+            }
+
+                .centertextdiv a {
+                    background: #ffdede;
+                    padding: 7px 15px;
+                    color: #383838;
+                    border-radius: 4px;
+                    border: 1px solid #ffbaba;
+                    text-transform: uppercase;
+                }
+
+                    .centertextdiv a:hover {
+                        background: #383838;
+                        color: #ffdede;
+                        border: 1px solid #ffdede;
+                    }
+
+                .centertextdiv p {
+                    font-size: 16px;
+                    margin-bottom: 30px;
+                }
+
+            .accordion-toggle:after {
+                font-family: 'FontAwesome';
+                content: "\f078";
+                float: right;
+            }
+
+            .accordion-opened .accordion-toggle:after {
+                content: "\f054";
+            }
+
+            #accordion2 .accordion-heading {
+                padding: 6px 15px;
+                margin-bottom: 5px;
+                border-radius: 4px;
+            }
+
+            .products_tab .nav-link.active {
+                background: #756966;
+            }
+
+            .products_tab .nav-link {
+                color: #756966;
+            }
+
+                .products_tab .nav-link:hover {
+                    background: #756966;
+                    color: #fff;
+                }
+
+            .listhead {
+                border-bottom: 1px solid #ccc;
+                padding-bottom: 5px;
+                margin-bottom: 20px;
+            }
+
+            .boservationsubparts {
+                display: flex;
+                align-items: baseline;
+            }
+
+                .boservationsubparts h4 {
+                    width: 30%;
+                    text-align: right;
+                }
+
+            .Observations .boservationsubparts p {
+                background: #ffefee;
+                padding: 10px 15px;
+                border-radius: 4px;
+                margin-left: 10px;
+            }
+
+            .Porositynelasticity {
+                border-top: 1px solid #ccc;
+                padding-top: 20px;
+                margin-top: 20px;
+            }
+
+            .stylistcrousel .hairsteps {
+                box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+                left: 0;
+                padding: 15px;
+                border-radius: 4px;
+                background: #eee;
+            }
+
+                .stylistcrousel .hairsteps p {
+                    word-break: break-word;
+                }
+
+            .textFormat {
+                white-space: pre-wrap;
+            }
+
+            .table-id-data th {
+                width: 90px;
+            }
+
+            .demo {
+                width: 150px;
+                height: 150px;
+                background-position: center center;
+                background-repeat: no-repeat;
+                display: inline-block;
+            }
+
+            .tab-section {
+                padding: 20px 0;
+            }
+
+                .tab-section .nav-pills .nav-link.active {
+                    background: #6c6f70;
+                    color: #fff;
+                }
+
+                .tab-section .nav-pills .nav-link {
+                    color: #676a6c;
+                    font-size: 16px;
+                    position: relative;
+                    border: none;
+                    width: 24%;
+                    background: #d8d9e3;
+                    margin-left: 1%;
+                    border-radius: 10px;
+                    text-align: center;
+                    line-height: normal;
+                    padding: 10px;
+                }
+
+                    .tab-section .nav-pills .nav-link:first-child {
+                        margin-left: 0;
+                    }
+
+                    .tab-section .nav-pills .nav-link.active:after {
+                        content: "";
+                        position: absolute;
+                        bottom: -7px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        width: 0;
+                        height: 0;
+                        border-left: 7px solid transparent;
+                        border-right: 7px solid transparent;
+                        border-top: 7px solid #6d7071;
+                        background: transparent;
+                    }
+
+            .products_tab .nav .nav-link {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+
+                .products_tab .nav .nav-link.active:after {
+                    content: "";
+                    position: absolute;
+                    top: 50%;
+                    left: auto;
+                    right: -10px;
+                    transform: translateY(-50%);
+                    width: 0;
+                    height: 0;
+                    border-left: 7px solid transparent;
+                    border-right: 7px solid transparent;
+                    border-top: 7px solid #6d7071;
+                    background: transparent;
+                    transform: rotate( -90deg );
+                }
+        </style>
+        <style type="text/css" media="screen">
+
+            .demo {
+                width: 150px;
+                height: 150px;
+                background-position: center center;
+                background-repeat: no-repeat;
+                display: inline-block;
+            }
+        </style>
+        <div id="alert-success" class="alert alert-success alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <span id="successMessage"></span>
+        </div>
+        <div class="alert alert-danger alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <span id="failureMessage"></span>
+        </div>
+        <div class="preloader" style="display:none;">
+            <div class="loader">
+                <img src="/images/loader.gif" />
+            </div>
+        </div>
+        <div class="centertextdiv justify-content-start">
+            <div class="container-fluid h-100">
+                <div class="row h-100">
+                    <div class="col-lg-10 leftdiscription">
+                        <div class="leftdiscription_inner">
+                            <div class="d-flex justify-content-between">
+                                <h2 class="desc_heading">Live Consultation Request</h2>
+                                <span>
+                                    Sort by:
+                                    <select class="status_options">
+                                        <option> All</option>
+                                        <option> New</option>
+                                    </select>
+                                </span>
+                            </div>
+                            <ul class="request_list" id="itemsul">
+                                @if (LiveConsultationList.Count > 0)
+                                {
+                                    @foreach (var LiveSchedule in LiveConsultationList)
+                                    {
+                                        <li id="@LiveSchedule.LiveConsultationUserDetailsId">
+                                            <div class="list_container">
+                                                <div class="user_name">
+                                                    <div class="user_img">
+                                                    </div>
+                                                    <span id="firstlastname">
+                                                        @LiveSchedule.FirstName @LiveSchedule.LastName
+                                                    </span>
+                                                </div>
+                                                <div class="request_date">
+                                                    <h4 id="datetimeval"> @LiveSchedule.dates[0]</h4>
+                                                    <p class="mb-0" id="timeval">@LiveSchedule.Time</p>
+                                                    <p>@LiveSchedule.AssignedTo</p>
+                                                </div>
+                                                <div id="blah">
+                                                    <p style="display: none;" name="contactno">@LiveSchedule.ContactNo</p>
+                                                    <p style="display: none;" name="des">@LiveSchedule.FocusAreaDescription</p>
+                                                    <p style="display: none;" name="timezone">@LiveSchedule.TimeZone</p>
+                                                    <p style="display: none;" name="emailid">@LiveSchedule.UserEmail</p>
+                                                    <p style="display: none;" name="userid">@LiveSchedule.LiveConsultationUserDetailsId</p>
+                                                    <p style="display: none;" name="status">@LiveSchedule.Status</p>
+                                                    <p style="display: none;" name="constemail">@LiveSchedule.AssignedTo</p>
+
+
+                                                </div>
+                                                <div class="request_status">
+                                                    @if (LiveSchedule.Status == 0)
+                                                    {
+                                                        <span>New</span>
+                                                    }
+                                                    else if (LiveSchedule.Status == 1)
+                                                    {
+                                                        <span>Approved</span>
+                                                    }
+                                                    else if (LiveSchedule.Status == 2)
+                                                    {
+                                                        <span>Another Time</span>
+                                                    }
+                                                    else if (LiveSchedule.Status == 3)
+                                                    {
+                                                        <span>Cancelled</span>
+                                                    }
+                                                    else if (LiveSchedule.Status == 4)
+                                                    {
+                                                        <span>Completed</span>
+                                                    }
+                                                    @*<select class="status_options" name="diffstatus" asp-for="@LiveSchedule.Status">
+                                                <option value="0">New</option>
+                                                <option value="1">Approved</option>
+                                                <option value="2">Another Time</option>
+                                                <option value="3">Cancelled</option>
+                                            </select>*@
+                                                </div>
+                                                <div class="request_action">
+                                                    @if (LiveSchedule.Status == 1)
+                                                    {
+                                                        <button type="button" onclick="checkSchedule('@LiveSchedule.Date',@LiveSchedule.LiveConsultationUserDetailsId)" class="btn btn-dark mr-3">Join</button>
+                                                    }
+                                                    <a href="#">
+
+                                                        <i class="fa fa-angle-right" id="@LiveSchedule.LiveConsultationUserDetailsId" aria-hidden="true" onclick="GetDetailsToConfirm(@LiveSchedule.LiveConsultationUserDetailsId,@LiveSchedule.Status)"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+
+
+                                    }}
+                            </ul>
+
+                        </div>
+                    </div>
+
+                </div>
+                @if (LiveConsultationList.Count > 0)
+                {
+                    <div class="right_popup">
+                        @*<div class="close_popup">
+                            <button class="btn">
+                                <i class="fa fa-times" aria-hidden="true"></i>
+                            </button>
+                        </div>*@
+                        <div class="popup_container">
+                            <div class="d-flex justify-content-between">
+                                <p id="SeluserID" style="display:none"></p>
+                                <div class="user_name">
+                                    <div class="user_img">
+                                    </div>
+                                    <h3 class="m-0" id="username"></h3>
+                                </div>
+                                <select class="status_options" name="diffstatus" id="diffstatus">
+                                    <option value="0">New</option>
+                                    <option value="1">Approved</option>
+                                    @*<option value="2">Another Time</option>*@
+                                    <option value="3">Cancelled</option>
+                                    <option value="4">Completed</option>
+                                </select>
+                            </div>
+                            <ul class="confirm_info">
+                                <li>
+                                    <label>Assigned To:</label>
+                                    <input type="text" id="consultantEmail"/>
+                                </li>
+                                <li>
+                                    <label>Date:</label>
+                                    <p id="datefinal">
+                                    </p>
+                                    @*<select class="status_options">
+                                <option> Friday, August 12</option>
+                                <option> Monday, August 12</option>
+                            </select>*@
+                                </li>
+                                <li>
+                                    <label>Time:</label>
+                                    <p id="timeslots"></p>
+                                    @*<select class="status_options">
+                                <option> 10:00 - 10:30</option>
+                                <option> 11:00 - 11:30</option>
+                            </select>*@
+                                </li>
+                                <li>
+                                    <label>E-mail:</label>
+                                    <p id="useremail"></p>
+                                </li>
+                                <li>
+                                    <label>Phone Number:</label>
+                                    <p id="userphone"></p>
+                                </li>
+                                <li>
+                                    <label>What would you like to focus on in this hair consultation?</label>
+                                    <p id="usermessage"></p>
+                                </li>
+                                <li>
+                                    <label>Send Text Message to:</label>
+                                    <p id="usersendtext"></p>
+                                </li>
+                            </ul>
+                            <button type="button" class="form_btn mb-0" onclick="OnDoneClick()">Done</button>
+                        </div>
+                    </div>
+                }
+                </div>
+        </div>
+        <script src="/js/owl.carousel.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $(".showHide:first").addClass('active');
+                $('.showHideActive:first').addClass('active');
+                $('.showHideActive:first').addClass('show');
+                let list = document.getElementById('itemsul').getElementsByTagName('li');
+                el = list[0].children[0].children[1].innerText;
+                var arr = el.split('\n');
+
+                $("#username").html(list[0].children[0].children[0].innerText);
+                $("#userphone").html(list[0].childNodes[1].childNodes[5].children[0].innerHTML);
+                $("#datefinal").html(arr[0]);
+                $("#timeslots").html(arr[2]); 
+                $("#useremail").html(list[0].childNodes[1].childNodes[5].children[3].innerHTML);
+                $("#consultantEmail").val(list[0].childNodes[1].childNodes[5].children[6].innerHTML);
+                $("#usermessage").html(list[0].childNodes[1].childNodes[5].children[1].innerHTML);
+                $("#usersendtext").html(list[0].childNodes[1].childNodes[5].children[0].innerHTML);
+                $("#SeluserID").html(list[0].childNodes[1].childNodes[5].children[4].innerHTML);
+                $("#diffstatus").val(list[0].childNodes[1].childNodes[5].children[5].innerHTML);
+                var status = parseInt(list[0].childNodes[1].childNodes[5].children[5].innerHTML);
+                if (status > 1) {
+                    $("#consultantEmail").attr("disabled", "disabled");
+                } else {
+                    $("#consultantEmail").removeAttr("disabled");
+                }
+                if (status > 2) {
+                    $("#diffstatus").attr("disabled", "disabled");
+                } else {
+                    $("#diffstatus").removeAttr("disabled");
+                }
+            });
+
+            function showHide(sender) {
+                var id = $(sender).attr('href');
+                $('.showHideActive').removeClass('active');
+                $('.showHideActive').removeClass('show');
+                $('.showHide').removeClass('active');
+                $(sender).addClass('active');
+                $(id).addClass('active');
+                $(id).addClass('show');
+            }
+
+            $(document).ready(function () {
+                $(".showHide1:first").addClass('active');
+                $('.showHide1Active:first').addClass('active');
+                $('.showHide1Active:first').addClass('show');
+            });
+
+            function showHide1(sender) {
+                var id = $(sender).attr('href');
+                $('.showHide1Active').removeClass('active');
+                $('.showHide1Active').removeClass('show');
+                $('.showHide1').removeClass('active');
+                $(sender).addClass('active');
+                $(id).addClass('active');
+                $(id).addClass('show');
+            }
+
+            $('.crousalnav').owlCarousel({
+                loop: false,
+                center: false,
+                margin: 20,
+                responsiveClass: true,
+                responsive: {
+                    0: {
+                        items: 1,
+                        nav: true,
+                        loop: false
+                    },
+                    600: {
+                        items: 1,
+                        nav: true,
+                        loop: false
+                    },
+                    1000: {
+                        items: 3,
+                        nav: true,
+                        loop: false
+                    }
+                }
+            })
+
+            function ValidateEmail() {
+                var validEmail = true;
+                if ($('#consultantEmail').val().trim() == "") {
+                    $('#failureMessage').text("Please enter assignedto email !");
+                    $('.alert-danger').css("display", "block");
+                    $('.alert-danger').delay(3000).fadeOut();
+                    validEmail = false;
+                } else if (!RegExp(/^[a-zA-Z0-9._-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/).test($('#consultantEmail').val().trim())) {
+                    $('#failureMessage').text("Please enter valid email!");
+                    $('.alert-danger').css("display", "block");
+                    $('.alert-danger').delay(3000).fadeOut();
+                    validEmail = false;
+                }
+                return validEmail;
+            }
+        </script>
+        <script>
+            $('.owl-carousel').owlCarousel({
+                loop: true,
+                margin: 00,
+                responsiveClass: true,
+                responsive: {
+                    0: {
+                        items: 1,
+                        nav: true,
+                        loop: true
+                    },
+                    600: {
+                        items: 1,
+                        nav: true,
+                        loop: true
+                    },
+                    1000: {
+                        items: 1,
+                        nav: true,
+                        loop: true
+                    }
+                }
+            })
+        </script>
+        <script>
+            $('.crousalslide').owlCarousel({
+                loop: true,
+                margin: 00,
+                responsiveClass: true,
+                responsive: {
+                    0: {
+                        items: 1,
+                        nav: true,
+                        loop: true
+                    },
+                    600: {
+                        items: 1,
+                        nav: true,
+                        loop: true
+                    },
+                    1000: {
+                        items: 1,
+                        nav: true,
+                        loop: true
+                    }
+                }
+            })
+        </script>
+        <script>
+            /**
+            * EFECTO PARA FLECHAS EN ACORDEON
+            */
+
+            $(document).on('show', '.accordion', function (e) {
+                //$('.accordion-heading i').toggleClass(' ');
+                $(e.target).prev('.accordion-heading').addClass('accordion-opened');
+            });
+
+            $(document).on('hide', '.accordion', function (e) {
+                $(this).find('.accordion-heading').not($(e.target)).removeClass('accordion-opened');
+                //$('.accordion-heading i').toggleClass('fa-chevron-right fa-chevron-down');
+            });
+        </script>
+        <script>
+            $(document).on('show', '.accordion', function (e) {
+                //$('.accordion-heading i').toggleClass(' ');
+                $(e.target).prev('.accordion-heading').addClass('accordion-opened');
+            });
+
+            $(document).on('hide', '.accordion', function (e) {
+                $(this).find('.accordion-heading').not($(e.target)).removeClass('accordion-opened');
+                //$('.accordion-heading i').toggleClass('fa-chevron-right fa-chevron-down');
+            });
+
+
+        </script>
+        <script>
+            $(document).ready(function () {
+                $(".showHide:first").addClass('active');
+                $('.showHideActive:first').addClass('active');
+                $('.showHideActive:first').addClass('show');
+                $('.demo').nailthumb({
+                    imageCustomFinder: function (el) {
+                        var image = $('<img />').attr('src', el.attr('href').replace('/full/', '/small/')).css('display', 'none');
+                        image.attr('alt', el.attr('title'));
+                        el.append(image);
+                        return image;
+                    },
+                    titleAttr: 'alt'
+                });
+
+
+
+
+            });
+            jQuery.fn.load = function (callback) {
+                $(window).on("load", function () {
+                    Shadowbox.init();
+                    $('.demo').css("display", "block");
+                })
+
+            };
+            function GetDetailsToConfirm(id, status) {
+                let list = document.getElementById('itemsul').getElementsByTagName('li');
+                for (var i = 0; i < list.length; i++) {
+                    if (list[i].id == id) {
+
+                        el = list[i].children[0].children[1].innerText;
+                        var arr = el.split('\n');
+
+                        $("#username").html(list[i].children[0].children[0].innerText);
+                        $("#userphone").html(list[i].childNodes[1].childNodes[5].children[0].innerHTML);
+                        $("#datefinal").html(arr[0]);
+                        $("#timeslots").html(arr[2]);
+                        $("#useremail").html(list[i].childNodes[1].childNodes[5].children[3].innerHTML);
+                        $("#usermessage").html(list[i].childNodes[1].childNodes[5].children[1].innerHTML);
+                        $("#usersendtext").html(list[i].childNodes[1].childNodes[5].children[0].innerHTML);
+                        $("#SeluserID").html(list[i].childNodes[1].childNodes[5].children[4].innerHTML);
+                        $("#consultantEmail").val(list[i].childNodes[1].childNodes[5].children[6].innerHTML);
+                        $("#diffstatus").val(status);
+                        if (status > 1) {
+                            $("#consultantEmail").attr("disabled", "disabled");
+                        } else {
+                            $("#consultantEmail").removeAttr("disabled");
+                        }
+                        if (status > 2) {
+                            $("#diffstatus").attr("disabled", "disabled");
+                        } else {
+                            $("#diffstatus").removeAttr("disabled");
+                        }
+                    }
+
+                }
+
+
+            };
+        </script>
+        <script>
+            function OnDoneClick() {
+
+                var userselectedID = document.getElementById('SeluserID').innerText;
+
+                let list = document.getElementById('itemsul').getElementsByTagName('li');
+
+                for (var i = 0; i < list.length; i++) {
+                    if (list[i].id == userselectedID) {
+                        //let ele1 = document.getElementsByName('diffstatus')[i];
+                        let ele1 = document.getElementsByName('diffstatus')[0];
+                        for (var j = 0; j < ele1.length; j++) {
+                            if (ele1[j].selected) {
+                                var a = ele1[j].value;
+                                //if (a == 1) {
+                                if (!ValidateEmail()) {
+                                    return false;
+                                }
+                                ChangeIsApproved(userselectedID, a);
+                                //}
+
+                            }
+                        }
+                    }
+                }
+            };
+            function ChangeIsApproved(id, a) {
+                var article = {
+                    LiveConsultationUserDetailsId: id,
+                    ContactNo: $("#usersendtext").html(),
+                    Status: a,
+                    AssignedTo: $("#consultantEmail").val()
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/LiveConsultation/ChangeIsApproved",
+                    data: article,
+                    success: function (response) {
+                        if (response === "1") {
+                            $('#successMessage').text("Status Updated !");
+                            $('.alert-success').css("display", "block");
+                            $('.alert-success').delay(3000).fadeOut();
+
+                            setTimeout(function () { window.location.href = '/LiveConsultation/LiveSchedule'; }, 2000);
+                        }
+                        $('.preloader').css('display', 'none');
+                    },
+                    error: function (response) {
+
+                    },
+                    complete: function () {
+
+                    }
+                });
+            }
+            function checkSchedule(schDate, liveSchId) {
+                //var sdate = new Date(schDate);
+                //var currdate = new Date();
+                //if (currdate > sdate) {
+                //    alert("This appointmrnt is expired. Please contact to support")
+                //    return false;
+                //}
+                //var diff = sdate - currdate;
+
+                //var diffSeconds = diff / 1000;
+                //var HH = Math.floor(diffSeconds / 3600);
+                //var MM = Math.floor(diffSeconds % 3600) / 60;
+
+                //if (HH === 0 && MM < 2 && MM > 0) {
+                //alert("valid to join")
+                window.location.href = "/LiveConsultation/JoinConsultation/" + liveSchId;
+                //} else {
+                //    alert("You will join before 5 min of your scheduled time.")
+                //}
+
+            }
+        </script>
+        <!-- Footer -->
+        @*<div class="footer">
+                <div class="float-right">
+                </div>
+                <div>
+                </div>
+            </div>*@
+    </div>
+    <!-- End page wrapper-->
+    <!-- Right Sidebar -->
+    <div id="right-sidebar">
+        <div class="sidebar-container">
+            <ul class="nav nav-tabs navs-3">
+                <li>
+                    <a class="nav-link active" data-toggle="tab" href="#tab-1">
+                        Notes
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link" data-toggle="tab" href="#tab-2">
+                        Projects
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link" data-toggle="tab" href="#tab-3">
+                        <i class="fa fa-gear"></i>
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="tab-1" class="tab-pane active">
+                    <div class="sidebar-title">
+                        <h3> <i class="fa fa-comments-o"></i> Latest Notes</h3>
+                        <small><i class="fa fa-tim"></i> You have 10 new message.</small>
+                    </div>
+                    <div>
+                        <div class="sidebar-message">
+                            <a href="#">
+                                <div class="float-left text-center">
+                                    <img alt="image" class="rounded-circle message-avatar" src="/Images/a1.jpg">
+                                    <div class="m-t-xs">
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                    </div>
+                                </div>
+                                <div class="media-body">
+                                    There are many variations of passages of Lorem Ipsum available.
+                                    <br>
+                                    <small class="text-muted">Today 4:21 pm</small>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="sidebar-message">
+                            <a href="#">
+                                <div class="float-left text-center">
+                                    <img alt="image" class="rounded-circle message-avatar" src="/Images/a2.jpg">
+                                </div>
+                                <div class="media-body">
+                                    The point of using Lorem Ipsum is that it has a more-or-less normal.
+                                    <br>
+                                    <small class="text-muted">Yesterday 2:45 pm</small>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="sidebar-message">
+                            <a href="#">
+                                <div class="float-left text-center">
+                                    <img alt="image" class="rounded-circle message-avatar" src="/Images/a3.jpg">
+                                    <div class="m-t-xs">
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                    </div>
+                                </div>
+                                <div class="media-body">
+                                    Mevolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+                                    <br>
+                                    <small class="text-muted">Yesterday 1:10 pm</small>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="sidebar-message">
+                            <a href="#">
+                                <div class="float-left text-center">
+                                    <img alt="image" class="rounded-circle message-avatar" src="/Images/a4.jpg">
+                                </div>
+                                <div class="media-body">
+                                    Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the
+                                    <br>
+                                    <small class="text-muted">Monday 8:37 pm</small>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="sidebar-message">
+                            <a href="#">
+                                <div class="float-left text-center">
+                                    <img alt="image" class="rounded-circle message-avatar" src="/Images/a8.jpg">
+                                </div>
+                                <div class="media-body">
+                                    All the Lorem Ipsum generators on the Internet tend to repeat.
+                                    <br>
+                                    <small class="text-muted">Today 4:21 pm</small>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="sidebar-message">
+                            <a href="#">
+                                <div class="float-left text-center">
+                                    <img alt="image" class="rounded-circle message-avatar" src="/Images/a7.jpg">
+                                </div>
+                                <div class="media-body">
+                                    Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+                                    <br>
+                                    <small class="text-muted">Yesterday 2:45 pm</small>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="sidebar-message">
+                            <a href="#">
+                                <div class="float-left text-center">
+                                    <img alt="image" class="rounded-circle message-avatar" src="/Images/a3.jpg">
+                                    <div class="m-t-xs">
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                    </div>
+                                </div>
+                                <div class="media-body">
+                                    The standard chunk of Lorem Ipsum used since the 1500s is reproduced below.
+                                    <br>
+                                    <small class="text-muted">Yesterday 1:10 pm</small>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="sidebar-message">
+                            <a href="#">
+                                <div class="float-left text-center">
+                                    <img alt="image" class="rounded-circle message-avatar" src="/Images/a4.jpg">
+                                </div>
+                                <div class="media-body">
+                                    Uncover many web sites still in their infancy. Various versions have.
+                                    <br>
+                                    <small class="text-muted">Monday 8:37 pm</small>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div id="tab-2" class="tab-pane">
+                    <div class="sidebar-title">
+                        <h3> <i class="fa fa-cube"></i> Latest projects</h3>
+                        <small><i class="fa fa-tim"></i> You have 14 projects. 10 not completed.</small>
+                    </div>
+                    <ul class="sidebar-list">
+                        <li>
+                            <a href="#">
+                                <div class="small float-right m-t-xs">9 hours ago</div>
+                                <h4>Business valuation</h4>
+                                It is a long established fact that a reader will be distracted.
+                                <div class="small">Completion with: 22%</div>
+                                <div class="progress progress-mini">
+                                    <div style="width: 22%;" class="progress-bar progress-bar-warning"></div>
+                                </div>
+                                <div class="small text-muted m-t-xs">Project end: 4:00 pm - 12.06.2014</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <div class="small float-right m-t-xs">9 hours ago</div>
+                                <h4>Contract with Company </h4>
+                                Many desktop publishing packages and web page editors.
+                                <div class="small">Completion with: 48%</div>
+                                <div class="progress progress-mini">
+                                    <div style="width: 48%;" class="progress-bar"></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <div class="small float-right m-t-xs">9 hours ago</div>
+                                <h4>Meeting</h4>
+                                By the readable content of a page when looking at its layout.
+                                <div class="small">Completion with: 14%</div>
+                                <div class="progress progress-mini">
+                                    <div style="width: 14%;" class="progress-bar progress-bar-info"></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="label label-primary float-right">NEW</span>
+                                <h4>The generated</h4>
+                                <!--<div class="small float-right m-t-xs">9 hours ago</div>-->
+                                There are many variations of passages of Lorem Ipsum available.
+                                <div class="small">Completion with: 22%</div>
+                                <div class="small text-muted m-t-xs">Project end: 4:00 pm - 12.06.2014</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <div class="small float-right m-t-xs">9 hours ago</div>
+                                <h4>Business valuation</h4>
+                                It is a long established fact that a reader will be distracted.
+                                <div class="small">Completion with: 22%</div>
+                                <div class="progress progress-mini">
+                                    <div style="width: 22%;" class="progress-bar progress-bar-warning"></div>
+                                </div>
+                                <div class="small text-muted m-t-xs">Project end: 4:00 pm - 12.06.2014</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <div class="small float-right m-t-xs">9 hours ago</div>
+                                <h4>Contract with Company </h4>
+                                Many desktop publishing packages and web page editors.
+                                <div class="small">Completion with: 48%</div>
+                                <div class="progress progress-mini">
+                                    <div style="width: 48%;" class="progress-bar"></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <div class="small float-right m-t-xs">9 hours ago</div>
+                                <h4>Meeting</h4>
+                                By the readable content of a page when looking at its layout.
+                                <div class="small">Completion with: 14%</div>
+                                <div class="progress progress-mini">
+                                    <div style="width: 14%;" class="progress-bar progress-bar-info"></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="label label-primary float-right">NEW</span>
+                                <h4>The generated</h4>
+                                <!--<div class="small float-right m-t-xs">9 hours ago</div>-->
+                                There are many variations of passages of Lorem Ipsum available.
+                                <div class="small">Completion with: 22%</div>
+                                <div class="small text-muted m-t-xs">Project end: 4:00 pm - 12.06.2014</div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="tab-3" class="tab-pane">
+                    <div class="sidebar-title">
+                        <h3><i class="fa fa-gears"></i> Settings</h3>
+                        <small><i class="fa fa-tim"></i> You have 14 projects. 10 not completed.</small>
+                    </div>
+                    <div class="setings-item">
+                        <span>
+                            Show notifications
+                        </span>
+                        <div class="switch">
+                            <div class="onoffswitch">
+                                <input type="checkbox" name="collapsemenu" class="onoffswitch-checkbox" id="example">
+                                <label class="onoffswitch-label" for="example">
+                                    <span class="onoffswitch-inner"></span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="setings-item">
+                        <span>
+                            Disable Chat
+                        </span>
+                        <div class="switch">
+                            <div class="onoffswitch">
+                                <input type="checkbox" name="collapsemenu" checked class="onoffswitch-checkbox" id="example2">
+                                <label class="onoffswitch-label" for="example2">
+                                    <span class="onoffswitch-inner"></span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="setings-item">
+                        <span>
+                            Enable history
+                        </span>
+                        <div class="switch">
+                            <div class="onoffswitch">
+                                <input type="checkbox" name="collapsemenu" class="onoffswitch-checkbox" id="example3">
+                                <label class="onoffswitch-label" for="example3">
+                                    <span class="onoffswitch-inner"></span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="setings-item">
+                        <span>
+                            Show charts
+                        </span>
+                        <div class="switch">
+                            <div class="onoffswitch">
+                                <input type="checkbox" name="collapsemenu" class="onoffswitch-checkbox" id="example4">
+                                <label class="onoffswitch-label" for="example4">
+                                    <span class="onoffswitch-inner"></span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="setings-item">
+                        <span>
+                            Offline users
+                        </span>
+                        <div class="switch">
+                            <div class="onoffswitch">
+                                <input type="checkbox" checked name="collapsemenu" class="onoffswitch-checkbox" id="example5">
+                                <label class="onoffswitch-label" for="example5">
+                                    <span class="onoffswitch-inner"></span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="setings-item">
+                        <span>
+                            Global search
+                        </span>
+                        <div class="switch">
+                            <div class="onoffswitch">
+                                <input type="checkbox" checked name="collapsemenu" class="onoffswitch-checkbox" id="example6">
+                                <label class="onoffswitch-label" for="example6">
+                                    <span class="onoffswitch-inner"></span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="setings-item">
+                        <span>
+                            Update everyday
+                        </span>
+                        <div class="switch">
+                            <div class="onoffswitch">
+                                <input type="checkbox" name="collapsemenu" class="onoffswitch-checkbox" id="example7">
+                                <label class="onoffswitch-label" for="example7">
+                                    <span class="onoffswitch-inner"></span>
+                                    <span class="onoffswitch-switch"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sidebar-content">
+                        <h4>Settings</h4>
+                        <div class="small">
+                            I belive that. Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                            And typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
+                            Over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End wrapper-->
+<!-- Only for demo purpose -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

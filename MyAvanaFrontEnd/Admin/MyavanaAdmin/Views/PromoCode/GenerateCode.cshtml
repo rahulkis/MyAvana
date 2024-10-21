@@ -1,0 +1,176 @@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper AuthoringTagHelpers.TagHelpers.EmailTagHelper, AuthoringTagHelpers
+@inject MyavanaAdminApiClient.ApiClient promocode
+
+@{
+    Layout = "_Layout";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+<style>
+    .preloader {
+        width: calc(100% - 200px);
+        height: 100%;
+        top: 0px;
+        position: fixed;
+        z-index: 99999;
+        background: rgba(255, 255, 255, .8);
+    }
+
+		.preloader img {
+			position: absolute;
+			LEFT: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			width: 80px;
+		}
+
+	.loader {
+		overflow: visible;
+		padding-top: 2em;
+		height: 0;
+		width: 2em;
+	}
+    .alert-success, .alert-danger, .alert-info {
+        top: 110px !important;
+        width: 60% !important;
+        margin: 0 auto;
+        z-index: 99;
+        position: fixed;
+        left: 50%;
+        transform: translateX(-40%);
+        text-align: center;
+        padding: 12px;
+        transition: all 1s linear;
+        box-shadow: 0px 0px 12px 3px rgba(0, 0, 0, 0.2);
+        font-size: 16px;
+    }
+
+    .alert-danger {
+        color: #80172a;
+        background-color: #fdd5dc;
+        border-color: #fcc4ce;
+    }
+
+        .alert-danger hr {
+            border-top-color: #fbacba;
+        }
+
+        .alert-danger .alert-link {
+            color: #550f1c;
+        }
+
+    .alert-success {
+        color: #1c6356;
+        background-color: #a8ffc3;
+        border-color: #13b755;
+    }
+
+        .alert-success hr {
+            border-top-color: #b4e7dd;
+        }
+
+        .alert-success .alert-link {
+            color: #113b33;
+        }
+</style>
+<div id="alert-success" class="alert alert-success alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="successMessage"></span>
+</div>
+<div class="alert alert-danger alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="failureMessage"></span>
+</div>
+
+<div class="preloader" style="display:none;">
+	<div class="loader">
+		<img src="~/images/loader.gif" />
+	</div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Promo Code Generation</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li>
+                                <a href="#" class="dropdown-item">Config option 1</a>
+                            </li>
+                            <li>
+                                <a href="#" class="dropdown-item">Config option 2</a>
+                            </li>
+                        </ul>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+					<form method="get">
+						<div class="form-group  row">
+							<label class="col-sm-2 col-form-label">Generate the Code*</label>
+						</div>
+						<div class="form-group  row">
+							<div class="col-sm-10">
+								<input type="text" id="txtRandomNumber" disabled class="form-control">
+							</div>
+							<button type="button" id="generateCode" class="btn btn-w-m btn-info">Generate Promo Code</button>
+						</div>
+						<br />
+						
+						<div class="form-group  row">
+							<label class="col-sm-6 col-form-label">Select subscription type for Code*</label>
+						</div>
+						<div class="form-group  row">
+							<div class="col-sm-5">
+								<select id="subscriptionType" class="form-control m-b">
+									<option value="">-- Select Package --</option>
+									<option value="plan_GDo7eBnhLF26TU">Hair Lab Package(99.99)</option>
+									<option value="plan_GoYoNBwX2tAFiQ">  Hair Nirvana Package(1.99)</option>
+								</select>
+							</div>
+						</div>
+						<br />
+
+						<div class="form-group  row">
+							<label class="col-sm-6 col-form-label">Select Days/Weeks to expire code*</label>
+						</div>
+
+						<div class="form-group row">
+							<div class="col-sm-5">
+								<select id="expireDayWeek" class="form-control m-b" onchange="changeDayWeek()">
+									<option value="1">Day(s)</option>
+									<option value="2">Week(s)</option>
+								</select>
+							</div>
+							<div class="col-sm-5">
+								<select class="form-control m-b" id="expireDate"
+										asp-items="@promocode.GetDaysList().ToList().Select(s => new SelectListItem() { Text = Convert.ToString(s), Value=Convert.ToString(s)})"></select>
+								<select class="form-control m-b" id="expireWeek" style="display:none;"
+										asp-items="@promocode.GetWeeksList().ToList().Select(s => new SelectListItem() { Text = Convert.ToString(s), Value=Convert.ToString(s)})"></select>
+							</div>
+						</div>
+
+						<div class="form-group row">
+							<div class="col-sm-4 col-sm-offset-2">
+								<a class="btn btn-white btn-sm" type="button" asp-controller="PromoCode" asp-action="ViewCodes">Cancel</a>
+								&nbsp;<button class="btn btn-primary btn-sm" onclick="SavePromoCode()" id="savePromoCode" type="button"> Save </button>
+							</div>
+						</div>
+					</form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/admin/promocode.js"></script>

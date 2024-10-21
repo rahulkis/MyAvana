@@ -1,0 +1,153 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper AuthoringTagHelpers.TagHelpers.EmailTagHelper, AuthoringTagHelpers
+@model MyavanaAdminModels.AlexaFAQModel
+
+@{
+    Layout = "_Layout";
+}
+
+@if (Model != null)
+{
+    <input type="hidden" id="faqId" value="@Model.Id" />
+
+}
+
+<style>
+    .alert-success, .alert-danger, .alert-info {
+        top: 110px !important;
+        width: 60% !important;
+        margin: 0 auto;
+        z-index: 99;
+        position: fixed;
+        left: 50%;
+        transform: translateX(-40%);
+        text-align: center;
+        padding: 12px;
+        transition: all 1s linear;
+        box-shadow: 0px 0px 12px 3px rgba(0, 0, 0, 0.2);
+        font-size: 16px;
+    }
+
+    .alert-danger {
+        color: #80172a;
+        background-color: #fdd5dc;
+        border-color: #fcc4ce;
+    }
+
+        .alert-danger hr {
+            border-top-color: #fbacba;
+        }
+
+        .alert-danger .alert-link {
+            color: #550f1c;
+        }
+
+    .alert-success {
+        color: #1c6356;
+        background-color: #a8ffc3;
+        border-color: #13b755;
+    }
+
+        .alert-success hr {
+            border-top-color: #b4e7dd;
+        }
+
+        .alert-success .alert-link {
+            color: #113b33;
+        }
+    .preloader {
+        width: calc(100% - 200px);
+        height: 100%;
+        top: 0px;
+        position: fixed;
+        z-index: 99999;
+        background: rgba(255, 255, 255, .8);
+    }
+
+		.preloader img {
+			position: absolute;
+			LEFT: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			width: 80px;
+		}
+
+	.loader {
+		overflow: visible;
+		padding-top: 2em;
+		height: 0;
+		width: 2em;
+	}
+</style>
+<div id="alert-success" class="alert alert-success alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="successMessage"></span>
+</div>
+<div class="alert alert-danger alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="failureMessage"></span>
+</div>
+<div class="preloader" style="display:none;">
+	<div class="loader">
+		<img src="~/images/loader.gif" />
+	</div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Post FAQ</h5>
+
+                </div>
+                <div class="ibox-content">
+                    @*<form method="post">*@
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label">Description*</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="description" placeholder="Enter Headline" asp-for="Description" class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Keywords*</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="keywords" placeholder="Enter Keywords" asp-for="Keywords" class="form-control">
+
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Short Response*</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="shortResponse" placeholder="Enter Short Response" asp-for="ShortResponse" class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Detailed Response*</label>
+                        <div class="col-sm-10">
+                            <input type="text" asp-for="DetailedResponse" placeholder="Enter Detailed Response" id="detailedResponse" class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Category</label>
+                        <div class="col-sm-10">
+                            <input type="text" asp-for="Category" placeholder="Enter Category" id="category" class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <div class="col-sm-4 col-sm-offset-2">
+                            <a class="btn btn-white btn-sm" asp-controller="Alexa" asp-action="ViewAlexaFAQs">Cancel</a>
+                            <button class="btn btn-primary btn-sm btnColorChange" onclick="SaveFAQ()">Save FAQ</button>
+                        </div>
+                    </div>
+                    @*</form>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/admin/Alexa.js"></script>

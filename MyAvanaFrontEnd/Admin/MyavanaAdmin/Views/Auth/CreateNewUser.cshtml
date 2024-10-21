@@ -1,0 +1,237 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper AuthoringTagHelpers.TagHelpers.EmailTagHelper, AuthoringTagHelpers
+@model MyavanaAdminModels.WebLoginModel
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@inject MyavanaAdminApiClient.ApiClient Salons
+
+
+@{
+    ViewData["Title"] = "CreateNewUser";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model != null)
+{
+    <input type="hidden" id="userId" value="@Model.UserId" />
+
+    @if (Model.UserType == true)
+    {
+        <input type="hidden" id="userType" value="1" />
+    }
+    else
+    {
+        <input type="hidden" id="userType" value="0" />
+    }
+}
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function () {
+
+    });
+</script>
+<style>
+    .alert-success, .alert-danger, .alert-info {
+        top: 110px !important;
+        width: 60% !important;
+        margin: 0 auto;
+        z-index: 99;
+        position: fixed;
+        left: 50%;
+        transform: translateX(-40%);
+        text-align: center;
+        padding: 12px;
+        transition: all 1s linear;
+        box-shadow: 0px 0px 12px 3px rgba(0, 0, 0, 0.2);
+        font-size: 16px;
+    }
+
+    .alert-danger {
+        color: #80172a;
+        background-color: #fdd5dc;
+        border-color: #fcc4ce;
+    }
+
+        .alert-danger hr {
+            border-top-color: #fbacba;
+        }
+
+        .alert-danger .alert-link {
+            color: #550f1c;
+        }
+
+    .alert-success {
+        color: #1c6356;
+        background-color: #a8ffc3;
+        border-color: #13b755;
+    }
+
+        .alert-success hr {
+            border-top-color: #b4e7dd;
+        }
+
+        .alert-success .alert-link {
+            color: #113b33;
+        }
+
+    .preloader {
+        width: calc(100% - 200px);
+        height: 100%;
+        top: 0px;
+        position: fixed;
+        z-index: 99999;
+        background: rgba(255, 255, 255, .8);
+    }
+
+        .preloader img {
+            position: absolute;
+            LEFT: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+        }
+
+    .loader {
+        overflow: visible;
+        padding-top: 2em;
+        height: 0;
+        width: 2em;
+    }
+</style>
+<div id="alert-success" class="alert alert-success alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="successMessage"></span>
+</div>
+<div class="alert alert-danger alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="failureMessage"></span>
+</div>
+<div class="preloader" style="display:none;">
+    <div class="loader">
+        <img src="~/images/loader.gif" />
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Post User</h5>
+
+                </div>
+                <div class="ibox-content">
+                    @*<form method="post">*@
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label">User Email*</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="txtEmail" placeholder="Enter email" asp-for="UserEmail" class="form-control">
+                        </div>
+                    </div>
+                    @*@if (Model == null)
+                    {*@
+                        @if (HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"].ToString() == "1")
+                        {
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">User Type*</label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" id="selectUserType" onchange="setUserType()"
+                                            asp-items="@Salons.GetUserTypeList().Result.Select(x => new SelectListItem() { Text = x.Description, Value = x.UserTypeId.ToString() })">
+                                        
+                                    </select>
+                                  
+                                </div>
+                            </div>
+                          }
+
+                        //}
+                        @*@if (Model != null && Model.UserType == false)
+                        {*@
+                <div id="divSalonOwner">
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label" id="lblSalonOwner">Salon Owner</label>
+                        <div class="col-sm-10">
+                            <select class="js-example-basic-multiple form-control select2" id="OwnerSalonId"
+                                    asp-items="@Salons.GetSalonList().Result.Select(x => new SelectListItem() { Text = x.SalonName, Value = x.SalonId.ToString() })">
+                                <option value="">Select Salon</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                        @* } *@
+                        <div class="hr-line-dashed"></div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <a class="btn btn-white btn-sm" asp-controller="Auth" asp-action="Users">Cancel</a>
+                                <button class="btn btn-primary btn-sm btnColorChange" onclick="SaveUser()">Save user</button>
+                            </div>
+                        </div>
+                        @*</form>*@
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/admin/Users.js"></script>
+<script>
+    var userSalonsList = [];
+    var salonsList = [];
+    var userList = [];
+    var showSalons = false;
+    var selectUserType = null;
+    $(document).ready(function () {
+        $("#divSalonOwner").css("display", "none");
+        @if (Model != null)
+        {   
+            @:selectUserType = @Model.UserTypeId;
+            
+            if (Model.UserTypeId == 2)
+            {
+                @:showSalons = true;
+            }
+            var stylishSpecialtyLength = @Model.userSalons.Count();
+            if (stylishSpecialtyLength > 0) {
+                        @foreach (var d in Model.userSalons)
+                        {
+                            @:userSalonsList.push("@d.SalonId");
+                        }
+                }
+            }
+        if (showSalons) {
+            $("#divSalonOwner").css("display", "block");
+        }
+        if (selectUserType) {
+            $('#selectUserType').val(selectUserType);
+        }
+        if (userSalonsList.length > 0) {
+            for (var i = 0; i < userSalonsList.length; i++) {
+                    salonsList.push(userSalonsList[i]);
+            }
+            showSalons = true;
+              $('.select2').val(salonsList);
+              $('.select2').trigger('change');
+            }
+        $('.select2').select2({
+            placeholder: "--Select--"
+        });
+
+        $('.preloader').css('display', 'block');
+        $.ajax({
+            type: "GET",
+            url: "/Auth/GetAllUsers",
+            async: true,
+            success: function (response) {
+                userList = response;
+                $('.preloader').css('display', 'none');
+            },
+            error: function (response) {
+
+            },
+            complete: function () {
+
+            }
+        });
+        });
+
+</script>
+

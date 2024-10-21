@@ -1,0 +1,106 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper AuthoringTagHelpers.TagHelpers.EmailTagHelper, AuthoringTagHelpers
+@using DataTables.AspNetCore.Mvc
+@inject MyavanaAdminApiClient.ApiClient hairProfile
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model MyavanaAdminModels.HairProfileCustomersModel
+@{
+    ViewData["Title"] = "Hair Profiles";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    //var hairList = hairProfile.GetHairProfileCustomerList().Result.Where(x => x.CustomerType.ToString() == HttpContextAccessor.HttpContext.Request.Cookies["UserType"].ToString()).ToList();
+    var hairList = hairProfile.GetHairProfileCustomerList(Convert.ToInt32(HttpContextAccessor.HttpContext.Request.Cookies["UserId"])).Result.ToList().OrderByDescending(x => x.CreatedOn);
+}
+
+
+<link rel="stylesheet" href="~/lib/footable/css/footable.core.css" />
+<script src="~/lib/footable/dist/footable.all.min.js"></script>
+<link href="~/css/HairProfile/HairProfile.css" rel="stylesheet" />
+<div id="alert-success" class="alert alert-success alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="successMessage"></span>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Hair Profiles</h5>
+
+                    <div class="ibox-tools">
+                        <label class="mr-1" style="color: #333;">Search:</label>
+                        <input type="text" id="hairProfile" />
+                    </div>
+                </div>
+                <div class="ibox-content">
+
+                    <table class="footable table table-stripped toggle-arrow-tiny" id="hairProfileTable" data-page-size="15">
+                        <thead>
+                            <tr>
+
+                                <th>Name</th>
+                                <th>Customer Type</th>
+                                <th>Email</th>
+                                <th>Created On <span>(yyyy-mm-dd)</span></th>
+                                <th>Hair Profile</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (hairList.Count() > 0)
+                            {
+                                @foreach (var quest in hairList)
+                                {
+                            <tr>
+                                <td>@quest.UserName</td>
+                                <td>@quest.CustomerTypeDesc</td>
+                                <td>
+                                    @quest.UserEmail
+
+                                </td>
+                                <td>
+                                    @quest.CreatedOn.ToString("yyyy-MM-dd  HH:mm:ss tt")
+                                </td>
+                                <td>
+                                    <a href="/HairProfile/CustomerHairProfile?id=@quest.UserId" Title="Move to hair profile"><i class="fa fa-user viewuser" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr><td>  <span>  <strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No data to display</strong></span></td></tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5">
+                                    <ul class="pagination float-right flex-wrap"></ul>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.footable').footable({
+
+            limitNavigation: 20
+        });
+        //$('.footable').footable();
+        $('.footable2').footable();
+        $("input[type='text']").val("");
+    });
+
+    //search box jquery
+    $("#hairProfile").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+        $("#hairProfileTable tr").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+</script>

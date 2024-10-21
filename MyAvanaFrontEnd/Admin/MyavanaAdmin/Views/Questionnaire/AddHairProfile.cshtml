@@ -1,0 +1,1610 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper AuthoringTagHelpers.TagHelpers.EmailTagHelper, AuthoringTagHelpers
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model MyavanaAdminModels.HairProfile
+
+@inject MyavanaAdminApiClient.ApiClient clients
+@{
+    var eduVideos = clients.GetEducationalVideos(Convert.ToInt32(HttpContextAccessor.HttpContext.Request.Cookies["UserId"]));
+    var hhcpList = clients.GetHHCPList(Model.UserEmail).Result;
+    Model.ModifiedBy = Convert.ToInt32(HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"]);
+}
+@{
+    Layout = "_Layout";
+}
+
+@if (Model != null)
+{
+<input type="hidden" id="userId" value="@Model.UserEmail" />
+<input type="hidden" id="isNewHHCP" value="@Model.IsNewHHCP" />
+<input type="hidden" id="QANumber" value="@Model.QA" />
+<input type="hidden" id="HairProfileId"/>
+    <input type="hidden" id="UserTypeId" value="@Model.ModifiedBy"/>
+}
+<script src="~/js/admin/AddHairProfile.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<script>
+
+    //$(document).ready(function () {
+
+    //    $('.select2').select2({ placeholder: "--Select--" });
+    //});
+</script>
+
+<style>
+    .alert-success, .alert-danger, .alert-info {
+        top: 110px !important;
+        width: 60% !important;
+        margin: 0 auto;
+        z-index: 99;
+        position: fixed;
+        left: 50%;
+        transform: translateX(-40%);
+        text-align: center;
+        padding: 12px;
+        transition: all 1s linear;
+        box-shadow: 0px 0px 12px 3px rgba(0, 0, 0, 0.2);
+        font-size: 16px;
+    }
+
+    .alert-danger {
+        color: #80172a;
+        background-color: #fdd5dc;
+        border-color: #fcc4ce;
+    }
+
+        .alert-danger hr {
+            border-top-color: #fbacba;
+        }
+
+        .alert-danger .alert-link {
+            color: #550f1c;
+        }
+
+    .alert-success {
+        color: #1c6356;
+        background-color: #a8ffc3;
+        border-color: #13b755;
+    }
+
+        .alert-success hr {
+            border-top-color: #b4e7dd;
+        }
+
+        .alert-success .alert-link {
+            color: #113b33;
+        }
+
+    .select2-container, .select2-container li.select2-search {
+        width: 100% !important;
+    }
+
+    .preloader {
+        width: calc(100% - 200px);
+        height: 100%;
+        top: 0px;
+        position: fixed;
+        z-index: 99999;
+        background: rgba(255, 255, 255, .8);
+    }
+
+        .preloader img {
+            position: absolute;
+            LEFT: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+        }
+
+    .loader {
+        overflow: visible;
+        padding-top: 2em;
+        height: 0;
+        width: 2em;
+    }
+    /* #TopLeftPhotoSelected {
+        border: 1px solid #ccc;
+        padding: 4px 10px;
+        margin-bottom: 10px;
+        margin-right: 10px;
+    }*/
+    div#TopLeftPhotoSelected .spnAttachment {
+        border: 1px solid #ccc;
+        padding: 4px 10px;
+        margin-bottom: 10px;
+        margin-right: 10px;
+    }
+
+    .checkboxstyle input {
+        margin-left: 15px;
+        margin-bottom: 5px;
+    }
+
+    .table-id-dataInputs input {
+        width: 100%;
+        border: none;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .tab-section {
+        padding: 20px 0;
+    }
+
+        .tab-section .nav-pills .nav-link.active {
+            background: #6c6f70;
+            color: #fff;
+        }
+
+        .tab-section .nav-pills .nav-link {
+            color: #676a6c;
+            font-size: 16px;
+            position: relative;
+            border: none;
+            width: 19%;
+            background: #d8d9e3;
+            margin-left: 1%;
+            border-radius: 10px;
+            text-align: center;
+            line-height: normal;
+            padding: 10px;
+        }
+
+            .tab-section .nav-pills .nav-link:first-child {
+                margin-left: 0;
+            }
+
+            .tab-section .nav-pills .nav-link.active:after {
+                content: "";
+                position: absolute;
+                bottom: -7px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 0;
+                height: 0;
+                border-left: 7px solid transparent;
+                border-right: 7px solid transparent;
+                border-top: 7px solid #6d7071;
+                background: transparent;
+            }
+
+    .sub_heading {
+        padding: 7px 15px;
+        margin-bottom: 20px;
+        font-size: 14px;
+        border-radius: 0.25rem;
+        background: #e4e4e4;
+    }
+</style>
+<input type="hidden" id="type" />
+<div id="alert-success" class="alert alert-success alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="successMessage"></span>
+</div>
+<div class="alert alert-danger alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="failureMessage"></span>
+</div>
+
+<div class="preloader" style="display:none;">
+    <div class="loader">
+        <img src="~/images/loader.gif" />
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title text-center">
+                    <h3>The Healthy Hair Care Plan Map</h3>
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-weight: bolder;">
+                        <!-- Left Side: Hair Analyst -->
+                        <div style="display: flex; align-items: center;">
+                            <label style="margin-right: 10px;">Hair Analyst</label>
+                            <select class="form-control w-auto" id="ddlanalyst" asp-for="@Model.CreatedBy"
+                                    asp-items="@clients.GetAnalystList().Result.Select(a => new SelectListItem() { Text = a.AnalystName, Value = a.HairAnalystId.ToString() })">
+                            </select>
+                        </div>
+
+                        <!-- Right Side: Hair Profile -->
+                        <div style="display: flex; align-items: center;">
+                            @if (hhcpList.Any())
+                            {
+                            <label style="margin-right: 10px;">Hair Profile</label>
+                            <select class="form-control w-auto" id="ddlHHCP" onchange="changeHHCP()"
+                                    asp-items="@hhcpList.Select(a => new SelectListItem() { Text = a.HairProfile + a.QA, Value = a.HairProfileId.ToString() })"></select>}
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="ibox-content">
+                    <div class="tab-section">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="nav flex-row justify-content-center nav-pills mb-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                    <a class="nav-link lnk Tab1 active" id="v-pills-home-tab" data-toggle="pill" role="tab" aria-selected="true" onclick="GetConfirmation('Tab1'); return false;">Hair Profile</a>
+                                    <a class="nav-link lnk Tab2" id="v-pills-profile-tab" data-toggle="pill" role="tab" aria-selected="false" onclick="GetConfirmation('Tab2'); return false;"> Hair Analysis</a>
+                                    <a class="nav-link lnk Tab3" id="v-pills-messages-tab" data-toggle="pill" role="tab" aria-selected="false" onclick="GetConfirmation('Tab3'); return false;">Recommended Products</a>
+                                    <a class="nav-link lnk Tab5" id="v-pills-messages-tab" data-toggle="pill" role="tab" aria-selected="false" onclick="GetConfirmation('Tab5'); return false;">Style Recipes</a>
+                                    <a class="nav-link lnk Tab4" id="v-pills-settings-tab" data-toggle="pill" role="tab" aria-selected="false" onclick="GetConfirmation('Tab4'); return false;">Other Recommendations</a>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="tab-content" id="v-pills-tabContent">
+                                    <div class="tab-pane fade show active showHide Tab1" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                                        <div class="form-group  row">
+                                            <label class="col-sm-2 col-form-label">Profile :</label>
+                                            <div class="col-sm-10 col-form-label">
+                                                <span>@Model.UserId</span>
+                                            </div>
+                                            <label class="col-sm-2 col-form-label">Hair Health Summary</label>
+                                            <div class="col-sm-10">
+                                                @*<a href="https://customer.myavana.com/" target="_blank">*@
+                                                <textarea id="txtHealthSummary" class="font-bold" rows="9" style="width:100%" placeholder="Write something..."></textarea>
+                                                @*</a>*@
+                                            </div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+
+                                        <div class="form-group  row">
+                                            <label class="col-sm-2 col-form-label">Hair ID</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" style="display:none" autocomplete="off" id="txtHairId2" placeholder="Enter ID" />
+                                                <input type="text" autocomplete="off" class="form-control" id="txtHairId" placeholder="Enter ID" />
+                                            </div>
+                                            <div class="col-md-12 mt-4">
+                                                <div class="table-responsive">
+
+
+                                                    <table class="table table-bordered table-hover w-90 table-id-dataInputs">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td width="40%">Type - the shape of the strand and the form of the strand</td>
+                                                                <td width="10%"><input id="typeId" type="text" /></td>
+                                                                <td width="50%"><input type="text" id="typeDesc" /></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Texture - the look and the feel of the strand</td>
+                                                                <td><input id="textureId" type="text" /></td>
+                                                                <td><input type="text" id="textureDesc" /></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Health - the current physical and chemical condition of the strand</td>
+                                                                <td><input id="healthId" type="text" /></td>
+                                                                <td><input type="text" id="healthDesc" /></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Porosity - the amount of moisture that is absorbed and retained in the hair</td>
+                                                                <td><input id="porosityId" type="text" /></td>
+                                                                <td><input type="text" id="porosityDesc" /></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Elasticity - the ability for the strand to stretch and return to its original form</td>
+                                                                <td><input id="elasticityId" type="text" /></td>
+                                                                <td><input type="text" id="elasticityDesc" /></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Density - the amount of hairs per square inch on the head</td>
+                                                                <td><input id="densityId" type="text" /></td>
+                                                                <td><input type="text" id="densityDesc" /></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+
+                                        <div class="form-group  row">
+                                            <label class="col-sm-12 col-form-label mb-4">Virtual Consultation Observations</label>
+                                            @*<ul style="list-style-type:disc;">
+                                                    <li>Goals</li>
+                                                    <li>Challenges</li>
+                                                    <li>Hair Consultant Observations</li>
+                                                </ul>*@
+                                            <div class="col-md-12">
+                                                <div class="table-responsive">
+
+
+                                                    <table id="tblObservation" class="table table-bordered table-hover w-50 table-id-dataInputs">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Goals</th>
+
+                                                                <th>Challenges</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="bdyObservation">
+                                                            <tr><td><input type="text" id="goal_0" /></td><td><input type="text" id="challenge_0" /></td></tr>
+                                                            <tr><td><input type="text" id="goal_1" /></td><td><input type="text" id="challenge_1" /></td></tr>
+                                                            <tr><td><input type="text" id="goal_2" /></td><td><input type="text" id="challenge_2" /></td></tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group  row">
+                                            <label class="col-sm-2 col-form-label">Pre Consultation Notes for Hair Analyst and Customer</label>
+                                            <div class="col-sm-10">
+                                                <textarea id="txtConsultantNotes" rows="4" style="width:100%;" placeholder="Write something..."></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group  row">
+                                            <label class="col-sm-2 col-form-label">Stylist Recommendations</label>
+                                            <div class="col-sm-10">
+                                                <textarea id="txtRecommendationNotes" rows="4" style="width:100%;" placeholder="Write something..."></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group  row">
+                                            <label class="col-sm-2 col-form-label">My Notes (for stylist view only)</label>
+                                            <div class="col-sm-10">
+                                                <textarea id="txtMyNotes" rows="4" style="width:100%;" placeholder="Write something..."></textarea>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="tab-pane fade showHide Tab2" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                                        <div class="accordion" id="accordionExample">
+                                            <div class="form-group">
+                                                <label>Hair Analyst Notes</label>
+                                                <div class="col-sm-12">
+                                                    <textarea id="txtHairAnalysisNotes" rows="4" style="width:100%;" placeholder="Write something..."></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="card">
+                                                <div class="card-header" id="headingOne">
+                                                    <h2 class="mb-0">
+                                                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                            Top Left
+                                                        </button>
+                                                    </h2>
+                                                </div>
+
+                                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                                    <div class="card-body">
+                                                        <div class="form-group">
+                                                            <div class="col-sm-12 tl">
+                                                                <button id="btnTopLeftPhoto" class="btn btn-secondary">Top left photo</button>
+                                                                <input type="file" accept="image/x-png,image/gif,image/jpeg" multiple hidden id="TopLeftPhoto" />
+                                                                <img src="~/images/loading.gif" id="showLoader" style="width: 120px;display: none;padding-top: 10px;" />
+                                                                <span id="TopLeftPhotoSelected"></span>
+                                                                <span style="display:none" id="TopLeftPhotoSelectedUnique"></span>
+
+                                                            </div>
+                                                            <div class="hr-line-dashed"></div>
+
+                                                            <label>Lab Analyst Notes</label>
+                                                            <div class="col-sm-12">
+                                                                <textarea id="txtStrandDiameter1" rows="4" style="width:100%;" placeholder="Write something..."></textarea>
+                                                            </div>
+                                                            <div class="hr-line-dashed"></div>
+
+                                                            @*<label>Health*</label>
+                                                                <div class="col-sm-12">
+                                                                    <textarea id="txtHealth1" rows="4" style="width:100%" placeholder="Write something..."></textarea>
+                                                                </div>*@
+                                                            <div class="row">
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Hair Profile Health</label>
+
+                                                                    <input type="checkbox" id="health1_1" class="health1" value="1" /> Good
+                                                                    <input type="checkbox" id="health1_3" class="health1" value="3" /> Average
+                                                                    <input type="checkbox" id="health1_2" class="health1" value="2" /> Needs More Care
+                                                                    <input type="checkbox" id="health1_4" class="health1" value="4" /> Challenged
+                                                                </div>
+                                                            </div>
+                                                            <div class="hr-line-dashed"></div>
+
+                                                            @*<div class="row">
+                                                                    <label>Observations</label>
+                                                                    <div class="col-sm-8">
+                                                                        <input type="checkbox" id="observation1_1" class="observations1" value="1" /> Product Buildup
+                                                                        <input type="checkbox" id="observation1_2" class="observations1" value="2" /> Damage
+                                                                        <input type="checkbox" id="observation1_3" class="observations1" value="3" /> Breakage
+                                                                        <input type="checkbox" id="observation1_4" class="observations1" value="4" /> Splitting
+                                                                    </div>
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>*@
+
+
+                                                            <div class="row">
+                                                                <div class="col-sm-12 checkboxstyle">
+
+                                                                    <label>Observations</label>
+                                                                    <input type="checkbox" id="observation1_37" class="observations1 mr-1" value="37" />Single Strand Knots
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+
+                                                                @*<div class="col-sm-12 checkboxstyle">
+                                                                    <label>Chemical Product Buildup</label>
+
+                                                                                                    <input type="radio" id="observationChem1_1" name="observationChem1" class="observationChem1" value="1" /> Severe
+                                                                                                    <input type="radio" id="observationChem1_2" name="observationChem1" class="observationChem1" value="2" /> Moderate                                                                    <input type="radio" id="observationChem1_3" name="observationChem1" class="observationChem1" value="3" /> Minor
+                                                                                                    <input type="radio" id="observationChem1_4" name="observationChem1" class="observationChem1" value="4" /> None
+                                                                                                </div>
+                                                                                                <div class="hr-line-dashed"></div>*@
+
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Physical Product Buildup</label>
+
+                                                                    <input type="radio" id="observationPhy1_1" name="observationPhy1" class="observationPhy1" value="1" /> Severe
+                                                                    <input type="radio" id="observationPhy1_2" name="observationPhy1" class="observationPhy1" value="2" /> Moderate
+                                                                    <input type="radio" id="observationPhy1_3" name="observationPhy1" class="observationPhy1" value="3" /> Minor                                                                    <input type="radio" id="observationPhy1_4" name="observationPhy1" class="observationPhy1" value="4" /> None
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+
+                                                                @*<div class="col-sm-12 checkboxstyle">
+                                                                        <label>Damage</label>
+
+                                                                        <input type="radio" id="observationDam1_1" name="observationDam1" class="observationDam1" value="1" /> Severe
+                                                                        <input type="radio" id="observationDam1_2" name="observationDam1" class="observationDam1" value="2" /> Average
+                                                                        <input type="radio" id="observationDam1_3" name="observationDam1" class="observationDam1" value="3" /> Low
+                                                                        <input type="radio" id="observationDam1_4" name="observationDam1" class="observationDam1" value="4" /> None
+                                                                    </div>
+                                                                    <div class="hr-line-dashed"></div>*@
+
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Breakage</label>
+
+                                                                    <input type="radio" id="observationBreak1_1" name="observationBreak1" class="observationBreak1" value="1" /> Severe
+                                                                    <input type="radio" id="observationBreak1_2" name="observationBreak1" class="observationBreak1" value="2" /> Moderate
+                                                                    <input type="radio" id="observationBreak1_3" name="observationBreak1" class="observationBreak1" value="3" /> Minor
+                                                                    <input type="radio" id="observationBreak1_4" name="observationBreak1" class="observationBreak1" value="4" /> None
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Splitting</label>
+
+                                                                    <input type="radio" id="observationSplit1_1" name="observationSplit1" class="observationSplit1" value="1" /> Severe
+                                                                    <input type="radio" id="observationSplit1_2" name="observationSplit1" class="observationSplit1" value="2" /> Moderate
+                                                                    <input type="radio" id="observationSplit1_3" name="observationSplit1" class="observationSplit1" value="3" /> Minor
+                                                                    <input type="radio" id="observationSplit1_4" name="observationSplit1" class="observationSplit1" value="4" /> None
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Porosity</label>
+                                                                    <input type="radio" id="Porosity1_3" class="Porosity1" name="Porosity1" value="3" /> High
+                                                                    <input type="radio" id="Porosity1_2" class="Porosity1" name="Porosity1" value="2" /> Average
+                                                                    <input type="radio" id="Porosity1_1" class="Porosity1" name="Porosity1" value="1" /> Low
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Elasticity</label>
+
+                                                                    <input type="radio" id="observationElas1_1" name="observationElas1" class="observationElas1" value="1" /> Good
+                                                                    <input type="radio" id="observationElas1_2" name="observationElas1" class="observationElas1" value="2" /> Average
+                                                                    <input type="radio" id="observationElas1_3" name="observationElas1" class="observationElas1" value="3" /> Low
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Density</label>
+
+                                                                    <input type="radio" id="Elasticity1_1" name="Elasticity1" class="Elasticity1" value="1" /> High
+                                                                    <input type="radio" id="Elasticity1_2" name="Elasticity1" class="Elasticity1" value="2" /> Medium
+                                                                    <input type="radio" id="Elasticity1_23" name="Elasticity1" class="Elasticity1" value="23" /> Low
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+
+
+
+
+                                                            </div>
+
+                                                            @*<div class="row">
+                                                                    <label>Elasticity</label>
+                                                                    <div class="col-sm-4 checkboxstyle">
+                                                                        <input type="radio" id="Elasticity1_1" class="Elasticity1" name="Elasticity1" value="1" /> Low
+                                                                        <input type="radio" id="Elasticity1_2" class="Elasticity1" name="Elasticity1" value="2" /> High
+                                                                    </div>
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="card">
+                                                <div class="card-header" id="headingTwo">
+                                                    <h2 class="mb-0">
+                                                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                            Top Right
+                                                        </button>
+                                                    </h2>
+                                                </div>
+                                                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                                    <div class="card-body">
+                                                        <div class="form-group">
+                                                            <div class="col-sm-12">
+                                                                <button id="btnTopRightPhoto" class="btn btn-secondary">Top right photo</button>
+                                                                <input type="file" accept="image/x-png,image/gif,image/jpeg" multiple hidden id="TopRightPhoto" />
+                                                                <img src="~/images/loading.gif" id="showRightLoader" style="width: 120px;display: none;padding-top: 10px;" />
+                                                                <span id="TopRightPhotoSelected"></span>
+                                                                <span style="display:none" id="TopRightPhotoSelectedUnique"></span>
+                                                            </div>
+                                                            <div class="hr-line-dashed"></div>
+
+                                                            <label>Lab Analyst Notes</label>
+                                                            <div class="col-sm-12">
+                                                                <textarea id="txtStrandDiameter2" rows="4" style="width:100% !important" placeholder="Write something..."></textarea>
+                                                            </div>
+                                                            <div class="hr-line-dashed"></div>
+
+                                                            @*<label>Health*</label>
+                                                                <div class="col-sm-12">
+                                                                    <textarea id="txtHealth2" rows="4" style="width:100%" placeholder="Write something..."></textarea>
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>*@
+                                                            <div class="row">
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Hair Profile Health</label>
+                                                                    <div class="col-sm-8">
+                                                                        <input type="checkbox" id="health2_1" class="health2" value="1" /> Good
+                                                                        <input type="checkbox" id="health2_3" class="health2" value="3" /> Average
+                                                                        <input type="checkbox" id="health2_2" class="health2" value="2" /> Needs More Care
+                                                                        <input type="checkbox" id="health2_4" class="health2" value="4" /> Challenged
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="hr-line-dashed"></div>
+
+                                                            @*<div class="row">
+                                                                    <label>Observations</label>
+                                                                    <div class="col-sm-8">
+                                                                        <input type="checkbox" id="observation2_1" class="observations2" value="1" /> Product Buildup
+                                                                        <input type="checkbox" id="observation2_2" class="observations2" value="2" /> Damage
+                                                                        <input type="checkbox" id="observation2_3" class="observations2" value="3" /> Breakage
+                                                                        <input type="checkbox" id="observation2_4" class="observations2" value="4" /> Splitting
+                                                                    </div>
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>*@
+
+
+                                                            <div class="row">
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Observations</label>
+
+                                                                    <input type="checkbox" id="observation2_37" class="observations2 mr-1" value="37" />Single Strand Knots
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+
+                                                                @*<div class="col-sm-12 checkboxstyle">
+                                                                        <label>Chemical Product Buildup</label>
+
+                                                                        <input type="radio" id="observationChem2_1" name="observationChem2" class="observationChem2" value="1" /> Severe
+                                                                        <input type="radio" id="observationChem2_2" name="observationChem2" class="observationChem2" value="2" /> Moderate
+                                                                        <input type="radio" id="observationChem2_3" name="observationChem2" class="observationChem2" value="3" /> Minor
+                                                                        <input type="radio" id="observationChem2_4" name="observationChem2" class="observationChem2" value="4" /> None
+                                                                    </div>
+                                                                    <div class="hr-line-dashed"></div>*@
+
+
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Physical Product Buildup</label>
+
+                                                                    <input type="radio" id="observationPhy2_1" name="observationPhy2" class="observationPhy2" value="1" /> Severe
+                                                                    <input type="radio" id="observationPhy2_2" name="observationPhy2" class="observationPhy2" value="2" /> Moderate
+                                                                    <input type="radio" id="observationPhy2_3" name="observationPhy2" class="observationPhy2" value="3" /> Minor
+                                                                    <input type="radio" id="observationPhy2_4" name="observationPhy2" class="observationPhy2" value="4" /> None
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+
+                                                                @*<div class="col-sm-12 checkboxstyle">
+                                                                        <label>Damage</label>
+
+                                                                        <input type="radio" id="observationDam2_1" name="observationDam2" class="observationDam2" value="1" /> Severe
+                                                                        <input type="radio" id="observationDam2_2" name="observationDam2" class="observationDam2" value="2" /> Average
+                                                                        <input type="radio" id="observationDam2_3" name="observationDam2" class="observationDam2" value="3" /> Low
+                                                                        <input type="radio" id="observationDam2_4" name="observationDam2" class="observationDam2" value="4" /> None
+                                                                    </div>
+                                                                    <div class="hr-line-dashed"></div>*@
+
+
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Breakage</label>
+
+                                                                    <input type="radio" id="observationBreak2_1" name="observationBreak2" class="observationBreak2" value="1" /> Severe
+                                                                    <input type="radio" id="observationBreak2_2" name="observationBreak2" class="observationBreak2" value="2" /> Moderate
+                                                                    <input type="radio" id="observationBreak2_3" name="observationBreak2" class="observationBreak2" value="3" /> Minor
+                                                                    <input type="radio" id="observationBreak2_4" name="observationBreak2" class="observationBreak2" value="4" /> None
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+
+
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Splitting</label>
+
+                                                                    <input type="radio" id="observationSplit2_1" name="observationSplit2" class="observationSplit2" value="1" /> Severe
+                                                                    <input type="radio" id="observationSplit2_2" name="observationSplit2" class="observationSplit2" value="2" /> Moderate
+                                                                    <input type="radio" id="observationSplit2_3" name="observationSplit2" class="observationSplit2" value="3" /> Minor
+                                                                    <input type="radio" id="observationSplit2_4" name="observationSplit2" class="observationSplit2" value="4" /> None
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Porosity</label>
+                                                                    <input type="radio" id="Porosity2_3" class="Porosity2" name="Porosity2" value="3" /> High
+                                                                    <input type="radio" id="Porosity2_2" class="Porosity2" name="Porosity2" value="2" /> Average
+                                                                    <input type="radio" id="Porosity2_1" class="Porosity2" name="Porosity2" value="1" /> Low
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Elasticity</label>
+
+                                                                    <input type="radio" id="observationElas2_1" name="observationElas2" class="observationElas2" value="1" /> Good
+                                                                    <input type="radio" id="observationElas2_2" name="observationElas2" class="observationElas2" value="2" /> Average
+                                                                    <input type="radio" id="observationElas2_3" name="observationElas2" class="observationElas2" value="3" /> Low
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Density</label>
+
+                                                                    <input type="radio" id="Elasticity2_1" name="Elasticity2" class="Elasticity2" value="1" /> High
+                                                                    <input type="radio" id="Elasticity2_2" name="Elasticity2" class="Elasticity2" value="2" /> Medium
+                                                                    <input type="radio" id="Elasticity2_23" name="Elasticity2" class="Elasticity2" value="23" /> Low
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+
+
+
+
+                                                            </div>
+
+                                                            @*<div class="row">
+                                                                    <label>Elasticity</label>
+                                                                    <div class="col-sm-4 checkboxstyle">
+                                                                        <input type="radio" id="Elasticity2_1" class="Elasticity2" name="Elasticity2" value="1" /> Low
+                                                                        <input type="radio" id="Elasticity2_2" class="Elasticity2" name="Elasticity2" value="2" /> High
+                                                                    </div>
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="card">
+                                                <div class="card-header" id="headingThree">
+                                                    <h2 class="mb-0">
+                                                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                            Bottom Left
+                                                        </button>
+                                                    </h2>
+                                                </div>
+                                                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                                    <div class="card-body">
+                                                        <div class="form-group">
+                                                            <div class="col-sm-12">
+                                                                <button id="btnBottomLeftPhoto" class="btn btn-secondary">Bottom left photo</button>
+                                                                <input type="file" accept="image/x-png,image/gif,image/jpeg" multiple hidden id="BottomLeftPhoto" />
+                                                                <img src="~/images/loading.gif" id="showLeftLoader" style="width: 120px;display: none;padding-top: 10px;" />
+                                                                <span id="BottomLeftPhotoSelected"></span>
+                                                                <span style="display:none" id="BottomLeftPhotoSelectedUnique"></span>
+                                                            </div>
+                                                            <div class="hr-line-dashed"></div>
+
+                                                            <label>Lab Analyst Notes</label>
+                                                            <div class="col-sm-12">
+                                                                <textarea id="txtStrandDiameter3" rows="4" style="width:100%;" placeholder="Write something..."></textarea>
+                                                            </div>
+                                                            <div class="hr-line-dashed"></div>
+
+                                                            @*<label>Health*</label>
+                                                                <div class="col-sm-12">
+                                                                    <textarea id="txtHealth3" rows="4" style="width:100%" placeholder="Write something..."></textarea>
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>*@
+                                                            <div class="row">
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Hair Profile Health</label>
+                                                                    <div class="col-sm-8 checkboxstyle">
+                                                                        <input type="checkbox" id="health3_5" class="health3" value="1" /> Good
+                                                                        <input type="checkbox" id="health3_3" class="health3" value="3" /> Average
+                                                                        <input type="checkbox" id="health3_2" class="health3" value="2" /> Needs More Care
+                                                                        <input type="checkbox" id="health3_4" class="health3" value="4" /> Challenged
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="hr-line-dashed"></div>
+
+                                                            @*<div class="row">
+                                                                    <label>Observations</label>
+                                                                    <div class="col-sm-8">
+                                                                        <input type="checkbox" id="observation3_5" class="observations3" value="1" /> Product Buildup
+                                                                        <input type="checkbox" id="observation3_2" class="observations3" value="2" /> Damage
+                                                                        <input type="checkbox" id="observation3_3" class="observations3" value="3" /> Breakage
+                                                                        <input type="checkbox" id="observation3_4" class="observations3" value="4" /> Splitting
+                                                                    </div>
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>*@
+
+
+
+                                                            <div class="row">
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Observations</label>
+
+                                                                    <input type="checkbox" id="observation3_37" class="observations3 mr-1" value="37" />Single Strand Knots
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+
+                                                                @*<div class="col-sm-12 checkboxstyle">
+                                                                        <label>Chemical Product Buildup</label>
+
+                                                                        <input type="radio" id="observationChem3_1" name="observationChem3" class="observationChem3" value="1" /> Severe
+                                                                        <input type="radio" id="observationChem3_2" name="observationChem3" class="observationChem3" value="2" /> Moderate
+                                                                        <input type="radio" id="observationChem3_3" name="observationChem3" class="observationChem3" value="3" /> Minor
+                                                                        <input type="radio" id="observationChem3_4" name="observationChem3" class="observationChem3" value="4" /> None
+                                                                    </div>
+                                                                    <div class="hr-line-dashed"></div>*@
+
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Physical Product Buildup</label>
+
+                                                                    <input type="radio" id="observationPhy3_1" name="observationPhy3" class="observationPhy3" value="1" /> Severe
+                                                                    <input type="radio" id="observationPhy3_2" name="observationPhy3" class="observationPhy3" value="2" /> Moderate
+                                                                    <input type="radio" id="observationPhy3_3" name="observationPhy3" class="observationPhy3" value="3" /> Minor
+                                                                    <input type="radio" id="observationPhy3_4" name="observationPhy3" class="observationPhy3" value="4" /> None
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+
+                                                                @*<div class="col-sm-12 checkboxstyle">
+                                                                        <label>Damage</label>
+
+                                                                        <input type="radio" id="observationDam3_1" name="observationDam3" class="observationDam3" value="1" /> Severe
+                                                                        <input type="radio" id="observationDam3_2" name="observationDam3" class="observationDam3" value="2" /> Average
+                                                                        <input type="radio" id="observationDam3_3" name="observationDam3" class="observationDam3" value="3" /> Low
+                                                                        <input type="radio" id="observationDam3_4" name="observationDam3" class="observationDam3" value="4" /> None
+                                                                    </div>
+                                                                    <div class="hr-line-dashed"></div>*@
+
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Breakage</label>
+
+                                                                    <input type="radio" id="observationBreak3_1" name="observationBreak3" class="observationBreak3" value="1" /> Severe
+                                                                    <input type="radio" id="observationBreak3_2" name="observationBreak3" class="observationBreak3" value="2" /> Moderate
+                                                                    <input type="radio" id="observationBreak3_3" name="observationBreak3" class="observationBreak3" value="3" /> Minor
+                                                                    <input type="radio" id="observationBreak3_4" name="observationBreak3" class="observationBreak3" value="4" /> None
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Splitting</label>
+
+                                                                    <input type="radio" id="observationSplit3_1" name="observationSplit3" class="observationSplit3" value="1" /> Severe
+                                                                    <input type="radio" id="observationSplit3_2" name="observationSplit3" class="observationSplit3" value="2" /> Moderate
+                                                                    <input type="radio" id="observationSplit3_3" name="observationSplit3" class="observationSplit3" value="3" /> Minor
+                                                                    <input type="radio" id="observationSplit3_4" name="observationSplit3" class="observationSplit3" value="4" /> None
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Porosity</label>
+                                                                    <input type="radio" id="Porosity3_3" class="Porosity3" name="Porosity3" value="3" /> High
+                                                                    <input type="radio" id="Porosity3_2" class="Porosity3" name="Porosity3" value="2" /> Average
+                                                                    <input type="radio" id="Porosity3_1" class="Porosity3" name="Porosity3" value="1" /> Low
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Elasticity</label>
+
+                                                                    <input type="radio" id="observationElas3_1" name="observationElas3" class="observationElas3" value="1" /> Good
+                                                                    <input type="radio" id="observationElas3_2" name="observationElas3" class="observationElas3" value="2" /> Average
+                                                                    <input type="radio" id="observationElas3_3" name="observationElas3" class="observationElas3" value="3" /> Low
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Density</label>
+
+                                                                    <input type="radio" id="Elasticity3_1" name="Elasticity3" class="Elasticity3" value="1" /> High
+                                                                    <input type="radio" id="Elasticity3_2" name="Elasticity3" class="Elasticity3" value="2" /> Medium
+                                                                    <input type="radio" id="Elasticity3_23" name="Elasticity3" class="Elasticity3" value="23" /> Low
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+
+
+                                                            </div>
+
+                                                            @*<div class="row">
+                                                                    <label>Elasticity</label>
+                                                                    <div class="col-sm-4 checkboxstyle">
+                                                                        <input type="radio" id="Elasticity3_1" class="Elasticity3" name="Elasticity3" value="1" /> Low
+                                                                        <input type="radio" id="Elasticity3_2" class="Elasticity3" name="Elasticity3" value="2" /> High
+                                                                    </div>
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="card">
+                                                <div class="card-header" id="headingFour">
+                                                    <h2 class="mb-0">
+                                                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                                            Bottom Right
+                                                        </button>
+                                                    </h2>
+                                                </div>
+                                                <div id="collapseFour" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                                    <div class="card-body">
+                                                        <div class="form-group">
+                                                            <div class="col-sm-12">
+                                                                <button id="btnBottomRightPhoto" class="btn btn-secondary">Bottom right photo</button>
+                                                                <input type="file" accept="image/x-png,image/gif,image/jpeg" multiple hidden id="BottomRightPhoto" />
+                                                                <img src="~/images/loading.gif" id="showBottomRightLoader" style="width: 120px;display: none;padding-top: 10px;" />
+                                                                <span id="BottomRightPhotoSelected"></span>
+                                                                <span style="display:none" id="BottomRightPhotoSelectedUnique"></span>
+
+                                                            </div>
+                                                            <div class="hr-line-dashed"></div>
+
+                                                            <label>Lab Analyst Notes</label>
+                                                            <div class="col-sm-12">
+                                                                <textarea id="txtStrandDiameter4" rows="4" style="width:100%;" placeholder="Write something..."></textarea>
+                                                            </div>
+                                                            <div class="hr-line-dashed"></div>
+
+                                                            @*<label>Health*</label>
+                                                                <div class="col-sm-12">
+                                                                    <textarea id="txtHealth4" rows="4" style="width:100%" placeholder="Write something..."></textarea>
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>*@
+                                                            <div class="row">
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Hair Profile Health</label>
+                                                                    <div class="col-sm-8 checkboxstyle">
+                                                                        <input type="checkbox" id="health4_1" class="health4" value="1" /> Good
+                                                                        <input type="checkbox" id="health4_3" class="health4" value="3" /> Average
+                                                                        <input type="checkbox" id="health4_2" class="health4" value="2" /> Needs More Care
+                                                                        <input type="checkbox" id="health4_4" class="health4" value="4" /> Challenged
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="hr-line-dashed"></div>
+
+                                                            @*<div class="row">
+                                                                    <label>Observations</label>
+                                                                    <div class="col-sm-8">
+                                                                        <input type="checkbox" id="observation4_1" class="observations4" value="1" /> Product Buildup
+                                                                        <input type="checkbox" id="observation4_2" class="observations4" value="2" /> Damage
+                                                                        <input type="checkbox" id="observation4_3" class="observations4" value="3" /> Breakage
+                                                                        <input type="checkbox" id="observation4_4" class="observations4" value="4" /> Splitting
+                                                                    </div>
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>*@
+
+
+                                                            <div class="row">
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Observations</label>
+
+                                                                    <input type="checkbox" id="observation4_37" class="observations4 mr-1" value="37" />Single Strand Knots
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+
+                                                                @*<div class="col-sm-12 checkboxstyle">
+                                                                        <label>Chemical Product Buildup</label>
+
+                                                                        <input type="radio" id="observationChem4_1" name="observationChem4" class="observationChem4" value="1" /> Severe
+                                                                        <input type="radio" id="observationChem4_2" name="observationChem4" class="observationChem4" value="2" /> Moderate
+                                                                        <input type="radio" id="observationChem4_3" name="observationChem4" class="observationChem4" value="3" /> Minor
+                                                                        <input type="radio" id="observationChem4_4" name="observationChem4" class="observationChem4" value="4" /> None
+                                                                    </div>
+                                                                    <div class="hr-line-dashed"></div>*@
+
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Physical Product Buildup</label>
+
+                                                                    <input type="radio" id="observationPhy4_1" name="observationPhy4" class="observationPhy4" value="1" /> Severe
+                                                                    <input type="radio" id="observationPhy4_2" name="observationPhy4" class="observationPhy4" value="2" /> Moderate
+                                                                    <input type="radio" id="observationPhy4_3" name="observationPhy4" class="observationPhy4" value="3" /> Minor
+                                                                    <input type="radio" id="observationPhy4_4" name="observationPhy4" class="observationPhy4" value="4" /> None
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+
+                                                                @*<div class="col-sm-12 checkboxstyle">
+                                                                        <label>Damage</label>
+
+                                                                        <input type="radio" id="observationDam4_1" name="observationDam4" class="observationDam4" value="1" /> Severe
+                                                                        <input type="radio" id="observationDam4_2" name="observationDam4" class="observationDam4" value="2" /> Average
+                                                                        <input type="radio" id="observationDam4_3" name="observationDam4" class="observationDam4" value="3" /> Low
+                                                                        <input type="radio" id="observationDam4_4" name="observationDam4" class="observationDam4" value="4" /> None
+                                                                    </div>
+                                                                    <div class="hr-line-dashed"></div>*@
+
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Breakage</label>
+
+                                                                    <input type="radio" id="observationBreak4_1" name="observationBreak4" class="observationBreak4" value="1" /> Severe
+                                                                    <input type="radio" id="observationBreak4_2" name="observationBreak4" class="observationBreak4" value="2" /> Moderate
+                                                                    <input type="radio" id="observationBreak4_3" name="observationBreak4" class="observationBreak4" value="3" /> Minor
+                                                                    <input type="radio" id="observationBreak4_4" name="observationBreak4" class="observationBreak4" value="4" /> None
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Splitting</label>
+
+                                                                    <input type="radio" id="observationSplit4_1" name="observationSplit4" class="observationSplit4" value="1" /> Severe
+                                                                    <input type="radio" id="observationSplit4_2" name="observationSplit4" class="observationSplit4" value="2" /> Moderate
+                                                                    <input type="radio" id="observationSplit4_3" name="observationSplit4" class="observationSplit4" value="3" /> Minor
+                                                                    <input type="radio" id="observationSplit4_4" name="observationSplit4" class="observationSplit4" value="4" /> None
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Porosity</label>
+                                                                    <input type="radio" id="Porosity4_3" class="Porosity4" name="Porosity4" value="3" /> High
+                                                                    <input type="radio" id="Porosity4_2" class="Porosity4" name="Porosity4" value="2" /> Average
+                                                                    <input type="radio" id="Porosity4_1" class="Porosity4" name="Porosity4" value="1" /> Low
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Elasticity</label>
+
+                                                                    <input type="radio" id="observationElas4_1" name="observationElas4" class="observationElas4" value="1" /> Good
+                                                                    <input type="radio" id="observationElas4_2" name="observationElas4" class="observationElas4" value="2" /> Average
+                                                                    <input type="radio" id="observationElas4_3" name="observationElas4" class="observationElas4" value="3" /> Low
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Density</label>
+
+                                                                    <input type="radio" id="Elasticity4_1" name="Elasticity4" class="Elasticity4" value="1" /> High
+                                                                    <input type="radio" id="Elasticity4_2" name="Elasticity4" class="Elasticity4" value="2" /> Medium
+                                                                    <input type="radio" id="Elasticity4_23" name="Elasticity4" class="Elasticity4" value="23" /> Low
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+
+
+                                                            </div>
+
+                                                            @*<div class="row">
+                                                                    <label>Elasticity</label>
+                                                                    <div class="col-sm-4 checkboxstyle">
+                                                                        <input type="radio" id="Elasticity4_1" class="Elasticity4" name="Elasticity4" value="1" /> Low
+                                                                        <input type="radio" id="Elasticity4_2" class="Elasticity4" name="Elasticity4" value="2" /> High
+                                                                    </div>
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="card">
+                                                <div class="card-header" id="headingFive">
+                                                    <h2 class="mb-0">
+                                                        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                                            Crown
+                                                        </button>
+                                                    </h2>
+                                                </div>
+                                                <div id="collapseFive" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                                    <div class="card-body">
+                                                        <div class="form-group">
+                                                            <div class="col-sm-12">
+                                                                <button id="btnCrownPhoto" class="btn btn-secondary">Crown photo</button>
+                                                                <input type="file" accept="image/x-png,image/gif,image/jpeg" multiple hidden id="CrowntPhoto" />
+                                                                <img src="~/images/loading.gif" id="showCrownLoader" style="width: 120px;display: none;padding-top: 10px;" />
+                                                                <span id="CrownPhotoSelected"></span>
+                                                                <span style="display:none" id="CrownPhotoSelectedUnique"></span>
+                                                            </div>
+                                                            <div class="hr-line-dashed"></div>
+
+                                                            <label>Lab Analyst Notes</label>
+                                                            <div class="col-sm-12">
+                                                                <textarea id="txtStrandDiameter5" rows="4" style="width:100%;" placeholder="Write something..."></textarea>
+                                                            </div>
+                                                            <div class="hr-line-dashed"></div>
+
+                                                            @*<label>Health*</label>
+                                                                <div class="col-sm-12">
+                                                                    <textarea id="txtHealth5" rows="4" style="width:100%" placeholder="Write something..."></textarea>
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>*@
+
+                                                            <div class="row">
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Hair Profile Health</label>
+                                                                    <div class="col-sm-8 checkboxstyle">
+                                                                        <input type="checkbox" id="health5_1" class="health5" value="1" /> Good
+                                                                        <input type="checkbox" id="health5_3" class="health5" value="3" /> Average
+                                                                        <input type="checkbox" id="health5_2" class="health5" value="2" /> Needs More Care
+                                                                        <input type="checkbox" id="health5_4" class="health5" value="4" /> Challenged
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="hr-line-dashed"></div>
+
+                                                            @*<div class="row">
+                                                                    <label>Observations</label>
+                                                                    <div class="col-sm-8">
+                                                                        <input type="checkbox" id="observation5_1" class="observations5" value="1" /> Product Buildup
+                                                                        <input type="checkbox" id="observation5_2" class="observations5" value="2" /> Damage
+                                                                        <input type="checkbox" id="observation5_3" class="observations5" value="3" /> Breakage
+                                                                        <input type="checkbox" id="observation5_4" class="observations5" value="4" /> Splitting
+                                                                    </div>
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>*@
+
+
+
+                                                            <div class="row">
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Observations</label>
+
+                                                                    <input type="checkbox" id="observation5_37" class="observations5 mr-1" value="37" />Single Strand Knots
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+
+                                                                @*<div class="col-sm-12 checkboxstyle">
+                                                                        <label>Chemical Product Buildup</label>
+
+                                                                        <input type="radio" id="observationChem5_1" name="observationChem5" class="observationChem5" value="1" /> Severe
+                                                                        <input type="radio" id="observationChem5_2" name="observationChem5" class="observationChem5" value="2" /> Moderate
+                                                                        <input type="radio" id="observationChem5_3" name="observationChem5" class="observationChem5" value="3" /> Minor
+                                                                        <input type="radio" id="observationChem5_4" name="observationChem5" class="observationChem5" value="4" /> None
+                                                                    </div>
+                                                                    <div class="hr-line-dashed"></div>*@
+
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Physical Product Buildup</label>
+
+                                                                    <input type="radio" id="observationPhy5_1" name="observationPhy5" class="observationPhy5" value="1" /> Severe
+                                                                    <input type="radio" id="observationPhy5_2" name="observationPhy5" class="observationPhy5" value="2" /> Moderate
+                                                                    <input type="radio" id="observationPhy5_3" name="observationPhy5" class="observationPhy5" value="3" /> Minor
+                                                                    <input type="radio" id="observationPhy5_4" name="observationPhy5" class="observationPhy5" value="4" /> None
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+
+                                                                @*<div class="col-sm-12 checkboxstyle">
+                                                                        <label>Damage</label>
+
+                                                                        <input type="radio" id="observationDam5_1" name="observationDam5" class="observationDam5" value="1" /> Severe
+                                                                        <input type="radio" id="observationDam5_2" name="observationDam5" class="observationDam5" value="2" /> Average
+                                                                        <input type="radio" id="observationDam5_3" name="observationDam5" class="observationDam5" value="3" /> Low
+                                                                        <input type="radio" id="observationDam5_4" name="observationDam5" class="observationDam5" value="4" /> None
+                                                                    </div>
+                                                                    <div class="hr-line-dashed"></div>*@
+
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Breakage</label>
+
+                                                                    <input type="radio" id="observationBreak5_1" name="observationBreak5" class="observationBreak5" value="1" /> Severe
+                                                                    <input type="radio" id="observationBreak5_2" name="observationBreak5" class="observationBreak5" value="2" /> Moderate
+                                                                    <input type="radio" id="observationBreak5_3" name="observationBreak5" class="observationBreak5" value="3" /> Minor
+                                                                    <input type="radio" id="observationBreak5_4" name="observationBreak5" class="observationBreak5" value="4" /> None
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Splitting</label>
+
+                                                                    <input type="radio" id="observationSplit5_1" name="observationSplit5" class="observationSplit5" value="1" /> Severe
+                                                                    <input type="radio" id="observationSplit5_2" name="observationSplit5" class="observationSplit5" value="2" /> Moderate
+                                                                    <input type="radio" id="observationSplit5_3" name="observationSplit5" class="observationSplit5" value="3" /> Minor
+                                                                    <input type="radio" id="observationSplit5_4" name="observationSplit5" class="observationSplit5" value="4" /> None
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Porosity</label>
+                                                                    <input type="radio" id="Porosity5_3" class="Porosity5" name="Porosity5" value="3" /> High
+                                                                    <input type="radio" id="Porosity5_2" class="Porosity5" name="Porosity5" value="2" /> Average
+                                                                    <input type="radio" id="Porosity5_1" class="Porosity5" name="Porosity5" value="1" /> Low
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Elasticity</label>
+
+                                                                    <input type="radio" id="observationElas5_1" name="observationElas5" class="observationElas5" value="1" /> Good
+                                                                    <input type="radio" id="observationElas5_2" name="observationElas5" class="observationElas5" value="2" /> Average
+                                                                    <input type="radio" id="observationElas5_3" name="observationElas5" class="observationElas5" value="3" /> Low
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+                                                                <div class="col-sm-12 checkboxstyle">
+                                                                    <label>Density</label>
+
+                                                                    <input type="radio" id="Elasticity5_1" name="Elasticity5" class="Elasticity5" value="1" /> High
+                                                                    <input type="radio" id="Elasticity5_2" name="Elasticity5" class="Elasticity5" value="2" /> Medium
+                                                                    <input type="radio" id="Elasticity5_23" name="Elasticity5" class="Elasticity5" value="23" /> Low
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>
+
+
+                                                            </div>
+
+                                                            @*<div class="row">
+                                                                    <label>Elasticity</label>
+                                                                    <div class="col-sm-4 checkboxstyle">
+                                                                        <input type="radio" id="Elasticity5_1" class="Elasticity5" name="Elasticity5" value="1" /> Low
+                                                                        <input type="radio" id="Elasticity5_2" class="Elasticity5" name="Elasticity5" value="2" /> High
+                                                                    </div>
+                                                                </div>
+                                                                <div class="hr-line-dashed"></div>*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade showHide Tab3" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                                        <div id="divPartial">
+
+                                        </div>
+
+
+                                    </div>
+                                    <div class="tab-pane fade showHide Tab4" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+                                        <div class="form-group  row">
+                                            <label class="col-sm-2 col-form-label">Ingredients</label>
+                                            <div class="col-sm-10">
+                                                <select class="js-example-basic-multiple form-control select2" id="ingredients" asp-items="@clients.GetIngredients().Result.Select(s => new SelectListItem() { Text = s.Name, Value=s.IngedientsEntityId.ToString()})" multiple></select>
+                                            </div>
+                                        </div>
+
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="form-group  row">
+                                            <label class="col-sm-2 col-form-label">Tools</label>
+                                            <div class="col-sm-10">
+                                                <select class="js-example-basic-multiple form-control select2" id="tools" asp-items="@clients.GetTools().Result.Where(s => s.IsActive == true).OrderByDescending(x => x.CreatedOn).Select(s => new SelectListItem() { Text = s.ToolName, Value=s.Id.ToString()})" multiple></select>
+                                            </div>
+                                        </div>
+
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="form-group  row">
+                                            <label class="col-sm-2 col-form-label">Video Categories</label>
+                                            <div class="col-sm-10">
+                                                <select class="js-example-basic-multiple form-control select2" id="videoCategories" asp-items="@clients.GetVideoCategories().Result.Select(s => new SelectListItem() { Text = s.Description.ToString(), Value=s.Id.ToString()})" multiple></select>
+                                            </div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="form-group  row">
+                                            <label class="col-sm-2 col-form-label">Styling Techniques</label>
+                                            <div class="col-sm-10">
+                                                <select class="js-example-basic-multiple form-control select2" id="videos" asp-items="@clients.GetEducationalVideos(Convert.ToInt32(HttpContextAccessor.HttpContext.Request.Cookies["UserId"])).Result.Select(s => new SelectListItem() { Text = s.Title.ToString(), Value=s.MediaLinkEntityId.ToString()})" multiple></select>
+                                            </div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+
+                                        <div class="form-group  row">
+                                            <label class="col-sm-2 col-form-label">Regimens</label>
+                                            <div class="col-sm-10">
+                                                <select class="js-example-basic-multiple form-control select2" id="regimens" asp-items="@clients.GetRegimensList().Result.Select(s => new SelectListItem() { Text = s.Name, Value=s.RegimensId.ToString()})" multiple></select>
+                                            </div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+
+                                        <div class="form-group  row">
+                                            <label class="col-sm-2 col-form-label">Recommended Stylist</label>
+                                            <div class="col-sm-10">
+                                                <select class="js-example-basic-multiple form-control select2" id="stylist" asp-items="@clients.GetStylistList().Result.Select(s => new SelectListItem() { Text = s.StylistName, Value=s.StylistId.ToString()})" multiple></select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade showHide Tab5" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">
+
+                                        <div class="form-group  row">
+                                            <label class="col-sm-2 col-form-label">Hair Styles</label>
+                                            <div class="col-sm-10">
+                                                <select class="js-example-basic-multiple form-control" id="hairStyles"
+                                                        asp-items="@clients.GetHairStyles().Result.OrderBy(x => x.Style).Select(s => new SelectListItem() { Text = s.Style, Value=s.Id.ToString()})">
+                                                    <option value="0">--Select--</option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="form-group  row">
+                                            <label class="col-sm-2 col-form-label">Styling Products</label>
+                                            <div class="col-sm-10">
+                                                <select class="js-example-basic-multiple form-control select2" id="StylingRecipeProducts" multiple>
+                                                    @*asp-items="@clients.GetStylingProducts().Result.Select(s => new SelectListItem() { Text = s.ProductName, Value = s.Id.ToString() }).OrderBy(s=>s.Text)">*@
+                                                    <option value="">Select Products</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="form-group  row">
+                                            <label class="col-sm-2 col-form-label">Video Categories</label>
+                                            <div class="col-sm-10">
+                                                <select class="js-example-basic-multiple form-control select2" id="videoCategoriesStyling" asp-items="@clients.GetVideoCategories().Result.Select(s => new SelectListItem() { Text = s.Description.ToString(), Value=s.Id.ToString()})" multiple></select>
+                                            </div>
+                                        </div>
+                                        <div class="hr-line-dashed"></div>
+                                        <div class="form-group  row">
+                                            <label class="col-sm-2 col-form-label">Styling Videos</label>
+                                            <div class="col-sm-10">
+                                                <select class="js-example-basic-multiple form-control select2" id="videosStyling" asp-items="@clients.GetEducationalVideos(Convert.ToInt32(HttpContextAccessor.HttpContext.Request.Cookies["UserId"])).Result.Select(s => new SelectListItem() { Text = s.Title.ToString(), Value=s.MediaLinkEntityId.ToString()})" multiple></select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="hr-line-dashed"></div>
+                                <div class="form-group row">
+                                    <div class="col-sm-4 col-sm-offset-2">
+                                        <a class="btn btn-white btn-sm" asp-controller="Questionnaire" asp-action="Questionnaire">Cancel</a>
+                                        <button class="btn btn-primary btn-sm" onclick="SaveProfile('normal')">Save Profile</button>
+                                        <button class="btn btn-primary btn-sm mr-2" onclick="SaveProfile('draft')">Save As Draft</button>
+                                        @Html.EditorFor(x => x.NotifyUser)
+                                        @Html.LabelFor(x => x.NotifyUser)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="hr-line-dashed"></div>-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div style="display:none;">
+    <textarea id="dvHealthSummary" class="font-bold" rows="9" style="width:100%" placeholder="Write something...">Hi @Model.FirstName ! 
+Your Healthy Hair Care Plan includes your Hair ID, Hair Goals and Challenges, Hair Strand Analysis, Product Recommendations, Ingredients, Regimens, and Education. We have also included some personal notes from your MYAVANA lab analyst and hair consultant. 
+Love, 
+Tanisha 
+Hair Analyst
+</textarea>
+</div>
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="confirmModalHeader" class="font-bold">Switching Tab</h5>
+                <button type="button" class="close" onclick="preventTab()" aria-label="Close">
+                    @*data-dismiss="modal"*@
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span id="confirmModalText"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelMethod" onclick="preventTab()">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmMethod1">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/admin/HairProfile.js"></script>
+<script>
+    var dataProductList;
+    var isdataProductList;
+    var currentTab="";//= "Tab1";
+	var arrProd = [];
+	var arrProdType = [];
+	var arrProducts = [];
+    var brandList = [];
+    var classificationList = [];
+    var classificationListStyling = [];
+    var hairChallegeList = [];
+    var hairChallegeListStyling  = [];
+	var pTypeIds = [];
+	var dupCheck = [];
+	//var brandList = [];
+	var parenNameCheck = [];
+	var productTypeCheck = [];
+	var productParentNameList = [];
+	var productTypeList = [];
+	var prodCheck = [];
+    var productList = [];
+
+    var pTypeStylingIds = [];
+    var brandListStyling = [];
+    var arrProdStyling = [];
+    var parenNameCheckStyling = [];
+    var productParentNameListStyling = [];
+    var productTypeCheckStyling = [];
+    var productTypeListStyling = [];
+    var dupCheckStyling = [];
+    var brandListStyling = [];
+    var prodCheckStyling = [];
+    var productListStyling = [];
+    var selectedProductTypesIdsStyling = [];
+    var videoReccomendation = [];
+    var videoCategory = [];
+    var arrVidCategory = [];
+
+
+
+    //$('#productType').on('change', function (e) {
+
+
+      // Edu video change event
+    $('#videoCategories').on('change', function (e) {
+        var data = @Html.Raw(Json.Serialize(eduVideos.Result));
+        SelectVideoCategory(data);
+    });
+      $('#videoCategoriesStyling').on('change', function (e) {
+        var data = @Html.Raw(Json.Serialize(eduVideos.Result));
+        SelectVideoCategoryStyling(data);
+    });
+    $(document).ready(function () {
+        currentTab = "Tab1";
+        // Load productstype
+        $.ajax({
+            type: "GET",
+            url: "/Questionnaire/GetProductTabData",
+            success: function (response) {
+
+                dataProductList = response;
+                console.log(dataProductList)
+            },
+            failure: function (response) {
+                console.log(response)
+            },
+            error: function (response) {
+                console.log(response)
+            },
+        });
+        var hairProfileId = $('#ddlHHCP').val();
+        LoadTabs("Tab1", hairProfileId);
+
+        $('.' + currentTab).addClass("show active");
+
+     });
+
+
+
+    function preventTab()
+    {
+        $('.showHide').removeClass("show");
+        $('.showHide').removeClass("active");
+        $('.lnk').removeClass("active");
+        $('.lnk' + currentTab).addClass("show active");
+        $('.' + currentTab).addClass("show active");
+        $('#confirmModal').modal('hide');
+
+    }
+    function GetConfirmation(tabno) {
+        if (tabno == currentTab) { return;}
+         $('#confirmModalText').text('If you leave before saving, your changes will be lost.');
+
+           $('#confirmMethod1').text('Leave');
+           $('#confirmModal').modal('show');
+           $("#confirmMethod1").unbind("click").click(function () {
+               var hairProfileId = $('#ddlHHCP').val();
+               LoadTabs(tabno, hairProfileId);
+               currentTab = tabno;
+
+            });
+    }
+    function LoadTabs(tabno, hairProfileId = null) {
+        arrProd = [];
+        arrProdType = [];
+        arrProducts = [];
+        brandList = [];
+        pTypeIds = [];
+        dupCheck = [];
+        brandList = [];
+        parenNameCheck = [];
+        productTypeCheck = [];
+        productParentNameList = [];
+        productTypeList = [];
+        prodCheck = [];
+        productList = [];
+
+        pTypeStylingIds = [];
+        brandListStyling = [];
+        arrProdStyling = [];
+        parenNameCheckStyling = [];
+        productParentNameListStyling = [];
+        productTypeCheckStyling = [];
+        productTypeListStyling = [];
+        dupCheckStyling = [];
+        brandListStyling = [];
+        prodCheckStyling = [];
+        productListStyling = [];
+
+        $('.showHide').removeClass("show");
+        $('.showHide').removeClass("active");
+        $('.lnk').removeClass("active");
+        $('.' + tabno).addClass("show active");
+        $('#confirmModal').modal('hide');
+
+
+
+
+        var hairProfileModel = {
+            UserId: $('#userId').val(),
+            IsNewHHCP: $('#isNewHHCP').val(),
+            HairProfileId: hairProfileId,
+            TabNo: tabno,
+        }
+
+        $('.preloader').css('display', 'block');
+        $.ajax({
+            type: "POST",
+            url: "/Questionnaire/GetHairProfile",
+            //dataType: 'json',
+            data: hairProfileModel,//{'HairProfileModel': hairProfileModel,'Tab':"Tab1" },
+            success: function (response) {
+                if (response == null || response.selectedAnswers == null || response.selectedAnswers.challenges.length === 0) {
+                    $('#txtHealthSummary ').val($('#dvHealthSummary').text());
+                    $.ajax({
+                        type: "POST",
+                        url: "/Questionnaire/GetQuestionaireAnswer",
+                        data: hairProfileModel,
+                        success: function (response) {
+                            if (response.goals != null) {
+                                for (var i = 0; i < response.goals.length; i++) {
+                                    $('#goal_' + i).val(response.goals[i]);
+                                }
+                            }
+                            if (response.challenges != null) {
+                                for (var i = 0; i < response.challenges.length; i++) {
+                                    $('#challenge_' + i).val(response.challenges[i]);
+                                }
+                            }
+                        },
+                        error: function (response) {
+
+                        },
+                        complete: function () {
+
+                        }
+                    });
+                }
+                //---------------------------------
+                if (response != null) {
+                    if (tabno == "Tab1") {
+                        $('#ddlanalyst').val(response.createdBy);
+                        $('#txtHairId').val(response.hairId == null ? '' : response.hairId);
+                        $('#txtConsultantNotes').val(response.consultantNotes == null ? '' : response.consultantNotes);
+                        $('#txtRecommendationNotes').val(response.recommendationNotes == null ? '' : response.recommendationNotes);
+                        $('#txtMyNotes').val(response.myNotes == null ? '' : response.myNotes);
+                        if (response.selectedAnswers != null) {
+                            $('#typeId').val(response.selectedAnswers.typeId);
+                            $('#typeDesc').val(response.selectedAnswers.typeDescription);
+                            $('#textureId').val(response.selectedAnswers.textureId);
+                            $('#textureDesc').val(response.selectedAnswers.textureDescription);
+                            $('#healthId').val(response.selectedAnswers.healthId);
+                            $('#healthDesc').val(response.selectedAnswers.healthDescription);
+                            $('#porosityId').val(response.selectedAnswers.porosityId);
+                            $('#porosityDesc').val(response.selectedAnswers.porosityDescription);
+                            $('#elasticityId').val(response.selectedAnswers.elasticityId);
+                            $('#elasticityDesc').val(response.selectedAnswers.elasticityDescription);
+                            $('#densityId').val(response.selectedAnswers.densityId);
+                            $('#densityDesc').val(response.selectedAnswers.densityDescription);
+                            if (response.selectedAnswers.goals != null) {
+                                for (var i = 0; i < response.selectedAnswers.goals.length; i++) {
+                                    $('#goal_' + i).val(response.selectedAnswers.goals[i]);
+                                }
+                            }
+                            if (response.selectedAnswers.challenges != null) {
+                                for (var i = 0; i < response.selectedAnswers.challenges.length; i++) {
+                                    $('#challenge_' + i).val(response.selectedAnswers.challenges[i]);
+                                }
+                            }
+                        }
+                        if (response.healthSummary == null || response.healthSummary == '' || response.hairId == null) {
+
+                            $('#txtHealthSummary ').val($('#dvHealthSummary').text());
+                        }
+                        else {
+                            $('#txtHealthSummary ').val(response.healthSummary);
+                        }
+                        $('.preloader').css('display', 'none');
+
+                    }
+                    if (tabno == "Tab2") {
+                        loadTab2(response);
+                        $('.preloader').css('display', 'none');
+
+                    }
+                    //-----------------------------3rd tab--------------------------------------------------------------
+                    if (tabno == "Tab3") {
+
+                        if (isdataProductList == null) {
+
+                            $.ajax({
+                                type: "GET",
+                                url: "/Questionnaire/GetProductTab",
+                                success: function (responseHTML) {
+                                    $('#divPartial').html(responseHTML);
+                                    $('.select2').select2({ placeholder: "--Select--" });
+                                    setTimeout(function () {
+                                        loadTab3(dataProductList, response);
+                                        $('.preloader').css('display', 'none');
+                                    }, 3000);
+
+                                    isdataProductList = "true";
+                                },
+                                failure: function (response) {
+                                    console.log(response)
+                                },
+                                error: function (response) {
+                                    console.log(response)
+                                },
+                            });
+
+                        } else {
+                            loadTab3(dataProductList.productTypes, response);
+                            console.log(dataProductList.productTypes, 'Tab3-else')
+                            $('.preloader').css('display', 'none');
+                        }
+
+                    }
+                    //--------------------------4th tab----------------------------
+                    if (tabno == "Tab4") {
+                        if (response != null) {
+                            loadTab4(response);
+                            $('.preloader').css('display', 'none');
+
+                        }
+                    }
+                    if (tabno == "Tab5") {
+                        if (response != null) {
+                            $.ajax({
+                                type: "GET",
+                                url: "/Questionnaire/GetStylingProducts",
+                                success: function (responseHTML) {
+                                    var selectElement = $('#StylingRecipeProducts');
+                                    selectElement.empty();
+                                    selectElement.append('<option value="">Select Products</option>');
+
+
+                                    //$.each(responseHTML, function (index, product) {
+                                    //    selectElement.append(new Option(product.productName, product.id));
+                                    //});
+                                    var fragment = document.createDocumentFragment();
+                                    $.each(responseHTML, function (index, product) {
+                                        var option = new Option(product.productName, product.id);
+                                        fragment.appendChild(option);
+                                    });
+                                    selectElement.append(fragment);
+
+                                    $('.select2').select2({ placeholder: "--Select--" });
+
+                                   // setTimeout(function () {
+                                        loadTab5(response);
+                                        $('.preloader').css('display', 'none');
+                                    //}, 3000);
+
+
+                                },
+                                failure: function (response) {
+                                    console.log(response)
+                                    $('.preloader').css('display', 'none');
+                                },
+                                error: function (response) {
+                                    console.log(response)
+                                    $('.preloader').css('display', 'none');
+                                },
+                            });
+
+                            $('.preloader').css('display', 'none');
+
+                        }
+                    }
+
+                } else {
+                     $('.preloader').css('display', 'none');
+                }
+                //response!=null closing
+
+            },//success closing
+
+            error: function (response) {
+
+            },
+            complete: function () {
+
+            }
+        });//ajax call closing
+    }
+    function changeHHCP() {
+        var hairProfileId = $('#ddlHHCP').val();
+        LoadTabs('Tab1', hairProfileId);
+        currentTab = 'Tab1';
+    }
+</script>
+
+

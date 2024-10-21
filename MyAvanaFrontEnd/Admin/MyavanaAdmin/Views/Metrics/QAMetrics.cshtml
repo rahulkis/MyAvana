@@ -1,0 +1,160 @@
+﻿@model MyavanaAdminModels.QuestionGraph
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@inject MyavanaAdminApiClient.ApiClient questionaire
+@{
+    ViewData["Title"] = "QAMetrics";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var userId = HttpContextAccessor.HttpContext.Request.Cookies["UserId"].ToString();
+    var questionList = questionaire.GetQuestionsForGraph(userId).Result;
+}
+<style>
+    .chart_heading {
+        font-size: 20px;
+        width: 100%;
+        /*overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;*/
+        padding: 0 20px;
+        margin-bottom: 0;
+        min-height: 48px;
+    }
+</style>
+<h2>Analytics</h2>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<link href="~/css/chosen.css" rel="stylesheet" />
+@*<script src="~/js/admin/Metrics.js"></script>*@
+<div class="d-flex w-100">
+    <div class="main-layout-job">
+        <div class="col-md-12">
+            <div class="row">
+                @if (questionList.Count > 0)
+                {
+                    @foreach (var quest in questionList)
+                    {
+                        <div class="col-lg-6 mb-4">
+                            <div class="card card-cascade narrower overflow-hidden crate-page-outer-style min-card-height ">
+                                <h2 class="chart_heading" title="@quest.Question">@quest.Question</h2>
+                                <hr>
+                                <div id="rating_@quest.QuestionId" style="width: 500px; height: 420px; margin: 0 auto">
+                                </div>
+                                @*<div id="rating" style="height:250px;width:100%"></div>*@
+                            </div>
+                        </div>
+                    }
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    google.charts.load('current', { packages: ['corechart'] });
+    google.charts.load('current', { packages: ['bar'] });
+
+    function drawChart() {
+        // Define the chart to be drawn.
+        var result = @Html.Raw(Json.Serialize(questionList));
+        for (var i = 0; i < result.length; i++) {
+            var answerCount = result[i].answerCounts;
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Browser');
+            data.addColumn('number', 'Percentage');
+
+            // Set chart options
+            if (result[i].questionId == 1 || result[i].questionId == 3 || result[i].questionId == 4 || result[i].questionId == 8 || result[i].questionId == 24) {
+                var options = {
+                    pieHole: 0.8, pieSliceText: 'value', is3D: false,
+                    colors: ['#ebc7c7', '#efdbd4', '#f1e0da', '#f8f0ed'],
+                    chartArea: {
+                        left: 10,
+                        right: 0, // !!! works !!!
+                        bottom: 10,  // !!! works !!!
+                        top: 10,
+                        width: "100%",
+                        height: "100%"
+                    },
+                     pieSliceTextStyle: {
+                        color: '#383838',
+                    }
+                }
+                for (var j = 0; j < answerCount.length; j++) {
+                    var temp = [];
+                    temp.push(answerCount[j].answer);
+                    temp.push(answerCount[j].count);
+
+                    data.addRow(temp);
+                }
+                var chart = new google.visualization.PieChart(document.getElementById('rating_' + result[i].questionId));
+                chart.draw(data, options);
+            }else  if (result[i].questionId == 14 || result[i].questionId == 15 || result[i].questionId == 16 || result[i].questionId == 19 || result[i].questionId == 25 || result[i].questionId == 33) {
+                var options = {
+                    colors: ['#ebc7c7', '#efdbd4', '#f1e0da', "#f8f0ed", '#bababa',  "#646464"],
+                    "hAxis": { showTextEvery: 1, slantedText: true, slantedTextAngle: 90 },
+                    "vAxis": { showTextEvery: 1, slantedText: true, slantedTextAngle: 90, viewWindow: { max: answerCount.length } },
+                    "legend": "none",
+                    "is3D": true
+                };
+                for (var j = 0; j < answerCount.length; j++) {
+                    var temp = [];
+                    var answerText = answerCount[j].answer
+                    if (answerText.length > 10) {
+                        answerText = answerText.substring(0, 10);
+                    }
+                    temp.push(answerText);
+                    temp.push(answerCount[j].count);
+
+                    data.addRow(temp);
+                }
+                var chart = new google.visualization.BarChart(document.getElementById('rating_' + result[i].questionId));
+
+                chart.draw(data, options);
+            }
+            else if (result[i].questionId == 2 || result[i].questionId == 17 || result[i].questionId == 18 || result[i].questionId == 30) {
+                var options = {
+                    colors: ['#ebc7c7', '#efdbd4', '#f1e0da', "#f8f0ed", '#bababa', "#646464"],
+                    width: "100%",
+                    height: "100%",
+                    bar: { groupWidth: "95%" },
+                    legend: { position: "none" },
+                };
+                for (var j = 0; j < answerCount.length; j++) {
+                    var temp = [];
+                    temp.push(answerCount[j].answer);
+                    temp.push(answerCount[j].count);
+
+                    data.addRow(temp);
+                }
+                var chart = new google.visualization.ColumnChart(document.getElementById('rating_' + result[i].questionId));
+                chart.draw(data, options);
+            } else {
+                var options = {
+                    colors: ['#ebc7c7', '#efdbd4', '#f1e0da', "#f8f0ed", '#bababa', "#646464"],
+                    pieHole: 0.8, pieSliceText: 'value', is3D: true, chartArea: {
+                        left: 10,
+                        right: 0, // !!! works !!!
+                        bottom: 10,  // !!! works !!!
+                        top: 10,
+                        width: "100%",
+                        height: "100%"
+                    },
+                    pieSliceTextStyle: {
+                        color: '#383838',
+                    }
+                }
+                for (var j = 0; j < answerCount.length; j++) {
+                    var temp = [];
+                    temp.push(answerCount[j].answer);
+                    temp.push(answerCount[j].count);
+
+                    data.addRow(temp);
+                }
+                var chart = new google.visualization.PieChart(document.getElementById('rating_' + result[i].questionId));
+                chart.draw(data, options);
+            };
+            //options.pieSliceTextStyle = { fontSize: 20 };
+            // Instantiate and draw the chart.
+
+        }
+    }
+    google.charts.setOnLoadCallback(drawChart);
+</script>

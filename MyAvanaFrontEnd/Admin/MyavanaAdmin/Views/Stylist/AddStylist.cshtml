@@ -1,0 +1,321 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper AuthoringTagHelpers.TagHelpers.EmailTagHelper, AuthoringTagHelpers
+@model MyavanaAdminModels.StylistModel
+@inject MyavanaAdminApiClient.ApiClient stylistSpecialty
+@inject MyavanaAdminApiClient.ApiClient Salons
+
+@{
+    Layout = "_Layout";
+}
+
+@if (Model != null)
+{
+    <input type="hidden" id="stylistId" value="@Model.StylistId" />
+}
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.select2').select2({ placeholder: "--Select--" });
+    });
+</script>
+
+<style>
+    .preloader {
+        width: calc(100% - 200px);
+        height: 100%;
+        top: 0px;
+        position: fixed;
+        z-index: 99999;
+        background: rgba(255, 255, 255, .8);
+    }
+
+        .preloader img {
+            position: absolute;
+            LEFT: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+        }
+
+    .loader {
+        overflow: visible;
+        padding-top: 2em;
+        height: 0;
+        width: 2em;
+    }
+
+    .alert-success, .alert-danger, .alert-info {
+        top: 110px !important;
+        width: 60% !important;
+        margin: 0 auto;
+        z-index: 99;
+        position: fixed;
+        left: 50%;
+        transform: translateX(-40%);
+        text-align: center;
+        padding: 12px;
+        transition: all 1s linear;
+        box-shadow: 0px 0px 12px 3px rgba(0, 0, 0, 0.2);
+        font-size: 16px;
+    }
+
+    .alert-danger {
+        color: #80172a;
+        background-color: #fdd5dc;
+        border-color: #fcc4ce;
+    }
+
+        .alert-danger hr {
+            border-top-color: #fbacba;
+        }
+
+        .alert-danger .alert-link {
+            color: #550f1c;
+        }
+
+    .alert-success {
+        color: #1c6356;
+        background-color: #a8ffc3;
+        border-color: #13b755;
+    }
+
+        .alert-success hr {
+            border-top-color: #b4e7dd;
+        }
+
+        .alert-success .alert-link {
+            color: #113b33;
+        }
+</style>
+<div id="alert-success" class="alert alert-success alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="successMessage"></span>
+</div>
+<div class="alert alert-danger alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="failureMessage"></span>
+</div>
+
+<div class="preloader" style="display:none;">
+    <div class="loader">
+        <img src="~/images/loader.gif" />
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Post Stylist</h5>
+
+                </div>
+                <div class="ibox-content">
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label">Stylist Specialty*</label>
+                        <div class="col-sm-10">
+                            <select class="js-example-basic-multiple form-control select2" id="stylishSpecialty"
+                                    asp-items="@stylistSpecialty.StylistSpecialty().Result.Select(s => new SelectListItem() { Text = s.Description, Value=s.StylistSpecialtyId.ToString()})" multiple>
+                                <option value="">Select Type</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label">Stylist Name*</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="txtStylishName" placeholder="Enter stylist name" class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Salon Name*</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="txtSalonName" placeholder="Enter salon name" class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">City*</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="txtCity" placeholder="Enter city" class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">State*</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="txtState" placeholder="Enter state" class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Zip Code</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="txtZipCode" placeholder="Enter zip code" class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Website</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="txtWebsite" placeholder="Enter website" class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Email*</label>
+
+                        <div class="col-sm-10">
+
+                            <input type="text" id="txtEmail" placeholder="Enter email" class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Phone Number*</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="txtPhoneNumber" maxlength="10" placeholder="Enter phone number" class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Address*</label>
+
+                        <div class="col-sm-10">
+                            <textarea id="txtAddress" rows="3" placeholder="Enter address" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Instagram</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="txtInstagram" placeholder="Enter instagram " class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Facebook</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="txtFacebook" placeholder="Enter facebook" class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Background*</label>
+
+                        <div class="col-sm-10">
+                            <textarea id="txtBackground" rows="3" placeholder="Enter background" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Notes*</label>
+
+                        <div class="col-sm-10">
+                            <textarea id="txtNotes" rows="3" placeholder="Enter notes" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label">Salon</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" asp-for="SalonId"
+                                     asp-items="@Salons.GetSalonList().Result.Select(x => new SelectListItem() { Text = x.SalonName, Value = x.SalonId.ToString() })">
+                                <option value="">Select Salon</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-4 col-sm-offset-2">
+                            <a class="btn btn-white btn-sm" asp-controller="Stylist" asp-action="Stylist">Cancel</a>
+                            <button class="btn btn-primary btn-sm" onclick="SaveStylist()">Save Stylist</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/admin/Stylist.js"></script>
+
+<script>
+    $(document).ready(function () {
+        var id = $('#stylistId').val();
+        if (id != 0) {
+            var stylistAdminModel = {
+                StylistId: $('#stylistId').val()
+            }
+            $('.preloader').css('display', 'block');
+            $.ajax({
+                type: "POST",
+                url: "/Stylist/GetStylishAdmin",
+                data: stylistAdminModel,
+                success: function (response) {
+                    if (response != null) {
+                        $('#txtStylishName').val(response.stylistName);
+                        $('#txtSalonName ').val(response.salonName);
+
+                        $('#txtCity').val(response.city);
+                        $('#txtState').val(response.state);
+                        $('#txtZipCode ').val(response.zipCode);
+
+                        $('#txtWebsite').val(response.website);
+                        $('#txtEmail').val(response.email);
+                        $('#txtPhoneNumber ').val(response.phoneNumber);
+
+                        $('#txtAddress').text(response.address);
+                        $('#txtInstagram').val(response.instagram);
+                        $('#txtFacebook ').val(response.facebook);
+
+                        $('#txtBackground').val(response.background);
+                        $('#txtNotes ').val(response.notes);
+                        $('#SalonId ').val(response.salonId);
+
+                        var stylishSpecialtyLength = response.stylishCommons.length;
+                        if (stylishSpecialtyLength > 0) {
+                            var arr = [];
+                            for (var i = 0; i < stylishSpecialtyLength; i++) {
+                                arr.push(response.stylishCommons[i].stylistSpecialtyId);
+                            }
+                            $('#stylishSpecialty').val(arr);
+                            $('#stylishSpecialty').trigger('change');
+                        }
+                    }
+                    $('.preloader').css('display', 'none');
+                },
+                error: function (response) {
+
+                },
+                complete: function () {
+
+                }
+            });
+        }
+    });
+</script>

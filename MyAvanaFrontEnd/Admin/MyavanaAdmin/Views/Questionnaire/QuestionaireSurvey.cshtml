@@ -1,0 +1,1489 @@
+﻿@*@model MyAvanaQuestionaire.Models.Questionaire*@
+
+@{
+    var isDigitalAnalysis = true;
+    var cnt = 25;
+        cnt = 30;
+        isDigitalAnalysis = false;
+}
+
+<!doctype html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title> Questionnaire </title>
+    <link href="~/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css' rel='stylesheet'>
+    <link href="~/css/styleQuestionaire.css" rel="stylesheet" />
+    <script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js'></script>
+    <script src="~/bootstrap/js/bootstrap.min.js"></script>
+
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script type='text/javascript'>
+        $(document).ready(function () {
+            var currentDate = new Date();
+            $("#txt_38").datepicker({
+                maxDate: currentDate,
+                changeMonth: true,
+                yearRange: '1900:+0',
+                changeYear: true,
+                endDate: "currentDate"
+            });
+            var current_fs, next_fs, previous_fs; //fieldsets
+            var opacity;
+            var current = 1;
+            var steps = $("fieldset").length;
+            setProgressBar(current);
+            $(".next").click(function () {
+                var currentValue = $(this)[0].id;
+
+                current_fs = $(this).parent();
+                next_fs = $(this).parent().next();
+
+                //Add Class Active
+                $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+
+                //show the next fieldset
+                next_fs.show();
+                //hide the current fieldset with style
+                current_fs.animate({ opacity: 0 }, {
+                    step: function (now) {
+                        // for making fielset appear animation
+                        opacity = 1 - now;
+
+                        current_fs.css({
+                            'display': 'none'
+                        });
+                        next_fs.css({ 'opacity': opacity });
+                    },
+                    duration: 500
+                });
+                setProgressBar(++current);
+                if (currentValue == "nxt_24") {
+                    $("#drp25").select2("open");
+                } else if (currentValue == "nxt_25") {
+                    $("#16").select2("open");
+                } else if (currentValue == "nxt_16") {
+                    $("#drp31").select2("open");
+                } else if (currentValue == "nxt_33") {
+                    $("#28").select2("open");
+                } else if (currentValue == "nxt_6") {
+                    $("#9").select2("open");
+                } else if (currentValue == "nxt_10") {
+                    $("#11").select2("open");
+                } else if (currentValue == "nxt_12") {
+                    $("#14").select2("open");
+                } else if (currentValue == "nxt_14") {
+                    $("#15").select2("open");
+                } else if (currentValue == "nxt_36") {
+                    $("#drp19").select2("open");
+                } else if (currentValue == "nxt_19") {
+                    $("#drp37").select2("open");
+                }
+            });
+
+            $(".previous").click(function () {
+                if ($(this)[0].name == "PreviousToPortal") {
+                    window.location.href = "/Questionnaire/QuestionnaireCustomer";
+                }
+                current_fs = $(this).parent();
+                previous_fs = $(this).parent().prev();
+
+                //Remove class active
+                $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+
+                //show the previous fieldset
+                previous_fs.show();
+
+                //hide the current fieldset with style
+                current_fs.animate({ opacity: 0 }, {
+                    step: function (now) {
+                        // for making fielset appear animation
+                        opacity = 1 - now;
+
+                        current_fs.css({
+                            'display': 'none'
+                        });
+                        previous_fs.css({ 'opacity': opacity });
+                    },
+                    duration: 500
+                });
+                setProgressBar(--current);
+                $(previous_fs).find('.js-example-basic-multiple').select2('open');
+            });
+
+            function setProgressBar(curStep) {
+                var percent = parseFloat(100 / steps) * curStep;
+                percent = percent.toFixed();
+                $(".progress-bar")
+                    .css("width", percent + "%")
+            }
+
+            $(".submit").click(function () {
+                return false;
+            })
+
+        });</script>
+    <style>
+        .DrpClass {
+            width: 500px;
+            height: 35px;
+            background-color: #f0dcd7;
+        }
+
+        .alert-success, .alert-danger, .alert-info {
+            top: 110px !important;
+            width: 60% !important;
+            margin: 0 auto;
+            z-index: 99;
+            position: fixed;
+            left: 50%;
+            transform: translateX(-40%);
+            text-align: center;
+            /*padding: 12px;*/
+            transition: all 1s linear;
+            box-shadow: 0px 0px 12px 3px rgba(0, 0, 0, 0.2);
+            font-size: 16px;
+        }
+
+        .alert-danger {
+            color: #80172a;
+            background-color: #fdd5dc;
+            border-color: #fcc4ce;
+        }
+
+            .alert-danger hr {
+                border-top-color: #fbacba;
+            }
+
+            .alert-danger .alert-link {
+                color: #550f1c;
+            }
+
+        .alert-success {
+            color: #1c6356;
+            background-color: #a8ffc3;
+            border-color: #13b755;
+        }
+
+            .alert-success hr {
+                border-top-color: #b4e7dd;
+            }
+
+            .alert-success .alert-link {
+                color: #113b33;
+            }
+
+
+        input.select2-search__field {
+            min-width: 300px;
+            font-size: 16px !IMPORTANT;
+            padding-right: 24px;
+        }
+
+        .custom_mutiple_select .select2-container {
+            width: 100% !important;
+        }
+
+        .custom_mutiple_select input.select2-search__field {
+            box-shadow: none !important;
+            font-size: 30px !important;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 91.3%;
+            font-family: inherit;
+            color: rgb(112, 112, 112);
+            padding: 0px 0px 8px;
+            border: none;
+            outline: none;
+            border-radius: 0px;
+            appearance: none;
+            background: none;
+            transform: translateZ(0px);
+            font-size: 30px;
+            font-weight: 300;
+            -webkit-font-smoothing: antialiased;
+            line-height: unset;
+            transition: box-shadow 0.1s ease-out 0s;
+            box-shadow: rgba(112, 112, 112, 0.3) 0px 1px;
+        }
+
+        .next-btm {
+            position: relative;
+            top: 215px;
+            margin: 10px auto !important;
+        }
+
+
+        input.select2-search__field {
+            width: 100% !important;
+        }
+
+        .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+            background-color: #f0dcd7;
+            color: #fbacba;
+        }
+
+        .select2-container--default .select2-results__option--selected {
+            background-color: #f0dcd7;
+        }
+
+        .select2-container--default .select2-results > .select2-results__options {
+            max-height: 200px;
+        }
+
+        .select2-results__option--selectable {
+            padding: 9px 0 9px 20px;
+            border-bottom: 1px solid rgba(240,240,240,.9);
+            font-weight: normal;
+            font-size: 14px;
+            transition: .2s;
+            -webkit-transition: .2s;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            background-color: #fff);
+            box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 0px 2px inset;
+            color: rgb(112, 112, 112);
+            margin: 4px;
+            border-radius: 4px;
+            font-size: 20px;
+        }
+
+        .select2-dropdown {
+            background: transparent;
+            border: none;
+        }
+
+        .custom_mutiple_select .select2-container--default.select2-container--focus .select2-selection--multiple, .select2-container--default .select2-selection--multiple {
+            border: none;
+            background: transparent !important;
+        }
+
+
+        .selectCF .titleCF {
+            font-size: 24px;
+        }
+
+        .custom_mutiple_select .select2-search--inline:before {
+            position: absolute;
+            content: "\f0d7";
+            height: 20px;
+            width: 20px;
+            font-family: FontAwesome;
+            right: 5px;
+            bottom: 26px;
+            font-size: 20px;
+        }
+
+        #msform .form-card {
+            display: block;
+        }
+        /*#msform .form-card {
+            max-height: 62vh;
+            overflow: auto;
+        }*/
+    </style>
+</head>
+
+<body class='snippet-body'>
+    <input type="hidden" value="@ViewBag.Token" id="UserId" />
+
+    <div class="alert alert-danger alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <span id="failureMessage"></span>
+    </div>
+    <div class="bar2 col-md-12 col-lg-10">
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            @*<div class=" col-lg-6  p-0 pic ">
+                    <div class="logoinner">
+                        <a asp-action="CustomerHair" asp-controller="HairProfile"><img src="~/images/m-logo.png" alt=""></a>
+                    </div>
+                    <img src="~/images/questionaireImage.png" alt="" class="img-fluid">
+                </div>*@
+            <div class="col-lg-10 col-md-12  text-center p-0 mt-lg-2 mt-md-2 mb-2">
+                <div class="card px-0 pt-0 pb-0  mb-5 col-12  pt-lg-2">
+                    @*<div class="logoinner2">
+                            <img src="~/images/m-logo.png" alt="">
+                        </div>*@
+
+
+
+                    <form id="msform" class="col-lg-10 col-md-12 m-auto">
+                        <!-- fieldsets -->
+                        <fieldset class="in-put">
+                            <h3 class="Question_topic">Getting to Know You and Your Hair</h3>
+                            <div class="form-card col-lg-8 col-md-10 col-sm-12 m-auto">
+                                <div class="steps-count"> Step 1 /@cnt </div>
+                                <h2 class="text-center">Let's get started with some basic info:</h2>
+                                <div class="fields-block">
+                                    <label class="fieldlabels">When is your birthday?* </label>
+                                    <input type="text" id="txt_38" readonly="readonly" placeholder="Enter your response" onchange="returnInputError(38)">
+                                </div>
+                                <div class="fields-block">
+                                    <label class="fieldlabels">Where do you live?(City, State, Zip Code)* </label>
+                                    <input type="text" name="fname" placeholder="Enter your response" id="txt_26" onkeyup="returnInputError(26)" />
+                                </div>
+                            </div>
+                            @*<input type="button" name="next" class="next action-button" value="Next" hidden id="nxt_38" onclick="txtResponse(38)" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />*@
+                            <input type="button" name="next" class="next action-button col-lg-8 col-md-10 col-sm-12 m-auto" value="Next" hidden id="nxt_26" onclick="txtResponse(26)" /> <input type="button" name="PreviousToPortal" class="previous action-button-previous" value="Previous" />
+
+                        </fieldset>
+
+                        <fieldset class="radiofield">
+                            <h3 class="Question_topic">Hair and Scalp Characteristics</h3>
+                            <div class="form-card">
+                                <div class="steps-count"> Step 2 /@cnt </div>
+                                <h2 class="text-center">What is your current hair state?*</h2>
+                                <div class="fields-block">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12">
+
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="1" name="1" type="radio" class="1" value="1" />
+                                                <label for="1">Natural</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="2" name="1" type="radio" class="1" value="2" />
+                                                <label for="2">Relaxed/Chemical Treatment </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="3" name="1" type="radio" class="1" value="3" />
+                                                <label for="3">Transitioning  </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="4" name="1" type="radio" class="1" value="4" />
+                                                <label for="4">Locs  </label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input type="button" name="next" class="next action-button m-auto" value="Next" hidden id="nxt_1" />
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+                        <fieldset class="in-put">
+                            <h3 class="Question_topic">Getting to Know You and Your Hair</h3>
+                            <div class="form-card">
+                                <div class="steps-count"> Step 3 /@cnt </div>
+                                <h2 class="text-center">
+                                    Do you have any allergies and/ or health challenges that we should be aware of?*
+                                </h2>
+                                <div class="fields-block">
+                                    <input name="fname" placeholder="Enter your response" id="txt_20" onkeyup="returnInputError(20)">
+                                </div>
+                            </div> <input type="button" name="next" class="next action-button m-auto" value="Next" hidden id="nxt_20" onclick="txtResponse(20)" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+                        <fieldset class="radiofield">
+                            <h3 class="Question_topic">Getting to Know You and Your Hair</h3>
+                            <div class="form-card">
+                                <div class="steps-count"> Step 4 /@cnt </div>
+                                <h2 class="text-center">Which do you most identify with? (Hair ID has a lot to do with your DNA!)*</h2>
+                                <div class="fields-block">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="108" name="30" type="radio" class="30" value="108" />
+                                                <label for="108">African</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="109" name="30" type="radio" class="30" value="109" />
+                                                <label for="109">Asian</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="110" name="30" type="radio" class="30" value="110" />
+                                                <label for="110">Caucasian</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="111" name="30" type="radio" class="30" value="111" />
+                                                <label for="111">Latina</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="112" name="30" type="radio" class="30" value="112" />
+                                                <label for="112">Others</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="text" name="fname" placeholder="Enter your response" id="txt_30" onkeyup="returnInputError(30)" style="display:none" />
+
+                            </div>
+                            <input type="button" name="next" class="next action-button m-auto" value="Next" hidden id="nxt_30" onclick="txtResponse(30)" />
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+
+                        <fieldset class="radiofield">
+                            <h3 class="Question_topic">Hair and Scalp Characteristics</h3>
+                            <div class="form-card">
+                                <div class="steps-count"> Step 5 /@cnt </div>
+                                <h2 class="text-center">What is your hair type?*</h2>
+                                <div class="fields-block">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu" id="q2">
+                                                <input id="radio5" name="2" type="checkbox" value="5" class="2" />
+                                                <label for="radio5">Straight  </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="radio6" name="2" type="checkbox" value="6" class="2" />
+                                                <label for="radio6">Wavy </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="radio7" name="2" type="checkbox" value="7" class="2" />
+                                                <label for="radio7">Curly/ Coily</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="radio8" name="2" type="checkbox" class="2" value="8" />
+                                                <label for="radio8">Kinky </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="button" name="next" class="next action-button m-auto" value="Next" hidden id="nxt_2" />
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+                        <fieldset class="radiofield">
+                            <h3 class="Question_topic">Hair and Scalp Characteristics</h3>
+                            <div class="form-card">
+                                <div class="steps-count"> Step 6 /@cnt </div>
+                                <h2 class="text-center">My hair texture feels*</h2>
+                                <div class="fields-block">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="radio9" name="3" type="checkbox" class="3" value="9" />
+                                                <label for="radio9">Fine (like silk)  </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="radio10" name="3" type="checkbox" class="3" value="10" />
+                                                <label for="radio10">Medium (like cotton)     </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="radio11" name="3" type="checkbox" class="3" value="11" />
+                                                <label for="radio11"> Coarse (like wool)  </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="button" name="next" class="next action-button m-auto" hidden value="Next" id="nxt_3" />
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+                        <fieldset class="radiofield">
+                            <h3 class="Question_topic">Hair and Scalp Characteristics</h3>
+                            <div class="form-card">
+                                <div class="steps-count"> Step @(isDigitalAnalysis != true ? 7 : 3) /@cnt </div>
+                                <h2 class="text-center">I would describe the overall health of my hair as*</h2>
+                                <div class="fields-block">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="radio12" name="4" type="radio" class="4" value="12" />
+                                                <label for="radio12">Great Health  </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="radio13" name="4" type="radio" class="4" value="13" />
+                                                <label for="radio13">Average Health </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="radio14" name="4" type="radio" class="4" value="14" />
+                                                <label for="radio14"> Unhealthy  </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <input type="button" name="next" class="next action-button m-auto" value="Next" hidden id="nxt_4" />
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+                        <fieldset class="radiofield">
+                            <h3 class="Question_topic">Hair and Scalp Characteristics</h3>
+                            <div class="form-card">
+                                <div class="steps-count"> Step @(isDigitalAnalysis != true ? 8 : 4) /@cnt </div>
+                                <h2 class="text-center">What is your hair density (number of strands on your head)?*</h2>
+                                <div class="fields-block">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="88" name="24" type="radio" class="24" value="88" />
+                                                <label for="88">Thick </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="89" name="24" type="radio" class="24" value="89" />
+                                                <label for="89">Average </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="90" name="24" type="radio" class="24" value="90" />
+                                                <label for="90">Sparse </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="button" name="next" class="next action-button m-auto" value="Next" hidden id="nxt_24" />
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+                        <fieldset class="drop-box drpFieldset">
+                            <h3 class="Question_topic">Hair and Scalp Characteristics</h3>
+                            <div class="form-card">
+                                <div class="steps-count"> Step @(isDigitalAnalysis != true ? 9 : 5) /@cnt </div>
+                                <h2 class="text-center">Please select your top 3 hair goals:*</h2>
+                                <div class="style1 custom_mutiple_select">
+                                    <select class="js-example-basic-multiple DrpClass maxThree" id="drp25" multiple="multiple">
+                                        <option value="92">Curl Definition</option>
+                                        <option value="93">Length Retention</option>
+                                        <option value="94">Retain Moisture</option>
+                                        <option value="95">Increase Shine</option>
+                                        <option value="96">Healthy Heat Styling</option>
+                                        <option value="97">Color Care</option>
+                                        <option value="98">Manageability</option>
+                                        <option value="99">Stronger Hair</option>
+                                        <option value="100">Increase Fullness/Volume</option>
+                                        <option value="101">Healthy Hair</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <input type="button" name="next" class="next action-button next-btm" value="Next" hidden id="nxt_25" />
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+                        <fieldset class="drop-box">
+                            <h3 class="Question_topic">Hair and Scalp Characteristics</h3>
+                            <div class="form-card">
+                                <div class="steps-count"> Step @(isDigitalAnalysis != true ? 10 : 6) /@cnt </div>
+                                <h2 class="text-center">Please select your top 3 hair challenges*</h2>
+                                <div class="style1 custom_mutiple_select">
+                                    <select class="js-example-basic-multiple DrpClass maxThree" id="16" multiple="multiple">
+                                        <option value="58">Dryness</option>
+                                        <option value="59">Product Buildup</option>
+                                        <option value="60">Oily hair</option>
+                                        <option value="61">Breakage</option>
+                                        <option value="62">Frizzy</option>
+                                        <option value="63">Shedding </option>
+                                        <option value="64">Dull</option>
+                                        <option value="65">Porous</option>
+                                        <option value="210">Heat Damage</option>
+                                        <option value="66">Physical Damage (Braids, Weaves, Wigs)</option>
+                                        <option value="211">Over Processed Chemical Treatment</option>
+                                        <option value="67">Color Damage  </option>
+                                        <option value="68">Manageability/Tangled  </option>
+                                        <option value="212">Thinning  </option>
+                                        <option value="69">Weak Edges</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <input type="button" name="next" class="next action-button next-btm" value="Next" hidden id="nxt_16" />
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+                        <fieldset class="drop-box">
+                            <h3 class="Question_topic">Hair and Scalp Characteristics</h3>
+                            <div class="form-card">
+                                <div class="steps-count"> Step @(isDigitalAnalysis != true ? 11 : 7) /@cnt </div>
+                                <h2 class="text-center">Please select your top 3 scalp challenges:*</h2>
+                                <div class="style1 custom_mutiple_select">
+                                    <select class="js-example-basic-multiple DrpClass maxThree" id="drp31" multiple="multiple">
+                                        <option value="113">Dry Scalp</option>
+                                        <option value="114">Oily Scalp</option>
+                                        <option value="115">Flaky Scalp</option>
+                                        <option value="116">Sensitive Scalp</option>
+                                        <option value="117">Dandruff</option>
+                                        <option value="118">Dermatitis</option>
+                                        <option value="119">Alopecia</option>
+                                        <option value="120">Psoriasis</option>
+                                        <option value="121">Density Loss (thinning)</option>
+                                        <option value="122">None</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <input type="button" name="next" class="next action-button next-btm" value="Next" hidden id="nxt_31" />
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+                        <fieldset class="drop-box">
+                            <h3 class="Question_topic">Hair Color</h3>
+                            <div class="form-card">
+                                <div class="steps-count"> Step @(isDigitalAnalysis != true ? 12 : 8) /@cnt </div>
+                                <h2 class="text-center">When was the last time that you had a hair color service?*</h2>
+                                @*<div class="style1 custom_mutiple_select select33">*@
+                                <div class="fields-block">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="213" name="33" type="radio" class="33" value="213" />
+                                                <label for="213">Never </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="214" name="33" type="radio" class="33" value="214" />
+                                                <label for="214">Within a week </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="215" name="33" type="radio" class="33" value="215" />
+                                                <label for="215">Within a month </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="216" name="33" type="radio" class="33" value="216" />
+                                                <label for="216">Within 3 months </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="217" name="33" type="radio" class="33" value="217" />
+                                                <label for="217">Within 6 months </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="218" name="33" type="radio" class="33" value="218" />
+                                                <label for="218">Within 1 year </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="219" name="33" type="radio" class="33" value="219" />
+                                                <label for="219">Within 3-5 years </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="220" name="33" type="radio" class="33" value="220" />
+                                                <label for="220">Within 6-10+ years </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<select id="33" class="select" >
+                    <option value="0" id="sel_0">-- Select --</option>
+                    <option value="213" id="sel_17">Never</option>
+                    <option value="214" id="sel_17">Within a week</option>
+                    <option value="215" id="sel_18">Within a month</option>
+                    <option value="216" id="sel_19">Within 3 months</option>
+                    <option value="217" id="sel_20">Within 6 months</option>
+                    <option value="218" id="sel_21">Within 1 year</option>
+                    <option value="219" id="sel_22">Within 3-5 years</option>
+                    <option value="220" id="sel_91">Within 6-10+ years</option>
+                </select>*@
+
+                                @*</div>*@
+                            </div>
+                            <input type="button" name="next" class="next action-button m-auto" value="Next" hidden id="nxt_33" />
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+
+                        <fieldset class="drop-box multiple-_select2">
+                            <h3 class="Question_topic">Hair Color</h3>
+                            <div class="form-card">
+                                <div class="steps-count"> Step @(isDigitalAnalysis != true ? 13 : 9) /@cnt </div>
+                                <h2 class="text-center">Which hair color service have you received?*</h2>
+                                <div class="style1 custom_mutiple_select">
+                                    <select class="js-example-basic-multiple DrpClass " id="28" multiple="multiple">
+                                        <option value="131">Temporary</option>
+                                        <option value="104">Semi</option>
+                                        <option value="103">Demi</option>
+                                        <option value="106">Permanent</option>
+                                        <option value="105">Highlights</option>
+                                        <option value="132">Henna</option>
+                                        <option value="133">Not Sure</option>
+                                        <option value="107">None</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <input type="button" name="next" class="next action-button next-btm" value="Next" hidden id="nxt_28" />
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+                        <fieldset class="radiofield">
+                            <h3 class="Question_topic">Hair Color</h3>
+                            <div class="form-card">
+                                <div class="steps-count"> Step @(isDigitalAnalysis != true ? 14 : 10) /@cnt </div>
+                                <h2 class="text-center">Do you have any gray strands?*</h2>
+                                <div class="fields-block">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="134" name="32" type="radio" class="32" value="134" />
+                                                <label for="134">None</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="135" name="32" type="radio" class="32" value="135" />
+                                                <label for="135">10%</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="136" name="32" type="radio" class="32" value="136" />
+                                                <label for="136">25%</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="137" name="32" type="radio" class="32" value="137" />
+                                                <label for="137">50%</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="138" name="32" type="radio" class="32" value="138" />
+                                                <label for="138">75%</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="139" name="32" type="radio" class="32" value="139" />
+                                                <label for="139">100%</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<div class="style1 custom_mutiple_select select32">
+                    <select id="32" class="select">
+                        <option value="0">--Select--</option>
+                        <option value="134">None</option>
+                        <option value="135">10%</option>
+                        <option value="136">25%</option>
+                        <option value="137">50%</option>
+                        <option value="138">75%</option>
+                        <option value="139">100%</option>
+                    </select>
+
+                </div>*@
+
+                            </div>
+                            <input type="button" name="next" class="next action-button m-auto" hidden value="Next" id="nxt_32" />
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+                        @*Chemical Hair Services*@
+
+                        <fieldset class="drop-box">
+                            <h3 class="Question_topic">Chemical Hair Services</h3>
+                            <div class="form-card">
+                                <div class="steps-count"> Step @(isDigitalAnalysis != true ? 15 : 11) /@cnt </div>
+                                <h2 class="text-center">When was the last time that you had a chemical service?*</h2>
+                                <div class="fields-block">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="91" name="6" type="radio" class="6" value="91" />
+                                                <label for="91">Never</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="17" name="6" type="radio" class="6" value="17" />
+                                                <label for="17">Within a week</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="18" name="6" type="radio" class="6" value="18" />
+                                                <label for="18">Within a month</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="19" name="6" type="radio" class="6" value="19" />
+                                                <label for="19">Within 3 months</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="20" name="6" type="radio" class="6" value="20" />
+                                                <label for="20">Within 6 months</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="21" name="6" type="radio" class="6" value="21" />
+                                                <label for="21">Within 1 year</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="22" name="6" type="radio" class="6" value="22" />
+                                                <label for="22">Within 3-5 years</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="140" name="6" type="radio" class="6" value="140" />
+                                                <label for="140">Within 6-10+ years</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<div class="style1 custom_mutiple_select select6">
+                    <select id="6" class="select">
+                        <option value="0" id="sel_0">-- Select --</option>
+                        <option value="91" id="sel_91">Never</option>
+                        <option value="17" id="sel_17">Within a week</option>
+                        <option value="18" id="sel_18">Within a month</option>
+                        <option value="19" id="sel_19">Within 3 months</option>
+                        <option value="20" id="sel_20">Within 6 months</option>
+                        <option value="21" id="sel_21">Within 1 year</option>
+                        <option value="22" id="sel_22">Within 3-5 years</option>
+                        <option value="140" id="sel_91">Within 6-10+ years</option>
+                    </select>
+
+                </div>*@
+                            </div>
+                            <input type="button" name="next" class="next action-button  m-auto" value="Next" hidden id="nxt_6" />
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+                        <fieldset class="drop-box multiple-_select2">
+                            <h3 class="Question_topic">Chemical Hair Services</h3>
+                            <div class="form-card">
+                                <div class="steps-count"> Step @(isDigitalAnalysis != true ? 16 : 12) /@cnt </div>
+                                <h2 class="text-center">Which chemical service did you receive?*</h2>
+                                <div class="fields-block">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="23" name="7" type="radio" class="7" value="23" />
+                                                <label for="23">Relaxer</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="24" name="7" type="radio" class="7" value="24" />
+                                                <label for="24">Texturizer</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="25" name="7" type="radio" class="7" value="25" />
+                                                <label for="25">Keratin Treatment</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="26" name="7" type="radio" class="7" value="26" />
+                                                <label for="26">Smoothing Treatment</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="27" name="7" type="radio" class="7" value="27" />
+                                                <label for="27">Brazilian Blowout</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="86" name="7" type="radio" class="7" value="86" />
+                                                <label for="86">None</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="87" name="7" type="radio" class="7" value="87" />
+                                                <label for="87">Other</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<div class="style1 custom_mutiple_select select7">
+                    <select id="7" class="select">
+                        <option value="0">--Select--</option>
+                        <option value="23">Relaxer</option>
+                        <option value="24">Texturizer</option>
+                        <option value="25">Keratin Treatment</option>
+                        <option value="26">Smoothing Treatment</option>
+                        <option value="27">Brazilian Blowout</option>
+                        <option value="86">None</option>
+                        <option value="87">Other</option>
+                    </select>
+
+                </div>*@
+                            </div>
+                            <input type="button" name="next" class="next action-button  m-auto" value="Next" hidden id="nxt_7" />
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+                        @*Hair Care Maintenance*@
+
+                        <fieldset class="drop-box">
+                            <h3 class="Question_topic">Hair Care Maintenance</h3>
+                            <div class="form-card">
+                                <div class="steps-count"> Step @(isDigitalAnalysis != true ? 17 : 13) /@cnt </div>
+                                <h2 class="text-center">How often do you wash your hair with shampoo?* <span>(NOT CO WASHING) </span></h2>
+                                <div class="fields-block">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="30" name="9" type="radio" class="9" value="30" />
+                                                <label for="30">Daily</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="31" name="9" type="radio" class="9" value="31" />
+                                                <label for="31">Every Other Day</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="32" name="9" type="radio" class="9" value="32" />
+                                                <label for="32">Weekly</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="33" name="9" type="radio" class="9" value="33" />
+                                                <label for="33">Bi Weekly</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="34" name="9" type="radio" class="9" value="34" />
+                                                <label for="34">Monthly</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="35" name="9" type="radio" class="9" value="35" />
+                                                <label for="35">Longer than once a month</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<div class="style1 custom_mutiple_select select9">
+                    <select id="9" class="select">
+                        <option value="0">-- Select --</option>
+                        <option value="30">Daily</option>
+                        <option value="31">Every Other Day</option>
+                        <option value="32">Weekly</option>
+                        <option value="33">Bi Weekly</option>
+                        <option value="34">Monthly</option>
+                        <option value="35">Longer than once a month</option>
+                    </select>
+
+                </div>*@
+                            </div>
+                            <input type="button" name="next" class="next action-button m-auto" value="Next" hidden id="nxt_9" />
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+                        <fieldset class="radiofield">
+                            <h3 class="Question_topic">Hair Care Maintenance</h3>
+                            <div class="form-card">
+                                <div class="steps-count"> Step @(isDigitalAnalysis != true ? 18 : 14) /@cnt </div>
+                                <h2 class="text-center">Do you co wash your hair?* <span>(Cowashing refers to washing your hair with conditioner only)</span></h2>
+                                <div class="fields-block">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="radio17" name="8" type="radio" class="8" value="28" />
+                                                <label for="radio17">Yes  </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="radio18" name="8" type="radio" class="8" value="29" />
+                                                <label for="radio18">No  </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="button" name="next" class="next action-button m-auto" value="Next" hidden id="nxt_8" />
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+
+                        <fieldset class="drop-box">
+                            <h3 class="Question_topic">Hair Care Maintenance</h3>
+                            <div class="form-card">
+                                <div class="steps-count"> Step @(isDigitalAnalysis != true ? 19 : 15) /@cnt </div>
+                                <h2 class="text-center">When was your last salon visit?*</h2>
+                                <div class="fields-block">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="36" name="10" type="radio" class="10" value="36" />
+                                                <label for="36">Within a week</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="256" name="10" type="radio" class="10" value="256" />
+                                                <label for="256">Within 2 weeks</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="37" name="10" type="radio" class="10" value="37" />
+                                                <label for="37">Within a month</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="38" name="10" type="radio" class="10" value="38" />
+                                                <label for="38">Within 3 months</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="39" name="10" type="radio" class="10" value="39" />
+                                                <label for="39">Within 6 months</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="40" name="10" type="radio" class="10" value="40" />
+                                                <label for="40">Within 1 year</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="41" name="10" type="radio" class="10" value="41" />
+                                                <label for="41">Longer than a year ago</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="42" name="10" type="radio" class="10" value="42" />
+                                                <label for="42">I have never been to the salon</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<div class="style1 custom_mutiple_select select10">
+                    <select id="10" class="select">
+                        <option value="0">-- Select --</option>
+                        <option value="36">Within a week</option>
+                        <option value="256">Within 2 weeks</option>
+                        <option value="37">Within a month</option>
+                        <option value="38">Within 3 months</option>
+                        <option value="39">Within 6 months</option>
+                        <option value="40">Within 1 year</option>
+                        <option value="41">Longer than a year ago</option>
+                        <option value="42">I have never been to the salon</option>
+                    </select>
+
+                </div>*@
+                            </div>
+                            <input type="button" name="next" class="next action-button m-auto" value="Next" hidden id="nxt_10" />
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+                        <fieldset class="in-put">
+                            <h3 class="Question_topic">Hair Care Maintenance</h3>
+                            <div class="form-card">
+                                <div class="steps-count"> Step @(isDigitalAnalysis != true ? 20 : 16) /@cnt </div>
+                                <h2 class="text-center">What salon services did you receive?*</h2>
+                                <div class="style1 custom_mutiple_select">
+                                    <select class="js-example-basic-multiple DrpClass " id="11" multiple="multiple">
+                                        @*<option value="46">In its natural state</option>*@
+                                        <option value="43">Trim</option>
+                                        <option value="151">Shampoo/ Conditioner</option>
+                                        <option value="152">Steam Therapy</option>
+                                        <option value="153">Deep Condition</option>
+                                        <option value="154">Hair Color</option>
+                                        <option value="155">Chemical Service</option>
+                                        <option value="156">Other</option>
+                                    </select>
+
+                                </div>
+                                @*<input type="text" name="fname" placeholder="Enter your response" id="txt_11" onkeyup="returnInputError(11)" />*@
+                            </div> <input type="button" name="next" class="next action-button next-btm" id="nxt_11" value="Next" hidden />
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+                        <fieldset class="in-put">
+                            <h3 class="Question_topic">Hair Care Maintenance</h3>
+                            <div class="form-card">
+                                <div class="steps-count"> Step @(isDigitalAnalysis != true ? 21 : 17) /@cnt </div>
+                                <h2 class="text-center">Which style did you receive?*</h2>
+                                <div class="fields-block">
+                                    <input type="text" name="fname" placeholder="Enter your response" id="txt_35" onkeyup="returnInputError(35)" />
+                                </div>
+                            </div>
+                            <input type="button" name="next" class="next action-button m-auto" id="nxt_35" value="Next" hidden onclick="txtResponse(35)" />
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+                        <fieldset class="in-put">
+                            <h3 class="Question_topic">Hair Care Maintenance</h3>
+                            <div class="form-card">
+                                <div class="steps-count"> Step @(isDigitalAnalysis != true ? 22 : 18) /@cnt </div>
+                                <h2 class="text-center">What is your preferred salon?*</h2>
+                                <div class="fields-block">
+                                    <input type="text" name="fname" placeholder="Enter your response" id="txt_13" onkeyup="returnInputError(13)" />
+                                </div>
+                            </div> <input type="button" name="next" class="next action-button m-auto" id="nxt_13" value="Next" hidden onclick="txtResponse(13)" />
+
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+                        <fieldset class="in-put">
+                            <h3 class="Question_topic">Hair Care Maintenance</h3>
+                            <div class="form-card">
+                                <div class="steps-count"> Step @(isDigitalAnalysis != true ? 23 : 19) /@cnt </div>
+                                <h2 class="text-center">Who is your preferred stylist?*</h2>
+                                <div class="fields-block">
+                                    <input type="text" name="fname" placeholder="Enter your response" id="txt_12" onkeyup="returnInputError(12)" />
+                                </div>
+                            </div>
+                            <input type="button" name="next" class="next action-button m-auto" id="nxt_12" value="Next" hidden onclick="txtResponse(12)" />
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+                        @*Hair Styling*@
+
+                        <fieldset class="drop-box multiple-_select2">
+                            <h3 class="Question_topic">Hair Styling</h3>
+                            <div class="form-card">
+                                <div class="steps-count"> Step @(isDigitalAnalysis != true ? 24 : 20) / @cnt </div>
+                                <h2 class="text-center">What is your signature style?*</h2>
+                                @*<label class="fieldlabels">How do you typically wear your hair? Select all that apply.*</label>*@
+                                <div class="style1 custom_mutiple_select">
+                                    <select class="js-example-basic-multiple DrpClass " id="14" multiple="multiple">
+                                        @*<option value="46">In its natural state</option>*@
+                                        <option value="46">Natural State Afro</option>
+                                        <option value="47">Wash n Go (in its natural state)</option>
+                                        <option value="221">Ponytail</option>
+                                        <option value="222">Afro Puff</option>
+                                        <option value="257">Afro</option>
+                                        <option value="48">Straightened (with heat)</option>
+                                        <option value="223">Top Knot/High Bun</option>
+                                        <option value="224">Half Up Half Down</option>
+                                        <option value="225">Halo Braid</option>
+                                        <option value="226">Flat Twists</option>
+                                        <option value="227">Individual Twists</option>
+                                        <option value="228">Twist Out</option>
+                                        <option value="229">Braid Out</option>
+                                        <option value="230">Bantu Knots</option>
+                                        <option value="231">Roller Set</option>
+                                        <option value="232">Flexi Rod Set</option>
+                                        <option value="233">Perm Rod Set</option>
+                                        <option value="234">Braids</option>
+                                        <option value="235">Faux Locs</option>
+                                        <option value="236">Passion Twists</option>
+                                        @*<option value="49">Protective styles (braids, twists, etc)</option>
+                        <option value="50">Set styles (twists, rollers, bantu knots, etc)</option>*@
+                                        <option value="51">Sew-in</option>
+                                        <option value="158">Microlinks</option>
+                                        <option value="159">Lace front</option>
+                                        <option value="160">Wig</option>
+                                        <option value="161">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <input type="button" name="next" class="next action-button next-btm" value="Next" hidden id="nxt_14" />
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+                        @*Hair Product Preference*@
+
+                        <fieldset class="drop-box">
+                            <h3 class="Question_topic">Hair Styling</h3>
+                            <div class="form-card">
+                                @*How would you like to wear your hair? Select all that apply.*@
+                                <div class="steps-count"> Step @(isDigitalAnalysis != true ? 25 : 21) / @cnt </div>
+                                <h2 class="text-center"> Which style would you like to do next?</h2>
+                                <div class="style1 custom_mutiple_select">
+                                    <select class="js-example-basic-multiple DrpClass" id="15" multiple="multiple">
+                                        @*<option value="52">In its natural state</option>*@
+                                        <option value="52">Natural State Afro</option>
+                                        <option value="53">Wash n Go</option> @*(in its natural state)*@
+                                        <option value="238">Ponytail</option>
+                                        <option value="239">Afro Puff</option>
+                                        <option value="54">Straightened (with heat)</option>
+                                        <option value="240">Top Knot/High Bun</option>
+                                        <option value="241">Half Up Half Down</option>
+                                        <option value="242">Halo Braid</option>
+                                        <option value="243">Flat Twists</option>
+                                        <option value="244">Individual Twists</option>
+                                        <option value="245">Twist Out</option>
+                                        <option value="246">Braid Out</option>
+                                        <option value="247">Bantu Knots</option>
+                                        <option value="248">Roller Set</option>
+                                        <option value="249">Flexi Rod Set</option>
+                                        <option value="250">Perm Rod Set</option>
+                                        <option value="251">Braids</option>
+                                        <option value="252">Faux Locs</option>
+                                        <option value="253">Passion Twists</option>
+                                        @*<option value="54">Straightened (with heat)</option>
+                        <option value="55">Protective styles (braids, twists, etc)</option>
+                        <option value="56">Set styles (twists, rollers, bantu knots, etc)</option>*@
+                                        <option value="57">Sew-in</option>
+                                        <option value="162">Microlinks</option>
+                                        <option value="163">Lace front</option>
+                                        <option value="164">Wig</option>
+                                        <option value="255">Other</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <input type="button" name="next" class="next action-button next-btm" value="Next" hidden id="nxt_15" />
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+                        <fieldset class="radiofield">
+                            <h3 class="Question_topic">Hair Product Preference</h3>
+                            <div class="form-card">
+                                <div class="steps-count"> Step @(isDigitalAnalysis != true ? 26 : 22) / @cnt </div>
+                                <h2 class="text-center">What is most important to you when selecting hair care products?*</h2>
+                                <div class="fields-block">
+                                    <div class="row">
+                                        @*<div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="radio79" name="18" type="radio" class="18" value="79" />
+                                                <label for="radio79">Clean Ingredients</label>
+                                            </div>
+                                        </div>*@
+                                        @*<div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="radio82" name="18" type="radio" class="18" value="82" />
+                                                <label for="radio82">Price</label>
+                                            </div>
+                                        </div>*@
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="radio80" name="18" type="radio" class="18" value="80" />
+                                                <label for="radio80">Made with Natural Ingredients</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-12">
+                                            <div class="inputGroup dhgcMu">
+                                                <input id="radio81" name="18" type="radio" class="18" value="81" />
+                                                <label for="radio81">Scientifically Advanced Formula</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <input type="button" name="next" class="next action-button m-auto" value="Next" hidden id="nxt_18" />
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+
+                        <fieldset class="in-put">
+                            <h3 class="Question_topic">Hair Product Preference</h3>
+                            <div class="form-card">
+                                <div class="steps-count"> Step @(isDigitalAnalysis != true ? 27 : 23) / @cnt </div>
+                                <h2 class="text-center">Which product brands are you currently using?*</h2>
+                                <div class="fields-block">
+                                    <input type="text" name="fname" placeholder="Enter your response" id="txt_36" onkeyup="returnInputError(36)" />
+                                </div>
+                            </div>
+                            <input type="button" name="next" class="next action-button m-auto" value="Next" hidden id="nxt_36" onclick="txtResponse(36)" />
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+
+                        <fieldset class="drop-box">
+                            <h3 class="Question_topic">Hair Product Preference</h3>
+                            <div class="form-card">
+                                <div class="steps-count"> Step @(isDigitalAnalysis != true ? 28 : 24) / @cnt </div>
+                                <h2 class="text-center">Which product types are you currently using? *</h2>
+                                <div class="style1 custom_mutiple_select">
+                                    <select class="js-example-basic-multiple DrpClass" id="drp19" multiple="multiple">
+                                        @*<option value="52">In its natural state</option>*@
+                                        <option value="83">Detox/ Cleansers</option>
+                                        <option value="181">Shampoo</option>
+                                        <option value="182">Conditioners</option>
+                                        <option value="183">Deep Treatments</option>
+                                        <option value="184">Leave in (liquid, cream)</option>
+                                        <option value="185">Butters</option>
+                                        <option value="186">Creams</option>
+                                        <option value="187">Gels/ Gelee</option>
+                                        <option value="188">Mousse</option>
+                                        <option value="189">Heat Protectant</option>
+                                        <option value="190">Serums</option>
+                                        <option value="191">Hair Spray</option>
+                                        <option value="192">Shine Spray</option>
+                                        <option value="193">Curl Refresher Spray</option>
+                                        <option value="194">Oils</option>
+                                        <option value="195">Edge Control</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            <input type="button" name="next" class="next action-button next-btm" value="Next" hidden id="nxt_19" />
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+                        <fieldset class="drop-box">
+                            <h3 class="Question_topic">Hair Product Preference</h3>
+                            <div class="form-card">
+                                <div class="steps-count"> Step @(isDigitalAnalysis != true ? 29 : 25) / @cnt </div>
+                                <h2 class="text-center">Which tools do you use? *</h2>
+                                <div class="style1 custom_mutiple_select">
+                                    <select class="js-example-basic-multiple DrpClass" id="drp37" multiple="multiple">
+                                        @*<option value="52">In its natural state</option>*@
+                                        <option value="196">Wide Tooth Comb</option>
+                                        <option value="197">Fingers</option>
+                                        <option value="198">Denman Brush</option>
+                                        <option value="199">Paddle Brush</option>
+                                        <option value="200">Bristle Brush</option>
+                                        <option value="201">Edge Brush/ Toothbrush</option>
+                                        <option value="202">Rattail Comb</option>
+                                        <option value="203">Detangling Comb/ Brush</option>
+                                        <option value="204">Blow Dryer</option>
+                                        <option value="205">Flat Iron</option>
+                                        <option value="206">Curling Iron/ Wand</option>
+                                        <option value="207">Hot Rollers/ Rods</option>
+                                        <option value="208">Hair Steamer</option>
+                                        <option value="209">Hood Dryer</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                            @if (isDigitalAnalysis != true)
+                            {
+                                <input type="button" name="next" class="next action-button next-btm" value="Next" hidden id="nxt_37" />
+                            }
+                            else
+                            {
+                                <input type="button" name="next" class="next action-button next-btm" value="Next" hidden id="nxt_22" onclick="saveQuestionaire(22)" />
+                            }
+
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+
+
+                        <fieldset>
+                            <div class="form-card">
+                                <div class="steps-count"> Step 30 / @cnt </div>
+                                <h2 class="text-center">
+                                    Last step :)
+                                    please upload a recent selfie photo that shows a good view of your hair.*
+                                </h2>
+                                <div class="avatar-upload image-upload" ondrop="dragdrop.drop(event)" ondragover="dragdrop.drag(event)">
+                                    <div class="avatar-edit" id="upload-demo">
+                                        <input accept="image/jpg, image/jpeg, image/png" type="file" autocomplete="off" style="" id="hairImage" name="files" />
+                                        <label for="hairImage" id="lblImageDisplay">
+                                            <div class="col-md-12 text-center drop-file" id="dragHere">
+                                                <p>
+                                                    Drag and drop
+                                                </p>
+                                                <p>or</p>
+                                                <a class="sub-btn-blue" id="browseButton">Select Files<input id="hairImage" type="file" style="display: none;"></a>
+
+                                                <p class="mt-4">
+
+                                                    <b>ACCEPTS</b>: JPG, .JPEG, .PNG
+                                                    <br>
+                                                    <b>MAX FILE SIZE</b>: 50MB
+                                                </p>
+                                            </div>
+                                            <div class="col-md-12 text-center drop-file" id="uploadedImage" hidden>
+                                                <span id="changeImage"><i class="fa fa-pencil" aria-hidden="true"></i></span>
+                                                <img id="imageShowing" src="" />
+
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="button" name="next" class="next action-button m-auto" value="Next" hidden id="nxt_22" onclick="saveQuestionaire_hairKit(22)" />
+                            <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                        </fieldset>
+
+                        <fieldset class="finish">
+                            <br /><br /><br /><br /><br /><br /><br /><br />
+                            <div class="form-card">
+                                <h5 class="purple-text text-center">
+                                    <strong>
+                                        Thank you so much for your time in sharing these important hair details with us!
+                                        Your personalized healthy hair care plan is in the works :) Stay tuned for further communications!
+                                    </strong>
+                                </h5> <br>
+                            </div>
+                        </fieldset>
+
+
+                    </form>
+                    <!-- progressbar -->
+                    <div class="bar">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <footer style="padding:0;">
+        @*<img src="~/images/Powered-by.png" /><img src="~/images/logo-my.png" />*@
+        <img style="height: 50px; width: auto;" src="~/css/img/PoweredbyMyavana.png" />
+    </footer>
+    <script src="~/js/admin/QuestionaireSurvey.js"></script>
+
+
+</body>
+</html>

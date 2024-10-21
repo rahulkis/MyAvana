@@ -1,0 +1,218 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper AuthoringTagHelpers.TagHelpers.EmailTagHelper, AuthoringTagHelpers
+@model MyavanaAdminModels.ToolsModel
+@inject MyavanaAdminApiClient.ApiClient productType
+
+@{
+    ViewData["Title"] = "CreateTool";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (Model != null)
+{
+    <input type="hidden" id="productid" value="@Model.Id" />
+    <input type="hidden" id="image" value="@Model.Image" />
+}
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.select2').select2({ placeholder: "--Select--" });
+        $('#txtImageName').text($('#image').val().substring($('#image').val().lastIndexOf('/') + 1));
+    });
+</script>
+<style>
+    .preloader {
+        width: calc(100% - 200px);
+        height: 100%;
+        top: 0px;
+        position: fixed;
+        z-index: 99999;
+        background: rgba(255, 255, 255, .8);
+    }
+
+        .preloader img {
+            position: absolute;
+            LEFT: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+        }
+
+    .loader {
+        overflow: visible;
+        padding-top: 2em;
+        height: 0;
+        width: 2em;
+    }
+
+    .alert-success, .alert-danger, .alert-info {
+        top: 110px !important;
+        width: 60% !important;
+        margin: 0 auto;
+        z-index: 99;
+        position: fixed;
+        left: 50%;
+        transform: translateX(-40%);
+        text-align: center;
+        padding: 12px;
+        transition: all 1s linear;
+        box-shadow: 0px 0px 12px 3px rgba(0, 0, 0, 0.2);
+        font-size: 16px;
+    }
+
+    .alert-danger {
+        color: #80172a;
+        background-color: #fdd5dc;
+        border-color: #fcc4ce;
+    }
+
+        .alert-danger hr {
+            border-top-color: #fbacba;
+        }
+
+        .alert-danger .alert-link {
+            color: #550f1c;
+        }
+
+    .alert-success {
+        color: #1c6356;
+        background-color: #a8ffc3;
+        border-color: #13b755;
+    }
+
+        .alert-success hr {
+            border-top-color: #b4e7dd;
+        }
+
+        .alert-success .alert-link {
+            color: #113b33;
+        }
+</style>
+<div id="alert-success" class="alert alert-success alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="successMessage"></span>
+</div>
+<div class="alert alert-danger alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="failureMessage"></span>
+</div>
+
+<div class="preloader" style="display:none;">
+    <div class="loader">
+        <img src="~/images/loader.gif" />
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Post Tool</h5>
+
+                </div>
+                <div class="ibox-content">
+                    @*<form method="post">*@
+
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label">Tool Name*</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="txtProductName" placeholder="Enter tool name" asp-for="ToolName" class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Actual Name*</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="txtActualName" placeholder="Enter actual name" asp-for="ActualName" class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Brand Name*</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="txtBrandName" placeholder="Enter brand name" asp-for="BrandName" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Image*</label>
+                        <div class="col-sm-10">
+                            <button id="btnImageClick" class="btn btn-outline-secondary">Choose image</button>
+                            <span id="txtImageName">@ViewBag.UploadedFile</span>
+                            <input type="file" id="toolImage" accept="image/*" style="display:none" />
+                        </div>
+                        @*<div class="col-sm-10">
+                                <input type="text" id="txtImageName" asp-for="Image" placeholder="Enter image link" class="form-control">
+                            </div>*@
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Link*</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="txtLink" asp-for="ToolLink" placeholder="Enter tools link" class="form-control">
+                        </div>
+
+                        @*<div class="col-sm-10">
+                                <select class="js-example-basic-multiple form-control select2" id="ingredients"
+                                        asp-items="@productType.GetIngredientsList().Result.Select(s => new SelectListItem() { Text = s.Name, Value=s.IngedientsEntityId.ToString()})" multiple>
+                                    <option value="">Select Type</option>
+                                </select>
+                            </div>*@
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Tool Details*</label>
+
+                        <div class="col-sm-10">
+                            <textarea id="txtProductDetails" rows="3" asp-for="ToolDetails" placeholder="Enter tool details" class="form-control"></textarea>
+                            @*<input type="text" id="txtProductDetails" asp-for="ProductDetails" placeholder="Enter product details" class="form-control">*@
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Price*</label>
+
+                        <div class="col-sm-10">
+                            <div class="col-sm-10">
+                                <div class="row">
+                                    <div class="col-3 d-flex">
+                                        <input type="text" class=" form-control" maxlength="3" asp-for="ActualPrice" id="txtActualPrice" placeholder="000">
+                                        <span class="align-items-end d-flex pl-4">.</span>
+                                    </div>
+                                    <div class="col-2">
+                                        <input type="text" class=" form-control" maxlength="2" asp-for="DecimalPrice" id="txtDecimalPrice" placeholder="00">
+                                    </div>
+                                </div>
+                            </div>
+                            @*<input type="text" id="txtPrice" asp-for="Price" placeholder="Enter tool price" class="form-control">*@
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-4 col-sm-offset-2">
+                            <a class="btn btn-white btn-sm" asp-controller="Tools" asp-action="Toolslist">Cancel</a>
+                            <button class="btn btn-primary btn-sm" onclick="SaveTool()">Save Tool</button>
+                        </div>
+                    </div>
+                    @*</form>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/admin/tools.js"></script>
+

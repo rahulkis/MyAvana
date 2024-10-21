@@ -1,0 +1,680 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper AuthoringTagHelpers.TagHelpers.EmailTagHelper, AuthoringTagHelpers
+@model MyavanaAdminModels.RegimensModel
+
+@{
+    Layout = "_Layout";
+	int step = 1;
+}
+
+
+
+
+
+@if (Model != null)
+{
+    <input type="hidden" id="regimensId" value="@Model.RegimensId" />
+}
+
+<style>
+    .preloader {
+        width: calc(100% - 200px);
+        height: 100%;
+        top: 0px;
+        position: fixed;
+        z-index: 99999;
+        background: rgba(255, 255, 255, .8);
+    }
+
+		.preloader img {
+			position: absolute;
+			LEFT: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			width: 80px;
+		}
+
+	.loader {
+		overflow: visible;
+		padding-top: 2em;
+		height: 0;
+		width: 2em;
+	}
+    .alert-success, .alert-danger, .alert-info {
+        top: 110px !important;
+        width: 60% !important;
+        margin: 0 auto;
+        z-index: 99;
+        position: fixed;
+        left: 50%;
+        transform: translateX(-40%);
+        text-align: center;
+        padding: 12px;
+        transition: all 1s linear;
+        box-shadow: 0px 0px 12px 3px rgba(0, 0, 0, 0.2);
+        font-size: 16px;
+    }
+
+    .alert-danger {
+        color: #80172a;
+        background-color: #fdd5dc;
+        border-color: #fcc4ce;
+    }
+
+        .alert-danger hr {
+            border-top-color: #fbacba;
+        }
+
+        .alert-danger .alert-link {
+            color: #550f1c;
+        }
+
+    .alert-success {
+        color: #1c6356;
+        background-color: #a8ffc3;
+        border-color: #13b755;
+    }
+
+        .alert-success hr {
+            border-top-color: #b4e7dd;
+        }
+
+        .alert-success .alert-link {
+            color: #113b33;
+        }
+
+    .regimenssteotabs .nav-pills .nav-link.active, .regimenssteotabs .nav-pills .show > .nav-link {
+        color: #fff;
+        background-color: #383838;
+    }
+
+    .regimenssteotabs a {
+        color: #383838;
+    }
+	.addbutton {
+		background: #b2d7ff;
+		color: #000;
+		padding: 4px 15px;
+		border-radius: 4px;
+		border: 1px solid #b2d7ff;
+	}
+</style>
+<div id="alert-success" class="alert alert-success alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="successMessage"></span>
+</div>
+<div class="alert alert-danger alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="failureMessage"></span>
+</div>
+<div class="preloader" style="display:none;">
+	<div class="loader">
+		<img src="~/images/loader.gif" />
+	</div>
+</div>
+<input type="hidden" value="@ViewBag.Count" id="hdnStep" />
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Post Regimens</h5>
+
+                </div>
+				<div class="ibox-content">
+					@*<form method="post">*@
+					<div class="form-group  row">
+						<label class="col-sm-2 col-form-label">Name*</label>
+						<div class="col-sm-10">
+							<input type="text" id="txtName" placeholder="Enter Name" asp-for="Name" class="form-control">
+						</div>
+					</div>
+					<div class="form-group  row">
+						<label class="col-sm-2 col-form-label">Title*</label>
+						<div class="col-sm-10">
+							<input type="text" id="txtTitle" placeholder="Enter Title" asp-for="Title" class="form-control">
+						</div>
+					</div>
+					<div class="form-group  row">
+						<label class="col-sm-2 col-form-label">Description*</label>
+                        <div class="col-sm-10">
+                            @*<input type="text" id="txtDescription" placeholder="Enter Description" asp-for="Description" class="form-control">*@
+                            <textarea rows="3" id="txtDescription" placeholder="Enter Description" asp-for="Description" class="form-control"></textarea>
+                        </div>
+					</div>
+					<div class="hr-line-dashed"></div>
+					<div class="row regimenssteotabs">
+
+						<div class="col-2">
+							<div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+								<a class="nav-link active" id="v-pills-step1-tab" data-toggle="pill" href="#v-pills-step1" role="tab" aria-controls="v-pills-step1" aria-selected="true">Step 1</a>
+
+								@if (Model != null)
+								{
+
+									@if (Model.Step2Instruction != null)
+									{
+										<a class="nav-link" id="v-pills-step2-tab" data-toggle="pill" href="#v-pills-step2" role="tab" aria-controls="v-pills-step2" aria-selected="true">Step 2</a>
+									}
+									@if (Model.Step3Instruction != null)
+									{
+										<a class="nav-link" id="v-pills-step3-tab" data-toggle="pill" href="#v-pills-step3" role="tab" aria-controls="v-pills-step3" aria-selected="true">Step 3</a>
+									}
+									@if (Model.Step4Instruction != null)
+									{
+										<a class="nav-link" id="v-pills-step4-tab" data-toggle="pill" href="#v-pills-step4" role="tab" aria-controls="v-pills-step4" aria-selected="true">Step 4</a>
+									}
+									@if (Model.Step5Instruction != null)
+									{
+										<a class="nav-link" id="v-pills-step5-tab" data-toggle="pill" href="#v-pills-step5" role="tab" aria-controls="v-pills-step5" aria-selected="true">Step 5</a>
+									}
+									@if (Model.Step6Instruction != null)
+									{
+										<a class="nav-link" id="v-pills-step6-tab" data-toggle="pill" href="#v-pills-step6" role="tab" aria-controls="v-pills-step6" aria-selected="true">Step 6</a>
+									}
+									@if (Model.Step7Instruction != null)
+									{
+										<a class="nav-link" id="v-pills-step7-tab" data-toggle="pill" href="#v-pills-step7" role="tab" aria-controls="v-pills-step7" aria-selected="true">Step 7</a>
+									}
+									@if (Model.Step8Instruction != null)
+									{
+										<a class="nav-link" id="v-pills-step8-tab" data-toggle="pill" href="#v-pills-step8" role="tab" aria-controls="v-pills-step8" aria-selected="true">Step 8</a>
+									}
+									@if (Model.Step9Instruction != null)
+									{
+										<a class="nav-link" id="v-pills-step9-tab" data-toggle="pill" href="#v-pills-step9" role="tab" aria-controls="v-pills-step9" aria-selected="true">Step 9</a>
+									}
+									@if (Model.Step10Instruction != null)
+									{
+										<a class="nav-link" id="v-pills-step10-tab" data-toggle="pill" href="#v-pills-step10" role="tab" aria-controls="v-pills-step10" aria-selected="true">Step 10</a>
+									}
+									@if (Model.Step11Instruction != null)
+									{
+										<a class="nav-link" id="v-pills-step11-tab" data-toggle="pill" href="#v-pills-step11" role="tab" aria-controls="v-pills-step11" aria-selected="true">Step 11</a>
+									}
+									@if (Model.Step12Instruction != null)
+									{
+										<a class="nav-link" id="v-pills-step12-tab" data-toggle="pill" href="#v-pills-step12" role="tab" aria-controls="v-pills-step12" aria-selected="true">Step 12</a>
+									}
+									@if (Model.Step13Instruction != null)
+									{
+										<a class="nav-link" id="v-pills-step13-tab" data-toggle="pill" href="#v-pills-step13" role="tab" aria-controls="v-pills-step13" aria-selected="true">Step 13</a>
+									}
+									@if (Model.Step14Instruction != null)
+									{
+										<a class="nav-link" id="v-pills-step14-tab" data-toggle="pill" href="#v-pills-step14" role="tab" aria-controls="v-pills-step14" aria-selected="true">Step 14</a>
+									}
+									@if (Model.Step15Instruction != null)
+									{
+										<a class="nav-link" id="v-pills-step15-tab" data-toggle="pill" href="#v-pills-step15" role="tab" aria-controls="v-pills-step15" aria-selected="true">Step 15</a>
+									}
+									@if (Model.Step16Instruction != null)
+									{
+										<a class="nav-link" id="v-pills-step16-tab" data-toggle="pill" href="#v-pills-step16" role="tab" aria-controls="v-pills-step16" aria-selected="true">Step 16</a>
+									}
+									@if (Model.Step17Instruction != null)
+									{
+										<a class="nav-link" id="v-pills-step17-tab" data-toggle="pill" href="#v-pills-step17" role="tab" aria-controls="v-pills-step17" aria-selected="true">Step 17</a>
+									}
+									@if (Model.Step18Instruction != null)
+									{
+										<a class="nav-link" id="v-pills-step18-tab" data-toggle="pill" href="#v-pills-step18" role="tab" aria-controls="v-pills-step18" aria-selected="true">Step 18</a>
+									}
+									@if (Model.Step19Instruction != null)
+									{
+										<a class="nav-link" id="v-pills-step19-tab" data-toggle="pill" href="#v-pills-step19" role="tab" aria-controls="v-pills-step19" aria-selected="true">Step 19</a>
+									}
+									@if (Model.Step20Instruction != null)
+									{
+										<a class="nav-link" id="v-pills-step20-tab" data-toggle="pill" href="#v-pills-step20" role="tab" aria-controls="v-pills-step20" aria-selected="true">Step 20</a>
+									}
+								}
+							</div>
+						</div>
+						<div class="col-10">
+							<div class="tab-content" id="v-pills-tabContent">
+								<div class="tab-pane fade show active" id="v-pills-step1" role="tabpanel" aria-labelledby="v-pills-step1-tab">
+									<div class="row ">
+										<div class="col-sm-12 mb-4">
+											<label class="w-100">Instruction*:</label>
+											<textarea rows="3" id="txtStep1Instruction" placeholder="Enter Instruction" asp-for="Step1Instruction" class="form-control"></textarea>
+										</div>
+
+										<div class="col-sm-12">
+											<label class="w-100">Image*:</label>
+											<button class="btn btn-outline-secondary" onclick="AddImage(1)">Choose image</button>
+											@if (Model != null)
+											{
+												<span id="span1Image">@Model.Step1PhotoName</span>
+											}
+											else
+											{
+												<span id="span1Image"></span>
+											}
+											<input type="file" id="inpStep1Image" accept="image/*" onchange="changeImage(this)" style="display:none;" />
+										</div>
+									</div>
+								</div>
+
+								@if (Model != null)
+								{
+									@if (Model.Step2Instruction != null)
+									{
+										<div class="tab-pane fade" id="v-pills-step2" role="tabpanel" aria-labelledby="v-pills-step2-tab">
+											<div class="row ">
+												<div class="col-sm-12 mb-4">
+													<label class="w-100">Instruction*:</label>
+													<textarea rows="3" id="txtStep2Instruction" placeholder="Enter Instruction" asp-for="Step2Instruction" class="form-control"></textarea>
+												</div>
+
+												<div class="col-sm-12">
+													<label class="w-100">Image*:</label>
+													<button class="btn btn-outline-secondary" onclick="AddImage(2)">Choose image</button>
+													@*id="btnStep1Click"*@
+													<span id="span2Image">@Model.Step2PhotoName</span>
+
+													<input type="file" id="inpStep2Image" accept="image/*" onchange="changeImage(this)" style="display:none;" />
+												</div>
+											</div>
+										</div>
+									}
+
+									@if (Model.Step3Instruction != null)
+									{
+										<div class="tab-pane fade" id="v-pills-step3" role="tabpanel" aria-labelledby="v-pills-step3-tab">
+											<div class="row ">
+												<div class="col-sm-12 mb-4">
+													<label class="w-100">Instruction*:</label>
+													<textarea rows="3" id="txtStep3Instruction" placeholder="Enter Instruction" asp-for="Step3Instruction" class="form-control"></textarea>
+												</div>
+
+												<div class="col-sm-12">
+													<label class="w-100">Image*:</label>
+													<button class="btn btn-outline-secondary" onclick="AddImage(3)">Choose image</button>
+													@*id="btnStep1Click"*@
+													<span id="span3Image">@Model.Step3PhotoName</span>
+
+													<input type="file" id="inpStep3Image" accept="image/*" onchange="changeImage(this)" style="display:none;" />
+												</div>
+											</div>
+										</div>
+									}
+
+									@if (Model.Step4Instruction != null)
+									{
+										<div class="tab-pane fade" id="v-pills-step4" role="tabpanel" aria-labelledby="v-pills-step4-tab">
+											<div class="row ">
+												<div class="col-sm-12 mb-4">
+													<label class="w-100">Instruction*:</label>
+													<textarea rows="3" id="txtStep4Instruction" placeholder="Enter Instruction" asp-for="Step4Instruction" class="form-control"></textarea>
+												</div>
+
+												<div class="col-sm-12">
+													<label class="w-100">Image*:</label>
+													<button class="btn btn-outline-secondary" onclick="AddImage(4)">Choose image</button>
+													@*id="btnStep1Click"*@
+													<span id="span4Image">@Model.Step4PhotoName</span>
+
+													<input type="file" id="inpStep4Image" accept="image/*" onchange="changeImage(this)" style="display:none;" />
+												</div>
+											</div>
+										</div>
+									}
+
+									@if (Model.Step5Instruction != null)
+									{
+										<div class="tab-pane fade" id="v-pills-step5" role="tabpanel" aria-labelledby="v-pills-step5-tab">
+											<div class="row ">
+												<div class="col-sm-12 mb-4">
+													<label class="w-100">Instruction*:</label>
+													<textarea rows="3" id="txtStep5Instruction" placeholder="Enter Instruction" asp-for="Step5Instruction" class="form-control"></textarea>
+												</div>
+
+												<div class="col-sm-12">
+													<label class="w-100">Image*:</label>
+													<button class="btn btn-outline-secondary" onclick="AddImage(5)">Choose image</button>
+													@*id="btnStep1Click"*@
+													<span id="span5Image">@Model.Step5PhotoName</span>
+
+													<input type="file" id="inpStep5Image" accept="image/*" onchange="changeImage(this)" style="display:none;" />
+												</div>
+											</div>
+										</div>
+									}
+
+									@if (Model.Step6Instruction != null)
+									{
+										<div class="tab-pane fade" id="v-pills-step6" role="tabpanel" aria-labelledby="v-pills-step6-tab">
+											<div class="row ">
+												<div class="col-sm-12 mb-4">
+													<label class="w-100">Instruction*:</label>
+													<textarea rows="3" id="txtStep6Instruction" placeholder="Enter Instruction" asp-for="Step6Instruction" class="form-control"></textarea>
+												</div>
+
+												<div class="col-sm-12">
+													<label class="w-100">Image*:</label>
+													<button class="btn btn-outline-secondary" onclick="AddImage(6)">Choose image</button>
+													@*id="btnStep1Click"*@
+													<span id="span6Image">@Model.Step6PhotoName</span>
+
+													<input type="file" id="inpStep6Image" accept="image/*" onchange="changeImage(this)" style="display:none;" />
+												</div>
+											</div>
+										</div>
+									}
+
+									@if (Model.Step7Instruction != null)
+									{
+										<div class="tab-pane fade" id="v-pills-step7" role="tabpanel" aria-labelledby="v-pills-step7-tab">
+											<div class="row ">
+												<div class="col-sm-12 mb-4">
+													<label class="w-100">Instruction*:</label>
+													<textarea rows="3" id="txtStep7Instruction" placeholder="Enter Instruction" asp-for="Step7Instruction" class="form-control"></textarea>
+												</div>
+
+												<div class="col-sm-12">
+													<label class="w-100">Image*:</label>
+													<button class="btn btn-outline-secondary" onclick="AddImage(7)">Choose image</button>
+													@*id="btnStep1Click"*@
+													<span id="span7Image">@Model.Step7PhotoName</span>
+
+													<input type="file" id="inpStep7Image" accept="image/*" onchange="changeImage(this)" style="display:none;" />
+												</div>
+											</div>
+										</div>
+									}
+
+									@if (Model.Step8Instruction != null)
+									{
+										<div class="tab-pane fade" id="v-pills-step8" role="tabpanel" aria-labelledby="v-pills-step8-tab">
+											<div class="row ">
+												<div class="col-sm-12 mb-4">
+													<label class="w-100">Instruction*:</label>
+													<textarea rows="3" id="txtStep8Instruction" placeholder="Enter Instruction" asp-for="Step8Instruction" class="form-control"></textarea>
+												</div>
+
+												<div class="col-sm-12">
+													<label class="w-100">Image*:</label>
+													<button class="btn btn-outline-secondary" onclick="AddImage(8)">Choose image</button>
+													@*id="btnStep1Click"*@
+													<span id="span8Image">@Model.Step8PhotoName</span>
+
+													<input type="file" id="inpStep8Image" accept="image/*" onchange="changeImage(this)" style="display:none;" />
+												</div>
+											</div>
+										</div>
+									}
+
+									@if (Model.Step9Instruction != null)
+									{
+										<div class="tab-pane fade" id="v-pills-step9" role="tabpanel" aria-labelledby="v-pills-step9-tab">
+											<div class="row ">
+												<div class="col-sm-12 mb-4">
+													<label class="w-100">Instruction*:</label>
+													<textarea rows="3" id="txtStep9Instruction" placeholder="Enter Instruction" asp-for="Step9Instruction" class="form-control"></textarea>
+												</div>
+
+												<div class="col-sm-12">
+													<label class="w-100">Image*:</label>
+													<button class="btn btn-outline-secondary" onclick="AddImage(9)">Choose image</button>
+													@*id="btnStep1Click"*@
+													<span id="span9Image">@Model.Step9PhotoName</span>
+
+													<input type="file" id="inpStep9Image" accept="image/*" onchange="changeImage(this)" style="display:none;" />
+												</div>
+											</div>
+										</div>
+									}
+
+									@if (Model.Step10Instruction != null)
+									{
+										<div class="tab-pane fade" id="v-pills-step10" role="tabpanel" aria-labelledby="v-pills-step10-tab">
+											<div class="row ">
+												<div class="col-sm-12 mb-4">
+													<label class="w-100">Instruction*:</label>
+													<textarea rows="3" id="txtStep10Instruction" placeholder="Enter Instruction" asp-for="Step10Instruction" class="form-control"></textarea>
+												</div>
+
+												<div class="col-sm-12">
+													<label class="w-100">Image*:</label>
+													<button class="btn btn-outline-secondary" onclick="AddImage(10)">Choose image</button>
+													@*id="btnStep1Click"*@
+													<span id="span10Image">@Model.Step10PhotoName</span>
+
+													<input type="file" id="inpStep10Image" accept="image/*" onchange="changeImage(this)" style="display:none;" />
+												</div>
+											</div>
+										</div>
+									}
+
+									@if (Model.Step11Instruction != null)
+									{
+										<div class="tab-pane fade" id="v-pills-step11" role="tabpanel" aria-labelledby="v-pills-step11-tab">
+											<div class="row ">
+												<div class="col-sm-12 mb-4">
+													<label class="w-100">Instruction*:</label>
+													<textarea rows="3" id="txtStep11Instruction" placeholder="Enter Instruction" asp-for="Step11Instruction" class="form-control"></textarea>
+												</div>
+
+												<div class="col-sm-12">
+													<label class="w-100">Image*:</label>
+													<button class="btn btn-outline-secondary" onclick="AddImage(11)">Choose image</button>
+													@*id="btnStep1Click"*@
+													<span id="span11Image">@Model.Step11PhotoName</span>
+
+													<input type="file" id="inpStep11Image" accept="image/*" onchange="changeImage(this)" style="display:none;" />
+												</div>
+											</div>
+										</div>
+									}
+
+									@if (Model.Step12Instruction != null)
+									{
+										<div class="tab-pane fade" id="v-pills-step12" role="tabpanel" aria-labelledby="v-pills-step12-tab">
+											<div class="row ">
+												<div class="col-sm-12 mb-4">
+													<label class="w-100">Instruction*:</label>
+													<textarea rows="3" id="txtStep12Instruction" placeholder="Enter Instruction" asp-for="Step12Instruction" class="form-control"></textarea>
+												</div>
+
+												<div class="col-sm-12">
+													<label class="w-100">Image*:</label>
+													<button class="btn btn-outline-secondary" onclick="AddImage(12)">Choose image</button>
+													@*id="btnStep1Click"*@
+													<span id="span12Image">@Model.Step12PhotoName</span>
+
+													<input type="file" id="inpStep12Image" accept="image/*" onchange="changeImage(this)" style="display:none;" />
+												</div>
+											</div>
+										</div>
+									}
+
+									@if (Model.Step13Instruction != null)
+									{
+										<div class="tab-pane fade" id="v-pills-step13" role="tabpanel" aria-labelledby="v-pills-step13-tab">
+											<div class="row ">
+												<div class="col-sm-12 mb-4">
+													<label class="w-100">Instruction*:</label>
+													<textarea rows="3" id="txtStep13Instruction" placeholder="Enter Instruction" asp-for="Step13Instruction" class="form-control"></textarea>
+												</div>
+
+												<div class="col-sm-12">
+													<label class="w-100">Image*:</label>
+													<button class="btn btn-outline-secondary" onclick="AddImage(13)">Choose image</button>
+													@*id="btnStep1Click"*@
+													<span id="span13Image">@Model.Step13PhotoName</span>
+
+													<input type="file" id="inpStep13Image" accept="image/*" onchange="changeImage(this)" style="display:none;" />
+												</div>
+											</div>
+										</div>
+									}
+
+									@if (Model.Step14Instruction != null)
+									{
+										<div class="tab-pane fade" id="v-pills-step14" role="tabpanel" aria-labelledby="v-pills-step14-tab">
+											<div class="row ">
+												<div class="col-sm-12 mb-4">
+													<label class="w-100">Instruction*:</label>
+													<textarea rows="3" id="txtStep14Instruction" placeholder="Enter Instruction" asp-for="Step14Instruction" class="form-control"></textarea>
+												</div>
+
+												<div class="col-sm-12">
+													<label class="w-100">Image*:</label>
+													<button class="btn btn-outline-secondary" onclick="AddImage(14)">Choose image</button>
+													@*id="btnStep1Click"*@
+													<span id="span14Image">@Model.Step14PhotoName</span>
+
+													<input type="file" id="inpStep14Image" accept="image/*" onchange="changeImage(this)" style="display:none;" />
+												</div>
+											</div>
+										</div>
+									}
+
+									@if (Model.Step15Instruction != null)
+									{
+										<div class="tab-pane fade" id="v-pills-step15" role="tabpanel" aria-labelledby="v-pills-step15-tab">
+											<div class="row ">
+												<div class="col-sm-12 mb-4">
+													<label class="w-100">Instruction*:</label>
+													<textarea rows="3" id="txtStep15Instruction" placeholder="Enter Instruction" asp-for="Step15Instruction" class="form-control"></textarea>
+												</div>
+
+												<div class="col-sm-12">
+													<label class="w-100">Image*:</label>
+													<button class="btn btn-outline-secondary" onclick="AddImage(15)">Choose image</button>
+													@*id="btnStep1Click"*@
+													<span id="span15Image">@Model.Step15PhotoName</span>
+
+													<input type="file" id="inpStep15Image" accept="image/*" onchange="changeImage(this)" style="display:none;" />
+												</div>
+											</div>
+										</div>
+									}
+
+									@if (Model.Step16Instruction != null)
+									{
+										<div class="tab-pane fade" id="v-pills-step16" role="tabpanel" aria-labelledby="v-pills-step16-tab">
+											<div class="row ">
+												<div class="col-sm-12 mb-4">
+													<label class="w-100">Instruction*:</label>
+													<textarea rows="3" id="txtStep16Instruction" placeholder="Enter Instruction" asp-for="Step16Instruction" class="form-control"></textarea>
+												</div>
+
+												<div class="col-sm-12">
+													<label class="w-100">Image*:</label>
+													<button class="btn btn-outline-secondary" onclick="AddImage(16)">Choose image</button>
+													@*id="btnStep1Click"*@
+													<span id="span16Image">@Model.Step16PhotoName</span>
+
+													<input type="file" id="inpStep16Image" accept="image/*" onchange="changeImage(this)" style="display:none;" />
+												</div>
+											</div>
+										</div>
+									}
+
+									@if (Model.Step17Instruction != null)
+									{
+										<div class="tab-pane fade" id="v-pills-step17" role="tabpanel" aria-labelledby="v-pills-step17-tab">
+											<div class="row ">
+												<div class="col-sm-12 mb-4">
+													<label class="w-100">Instruction*:</label>
+													<textarea rows="3" id="txtStep17Instruction" placeholder="Enter Instruction" asp-for="Step17Instruction" class="form-control"></textarea>
+												</div>
+
+												<div class="col-sm-12">
+													<label class="w-100">Image*:</label>
+													<button class="btn btn-outline-secondary" onclick="AddImage(17)">Choose image</button>
+													@*id="btnStep1Click"*@
+													<span id="span17Image">@Model.Step17PhotoName</span>
+
+													<input type="file" id="inpStep17Image" accept="image/*" onchange="changeImage(this)" style="display:none;" />
+												</div>
+											</div>
+										</div>
+									}
+
+									@if (Model.Step18Instruction != null)
+									{
+										<div class="tab-pane fade" id="v-pills-step18" role="tabpanel" aria-labelledby="v-pills-step18-tab">
+											<div class="row ">
+												<div class="col-sm-12 mb-4">
+													<label class="w-100">Instruction*:</label>
+													<textarea rows="3" id="txtStep18Instruction" placeholder="Enter Instruction" asp-for="Step18Instruction" class="form-control"></textarea>
+												</div>
+
+												<div class="col-sm-12">
+													<label class="w-100">Image*:</label>
+													<button class="btn btn-outline-secondary" onclick="AddImage(18)">Choose image</button>
+													@*id="btnStep1Click"*@
+													<span id="span18Image">@Model.Step18PhotoName</span>
+
+													<input type="file" id="inpStep18Image" accept="image/*" onchange="changeImage(this)" style="display:none;" />
+												</div>
+											</div>
+										</div>
+									}
+
+									@if (Model.Step19Instruction != null)
+									{
+										<div class="tab-pane fade" id="v-pills-step19" role="tabpanel" aria-labelledby="v-pills-step19-tab">
+											<div class="row ">
+												<div class="col-sm-12 mb-4">
+													<label class="w-100">Instruction*:</label>
+													<textarea rows="3" id="txtStep19Instruction" placeholder="Enter Instruction" asp-for="Step19Instruction" class="form-control"></textarea>
+												</div>
+
+												<div class="col-sm-12">
+													<label class="w-100">Image*:</label>
+													<button class="btn btn-outline-secondary" onclick="AddImage(19)">Choose image</button>
+													@*id="btnStep1Click"*@
+													<span id="span19Image">@Model.Step19PhotoName</span>
+
+													<input type="file" id="inpStep19Image" accept="image/*" onchange="changeImage(this)" style="display:none;" />
+												</div>
+											</div>
+										</div>
+									}
+
+									@if (Model.Step20Instruction != null)
+									{
+										<div class="tab-pane fade" id="v-pills-step20" role="tabpanel" aria-labelledby="v-pills-step20-tab">
+											<div class="row ">
+												<div class="col-sm-12 mb-4">
+													<label class="w-100">Instruction*:</label>
+													<textarea rows="3" id="txtStep20Instruction" placeholder="Enter Instruction" asp-for="Step20Instruction" class="form-control"></textarea>
+												</div>
+
+												<div class="col-sm-12">
+													<label class="w-100">Image*:</label>
+													<button class="btn btn-outline-secondary" onclick="AddImage(20)">Choose image</button>
+													@*id="btnStep1Click"*@
+													<span id="span20Image">@Model.Step20PhotoName</span>
+
+													<input type="file" id="inpStep20Image" accept="image/*" onchange="changeImage(this)" style="display:none;" />
+												</div>
+											</div>
+										</div>
+									}
+								}
+							</div>
+						</div>
+
+					</div>
+					<hr />
+					<div class="form-group row mt-3">
+						<div class="col-sm-4 col-sm-offset-2">
+							<a class="btn btn-white btn-sm" asp-controller="Regimens" asp-action="Regimens">Cancel</a>
+							<button class="btn btn-primary btn-sm btnColorChange" onclick="SaveRegimens()">Save Regimens</button>
+							<button class="addbutton" onclick="AddNewStep()"><i class="fa fa-plus" aria-hidden="true"></i> Add New Step</button>
+
+						</div>
+					</div>
+
+				</div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/admin/regimens.js"></script>
+

@@ -1,0 +1,731 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper AuthoringTagHelpers.TagHelpers.EmailTagHelper, AuthoringTagHelpers
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@inject MyavanaAdminApiClient.ApiClient questionaire
+@using DataTables.AspNetCore.Mvc
+@model MyavanaAdminModels.QuestionnaireCustomerList
+@{
+    var Templates = questionaire.GetMessageTempleteList();
+    Layout = "_Layout";
+}
+
+<head>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+    <style>
+        .alert-success, .alert-danger, .alert-info {
+            top: 110px !important;
+            width: 60% !important;
+            margin: 0 auto;
+            z-index: 99;
+            position: fixed;
+            left: 50%;
+            transform: translateX(-40%);
+            text-align: center;
+            padding: 12px;
+            transition: all 1s linear;
+            box-shadow: 0px 0px 12px 3px rgba(0, 0, 0, 0.2);
+            font-size: 16px;
+        }
+
+        .alert-danger {
+            color: #80172a;
+            background-color: #fdd5dc;
+            border-color: #fcc4ce;
+        }
+
+            .alert-danger hr {
+                border-top-color: #fbacba;
+            }
+
+            .alert-danger .alert-link {
+                color: #550f1c;
+            }
+
+        .alert-success {
+            color: #1c6356;
+            background-color: #a8ffc3;
+            border-color: #13b755;
+        }
+
+            .alert-success hr {
+                border-top-color: #b4e7dd;
+            }
+
+            .alert-success .alert-link {
+                color: #113b33;
+            }
+
+        .preloader {
+            width: calc(100% - 200px);
+            height: 100%;
+            top: 0px;
+            position: fixed;
+            z-index: 99999;
+            background: rgba(255, 255, 255, .8);
+        }
+
+            .preloader img {
+                position: absolute;
+                LEFT: 50%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                width: 80px;
+            }
+
+        .loader {
+            overflow: visible;
+            padding-top: 2em;
+            height: 0;
+            width: 2em;
+        }
+
+        span.align-right {
+            text-align: right;
+        }
+
+        .addnewbtn {
+            padding: 20px 10px 0;
+        }
+
+        i.fa.fa-pencil {
+            color: #1ab394;
+            background: #e2e2e2;
+            padding: 7px;
+            border-radius: 4px;
+        }
+
+            i.fa.fa-pencil:hover {
+                background: #cecece
+            }
+
+        i.fa.fa-trash:hover {
+            background: #cecece
+        }
+
+        i.fa.fa-trash {
+            color: red;
+            background: #e2e2e2;
+            padding: 7px;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        div#QuestionnaireCustomerList_filter input[type=search] {
+            border: 1px solid #ccc;
+        }
+
+        i.fa.fa-pencil {
+            color: #1ab394;
+        }
+
+        i.fa.fa-trash {
+            color: red;
+        }
+
+        tr.odd td {
+            background: #f8f8f8 !important;
+        }
+
+        tr.odd:hover td, tr.even:hover td {
+            background: #eee !important;
+        }
+
+        tr.even td {
+            background: #fff !important;
+        }
+
+        .viewuser {
+            background: #eee;
+            padding: 5px 7px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-top: 5px;
+            color: #1ab394;
+        }
+
+
+        #ShowCustomerTypeHistory .modal-dialog {
+            max-width: 600px;
+        }
+
+        #ShowCustomerTypeHistory table {
+            width: 100%;
+        }
+
+        #ShowCustomerTypeHistory thead th {
+            background: #FFEFEF;
+            font-weight: 200;
+        }
+
+        #ShowCustomerTypeHistory tr:nth-child( odd ) {
+            background: #eee;
+        }
+
+        #ShowCustomerTypeHistory td {
+            padding: 5px;
+            border-right: 1px solid #ccc;
+        }
+
+            #ShowCustomerTypeHistory td:last-child {
+                border: none;
+            }
+
+        #QuestionnaireCustomerList tr td:nth-child(3) {
+            position: relative;
+            padding-right: 25px;
+        }
+
+        .edit_customer {
+            position: absolute;
+            left: 47px;
+            top: 6px;
+        }
+
+            .edit_customer .fa-pencil {
+                background: transparent !important;
+            }
+
+        #datepicker {
+            z-index: 9999 !important;
+        }
+
+        .center-text {
+            text-align: center;
+        }
+
+        .ibox-content td, .ibox-content th {
+            padding: 6px;
+        }
+
+        #ShowCustomerHairDiary #ui-datepicker-div {
+            top: 81px !important;
+        }
+
+        #ShowCustomerHairDiary .modal-dialog {
+            max-width: 600px;
+        }
+
+        #ShowCustomerHairDiary table {
+            width: 100%;
+        }
+
+        #ShowCustomerHairDiary thead th {
+            background: #FFEFEF;
+            font-weight: 200;
+        }
+
+        #ShowCustomerHairDiary tr:nth-child( odd ) {
+            background: #eee;
+        }
+
+        #ShowCustomerHairDiary td {
+            padding: 5px;
+            border-right: 1px solid #ccc;
+        }
+
+            #ShowCustomerHairDiary td:last-child {
+                border: none;
+            }
+
+        .input-group {
+            width: 50%;
+        }
+
+        .ibox-content {
+            clear: both;
+            overflow-x: scroll;
+            padding: 10px;
+        }
+        .date-controls {
+            display: flex;
+            align-items: center;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: #fff;
+            border: 1px solid #6c757d;
+        }
+        .btn-secondary span {
+                margin-right: 5px;
+         }
+        #prevDateBtn,
+        #nextDateBtn,
+        .custom-datepicker {
+            margin-right: 10px;
+        }
+        .thumbnail-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .img-thumbnail {
+            max-width: 50px;
+            max-height: 50px;
+        }
+
+        .hover-text {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            color: black;
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .thumbnail-container:hover .hover-text {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<div class="addnewbtn">
+    <span class="align-right">
+        <a class="btn btn-primary" href="@Url.Action("CreateNewCustomer", "Questionnaire")">Add New Customer</a>
+    </span>
+</div>
+
+<div id="alert-success" class="alert alert-success alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="successMessage"></span>
+</div>
+<div class="alert alert-danger alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="failureMessage"></span>
+</div>
+<div class="preloader" style="display:none;">
+    <div class="loader">
+        <img src="~/images/loader.gif" />
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Customers</h5>
+                </div>
+                <div class="ibox-content">
+                    @if (HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"].ToString() == "1")
+                    {
+                        @(Html.Ext().Grid<MyavanaAdminModels.QuestionnaireCustomerList>
+                            ().Name("QuestionnaireCustomerList")
+                            .Columns(cols =>
+                            {
+                                cols.Add(c => c.UserName).Title("User Name");
+                                cols.Add(c => c.UserEmail).Title("User Email");
+                                cols.Add(c => c.UserId).Render(() => "onRenderId").Title("QA / Edit");
+                                cols.Add(c => c.IsInfluencer).Title("Is Influencer");
+                                cols.Add(c => c.UserId).Render(() => "onRenderCustomerMsg").Title("Message");
+                                cols.Add(c => c.UserId).Render(() => "onRenderViewCustomerMsg").Title("Message History");
+                                cols.Add(c => c.UserId).Render(() => "onRenderResetPassword").Title("Reset Password");
+                                cols.Add(c => c.StatusTrackerStatus).Title("Hair Analysis Status");
+                                cols.Add(c => c.CustomerTypeDescription).Title("Customer Type");
+                                cols.Add(c => c.UserId).Render(() => "onRenderCustomerChange").Title("Change CustomerType");
+                                cols.Add(c => c.UserId).Render(() => "onRenderCustomerChangeHistory").Title("Customer Type History");
+                                cols.Add(c => c.UserId).Render(() => "onRenderCustomerHairDiary").Title("View Hair Diary");
+                                cols.Add(c => c.UserId).Render(() => "onRenderActivate").Title("Activate / Deactivate");
+                                cols.Add(c => c.UserId).Render(() => "onRenderCustomerStatusTracker").Title("Add to Status Tracker");
+
+
+
+                            })
+
+                            .ServerSide(true)
+                            .Ordering(false)
+                            .Paging(true)
+                            .Searching(true)
+                            .Info(false)
+                            .DataSource(c =>
+                            c.Ajax().Url("QuestionnaireCustomerList").Method("Post")
+                            )
+                        )
+                    }
+                    else
+                    {
+                        @(Html.Ext().Grid<MyavanaAdminModels.QuestionnaireCustomerList>
+                            ().Name("QuestionnaireCustomerList")
+                            .Columns(cols =>
+                            {
+                                cols.Add(c => c.UserName).Title("User Name");
+                                cols.Add(c => c.UserEmail).Title("User Email");
+                                cols.Add(c => c.UserId).Render(() => "onRenderId");
+                                cols.Add(c => c.UserId).Render(() => "onRenderCustomerMsg").Title("Message");
+                                cols.Add(c => c.UserId).Render(() => "onRenderViewCustomerMsg").Title("Message History");
+                                cols.Add(c => c.UserId).Render(() => "onRenderResetPassword").Title("Reset Password");
+                                cols.Add(c => c.CustomerTypeDescription).Title("Customer Type");
+                                if(HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"].ToString() == "2")
+                                {
+                                    cols.Add(c => c.UserId).Render(() => "onRenderViewScalpAnalysisButtonHtml");                                  
+                                }
+
+                                //cols.Add(c => c.UserId).Render(() => "onRenderCustomerChange").Title("Change CustomerType");
+                                //cols.Add(c => c.UserId).Render(() => "onRenderActivate").Title("Activate/Deactivate");
+                            })
+
+                            .ServerSide(true)
+                            .Ordering(false)
+                            .Paging(true)
+                            .Searching(true)
+                            .Info(false)
+                            .DataSource(c =>
+                            c.Ajax().Url("QuestionnaireCustomerList").Method("Post")
+                            )
+                        )
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="confirmModalHeader" class="font-bold">Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span id="confirmModalText"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelMethod" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmMethod">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="sendCustomerMessage" tabindex="-1" role="dialog" aria-labelledby="sendCustomerMessage" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="headerText" class="font-bold">Send Message</h4>
+                <div style="right: 40px;position: absolute;width: 41%;">
+
+                    <select class="js-example-basic-multiple form-control select2" id="ddlMessageTemplate" onchange="changeMessageTemplate(this)"
+                            asp-items="@Templates.Result.Select(x => new SelectListItem() { Text = x.TemplateCode, Value = x.MessageTemplateId.ToString() })">
+                        @*<option value="">Select Template</option>*@
+                    </select>
+                </div>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-3">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <label class="w-100">Subject*:</label>
+                    </div>
+                    <div class="col-lg-12 mb-3">
+                        <div class="field-style ">
+                            <div class3="wrap-input100 login-form-style border-0">
+                                <input type="text" id="txtSubject" class="p-2 w-100" value="Your HHCP has been updated">
+                                <span class="text-danger mt-2 d-block" id="subjectValidation">
+                                    <span id="subjectError"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 ">
+                        <label class="w-100">Message*:</label>
+                    </div>
+                    <div class="col-lg-12 mb-3">
+                        <div class="field-style ">
+                            <div class="wrap-input100 login-form-style border-0">
+                                <textarea id="txtMessageText" class="p-2 w-100" rows="3" value="hello"></textarea>
+                                <span class="text-danger" id="messageValidation">
+                                    <span id="messageError"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <label class="w-100">Attachments</label>
+                    </div>
+                    <div class="col-lg-12 m-b-30">
+                        <div class="">
+                            <button id="btnImageClick" class="btn btn-outline-secondary">Choose file</button>
+                            <span id="selectedImage"></span>
+                            <input type="file" id="attachmentFile" accept="*" style="display:none" />
+                        </div>
+                        <div id="spnFileAttach" style="display:none;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="sendMessage" onclick="sendCustomerMessage()">Send</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="resetCustomerPassword" tabindex="-1" role="dialog" aria-labelledby="resetCustomerPassword" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="headerText" class="font-bold">Reset Password</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-3">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <label class="w-100">New Password*:</label>
+                    </div>
+                    <div class="col-lg-12 mb-3">
+                        <div class="field-style ">
+                            <div class3="wrap-input100 login-form-style border-0">
+                                <input type="password" autocomplete="off" id="txtNewPassword" class="p-2 w-100">
+                                <span class="text-danger mt-2 d-block" id="newPasswordValidation">
+                                    <span id="newPasswordError"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 ">
+                        <label class="w-100">Confirm Password*:</label>
+                    </div>
+                    <div class="col-lg-12 mb-3">
+                        <div class="field-style ">
+                            <div class="wrap-input100 login-form-style border-0">
+                                <input type="password" autocomplete="off" id="txtConfirmPassword" class="p-2 w-100">
+                                <span class="text-danger" id="confirmPasswordValidation">
+                                    <span id="confirmPasswordError"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="savePassword" onclick="resetCustomerPassword()">Save</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="confirmChangeModal" tabindex="-1" role="dialog" aria-labelledby="confirmModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="confirmModalHeader" class="font-bold">Change Customer Type</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span id="confirmChangeModalText"></span>
+                <select id="ddlCustomerType" class="form-control mt-2">
+                    <option value=0>Select Customer Type</option>
+                    <option value=1>DigitalAnalysis</option>
+                    <option value=2>HairKit</option>
+                    <option value=3>HairKitPlus</option>
+                    <option value=4>Legacy</option>
+                    <option value=5>Registered</option>
+                </select>
+                <span class="text-danger mt-2 d-block text-center" id="CustomerTypeValidation">
+                    <span id="CustomerTypeError"></span>
+                </span>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelChangeMethod" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmChangeMethod">Change</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="confirmActivateCustomerModal" tabindex="-1" role="dialog" aria-labelledby="confirmModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="confirmActivateModalHeader" class="font-bold">Activate/Deactivate Customer</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span id="confirmActivateCustomerModalText"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelActivateMethod" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmActivateCustomerMethod">Change</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ShowCustomerTypeHistory" tabindex="-1" role="dialog" aria-labelledby="ShowCustomerTypeHistory" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="headerText" class="font-bold">Customer Type History</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="ibox-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="padding: 10px;">Old</th>
+                            <th style="padding: 10px;">New</th>
+                            <th style="padding: 10px;">UpdatedBy</th>
+                            <th style="padding: 10px;">Comment</th>
+                            <th style="padding: 10px;">CreatedOn</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tBodyMessage"></tbody>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="StatusTrackerModal" tabindex="-1" role="dialog" aria-labelledby="StatusTrackerModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="confirmModalHeader" class="font-bold">Add To Status Tracker</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @*<span id="confirmAddModalText">Choose Hair Analysis Status</span>*@
+                <select class="form-control" id="ddlHairAnalysisStatus"
+                        asp-items="@questionaire.GetHairAnalysisStatusList().Result.Select(s => new SelectListItem() { Text = s.StatusName, Value=s.HairAnalysisStatusId.ToString()})">
+                    <option value="0">Select Hair Analysis Status</option>
+                </select>
+
+                <span class="text-danger mt-2 d-block text-center" id="StatusValidation">
+                    <span id="StatusError"></span>
+                </span>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelAddMethod" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmAddMethod">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ShowCustomerHairDiary" tabindex="-1" role="dialog" aria-labelledby="ShowCustomerHairDiary" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-md-11">
+                            <div class="date-controls col-8  m-auto">
+                                <button type="button" class="btn btn-secondary" id="prevDateBtn">
+                                    <i class="fa fa-chevron-left"></i>
+                                </button>
+                                <input type="text" class="form-control datepicker custom-datepicker" id="datepicker">
+                                <button type="button" class="btn btn-secondary" id="nextDateBtn">
+                                    <i class="fa fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ibox-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ProfileImage</th>
+                            <th>HairStyle</th>
+                            <th>Description</th>
+                            <th>CurrentMood</th>
+                            <th>GuidanceNeeded</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tBodyHairDiary"></tbody>
+                </table>
+            </div>
+            <!-- Remove the existing modal-footer -->
+        </div>
+    </div>
+</div>
+
+
+<script src="~/js/admin/QuestionaireCustomer.js"></script>
+<script>
+
+    $(document).keypress(function (e) {
+        if (e.which == 13) {
+            resetCustomerPassword();
+        }
+    });
+
+    $(document).ready(function () {
+        jQuery('#txtSubject').on('input', function () {
+            $("#subjectError").text("");
+            $("#subjectValidation").removeClass("field-validation-error");
+        });
+        jQuery('#txtMessageText').on('input', function () {
+            $("#messageError").text("");
+            $("#messageValidation").removeClass("field-validation-error");
+        });
+        $("input[type='search']").val("");
+    });
+    function openCustomerMessageModal(Id, email, name) {
+        userId = Id;
+        userEmail = email;
+        userName = name;
+        clearMessageValues();
+
+        $('#sendCustomerMessage').modal('show');
+        var data = @Html.Raw(Json.Serialize(Templates.Result));
+        $("#ddlMessageTemplate").val(data[0].messageTemplateId);
+        $('#txtSubject').val(data[0].templateSubject);
+        var customerDashboard = "CLICK HERE";
+        var $anchor = $("<a/>")
+            .text(customerDashboard)
+            .attr("href", "http://customer.myavana.com" + customerDashboard.substr(1));
+        $('#txtMessageText').val(data[0].templateBody);
+    }
+    function changeMessageTemplate(e) {
+        var TemplateIds = [];
+        var data = @Html.Raw(Json.Serialize(Templates.Result));
+        var selectedMessageTemplate = $("#ddlMessageTemplate").val();
+        if (selectedMessageTemplate.length > 0) {
+            var selectedTemplateValues = [];
+            for (i = 0; i < data.length; i++) {
+                var id = data[i].messageTemplateId.toString();
+                if (selectedMessageTemplate.includes(id)) {
+                    selectedTemplateValues.push(data[i]);
+                }
+            }
+
+        }
+        $('#txtSubject').val(selectedTemplateValues[0].templateSubject);
+        $('#txtMessageText').val(selectedTemplateValues[0].templateBody);
+    }
+</script>

@@ -1,0 +1,351 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper AuthoringTagHelpers.TagHelpers.EmailTagHelper, AuthoringTagHelpers
+@model MyavanaAdminModels.CustomerAIResult
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@inject MyavanaAdminApiClient.ApiClient Salons
+@{
+    Layout = "_Layout";
+}
+<link href="~/css/styleCustomer.css" rel="stylesheet" />
+<link href="~/css/owl.carousel.min.css" rel="stylesheet" />
+<link href="~/css/owl.theme.default.css" rel="stylesheet" />
+<link href="~/css/jquery.nailthumb.1.1.min.css" rel="stylesheet" type="text/css">
+<script src="~/js/shadowbox.js"></script>
+<script src="~/js/jquery.nailthumb.1.1.min.js"></script>
+<link href="~/css/shadowbox.css" rel="stylesheet" />
+@{
+    var firstName = Model.FirstName;
+    var lastName = Model.LastName;
+    var userid = HttpContextAccessor.HttpContext.Request.Query["id"].ToString();
+    var ScaplAnalysisUrl = "https://myavana-scope.replit.app/?firstName=" + firstName + "&lastName=" + lastName + "&accessCode=" + userid;
+    //https://myavana-scope.replit.app/?firstName=Mukesh&lastName=Rana&accessCode=DB7E729E-341E-42D0-FADA-08DC8155A609
+}
+<div class="ibox-content">
+    <div class="tab-section">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="tab-content hair_analysis_sec" id="v-pills-tabContent">
+
+                    <div class="tab-pane fade show active showHide Tab1" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                        <div class="tab1_profile">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="profile_name">
+                                        <h3 class="user-profile-name-info"> <strong><span id="txtHairId">Your Hair Analysis(@Model.UserName) </span></strong></h3>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="row">
+
+                                        <div class="col-sm-12 ">
+                                            <input type="hidden" asp-for="HairProfileId" />
+                                            <input type="hidden" asp-for="UserId" />
+
+                                        </div>
+                                        <div class="col-sm-12 col-form-label user_hair_image">
+                                            @if (Model.UserAIImage != null && Model.UserAIImage != "")
+                                            {
+                                        <a class="demo nailthumb-container" onclick="openModal('@Model.UserAIImage')" title="click to view the full image">
+                                            <img alt="click to view the full image" src="@Model.UserAIImage" style="position: relative; width: 150px; height: 150px; top: 0px; left: 0px;" class="nailthumb-image">
+                                        </a> }
+                                                    else
+                                                    {
+                                        <a class="demo nailthumb-container" onclick="openModal('@Model.UserUploadedImage')" title="click to view the full image">
+                                            <img alt="click to view the full image" src="@Model.UserUploadedImage" style="position: relative; width: 150px; height: 150px; top: 0px; left: 0px;" class="nailthumb-image">
+                                        </a>}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hairtype_inner_sec">
+                            <div class="form-group  row">
+                                @if (Model.IsVersion2 == true)
+                                {
+                                    <div class="col-sm-12 col-form-label text-center">
+                                        <h3 class="mt-0 mb-4 mt-0 mb-4 text-uppercase">Your Hair Type is:</h3>
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <div class="col-sm-12 col-form-label text-center">
+                                            <h3>Hair Type</h3>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            @if (!String.IsNullOrEmpty(Model.AIResult))
+                                            {
+                                                var cnt = 1;
+                                                foreach (var x in Model.AIResultNewDecoded)
+                                                {
+                                                    if (cnt > 2)
+                                                    {
+                                                        break;
+                                                    }
+                                                    <div class="hair-type-wrap">
+                                                        <div class="hair-information-wrap">
+                                                            <div class="hair-type-info">@x.Key</div>
+                                                            <div class="hair-value-info">
+                                                                @x.Value.ToString().Substring(0, 5)%
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    cnt++;
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="col-sm-12 col-form-label  text-center">
+                                            <h3>Hair Texture</h3>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            @if (!String.IsNullOrEmpty(Model.AIResult))
+                                            {
+                                                var cnt = 1;
+                                                foreach (var x in Model.AIResultTextureDecoded)
+                                                {
+                                                    if (cnt > 2)
+                                                    {
+                                                        break;
+                                                    }
+                                                    <div class="hair-type-wrap">
+                                                        <div class="hair-information-wrap">
+                                                            <div class="hair-type-info">@x.Key</div>
+                                                            @if (x.Value.ToString().Length > 5)
+                                                            {
+                                                                <div class="hair-value-info">
+                                                                    @x.Value.ToString().Substring(0, 5)%
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="hair-value-info">
+                                                                    @x.Value.ToString()%
+                                                                </div>
+                                                            }
+
+                                                        </div>
+                                                    </div>
+                                                    cnt++;
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+
+                                }
+                                else
+                                {
+                                    @if (!String.IsNullOrEmpty(Model.AIResult))
+                                    {
+                                        <div class="col-sm-12 col-form-label">
+                                            @foreach (var x in Model.AIResultNewDecoded)
+                                            {
+                                                <div class="hair-type-wrap">
+                                                    <div class="hair-information-wrap">
+                                                        <div class="hair-type-info">@x.Key</div>
+                                                        @if (x.Value.ToString().Length > 5)
+                                                        {
+                                                            <div class="hair-value-info">
+                                                                @x.Value.ToString().Substring(0, 5)%
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="hair-value-info">
+                                                                @x.Value.ToString()%
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+
+                                    }
+
+                                    else
+                                    {
+                                        @if (!String.IsNullOrEmpty(Model.AIResult))
+                                        {
+                                            @if (Model.IsAIV2Mobile == true)
+                                            {
+                                                var cnt = 1;
+                                                <div class="col-sm-12 col-form-label text-center">
+                                                    <h3>Your hair type is :</h3>
+                                                </div>
+                                                <div class="col-sm-12">
+
+                                                    @foreach (var x in Model.AIResultDecoded)
+                                                    {
+                                                        if (cnt > 2)
+                                                        {
+                                                            break;
+                                                        }
+                                                        <div class="hair-type-wrap">
+                                                            <div class="hair-information-wrap">
+                                                                <div class="hair-type-info">@x.Key</div>
+                                                                <div class="hair-value-info">
+                                                                    @x.Value.ToString().Substring(0, 5)%
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        cnt++;
+                                                    }
+                                                </div>
+
+                                                cnt = 1;
+
+
+                                                <div class="col-sm-12">
+
+                                                    @foreach (var x in Model.AIResultTextureDecoded)
+                                                    {
+                                                        if (cnt > 2)
+                                                        {
+                                                            break;
+                                                        }
+                                                        <div class="hair-type-wrap">
+                                                            <div class="hair-information-wrap">
+                                                                <div class="hair-type-info">@x.Key</div>
+                                                                <div class="hair-value-info">
+                                                                    @x.Value.ToString().Substring(0, 5)%
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        cnt++;
+                                                    }
+                                                </div>
+
+
+
+
+                                            }
+                                            else
+                                            {
+                                                <div class="col-sm-12 col-form-label">
+                                                    @foreach (var x in Model.AIResultDecoded)
+                                                    {
+                                                        <div class="hair-type-wrap">
+                                                            <div class="hair-information-wrap">
+                                                                <div class="hair-type-info">@x.Key</div>
+                                                                <div class="hair-value-info">
+                                                                    @x.Value.ToString().Substring(0, 5)%
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+
+                                            }
+                                        }
+                                    }
+                                }
+
+                            </div>
+                            @if (!String.IsNullOrEmpty(Model.AIResult))
+                            {
+                                <h3>
+                                    Your hair texture is
+                                    <span className="font-medium">@Model.HairTextureLabelAIResult</span>, this
+                                    is considered to be
+                                    <span className="font-medium">@Model.HairTypeLabelAIResult</span>
+                                </h3>
+                                <p>@Model.LabelAIResult</p>
+                            }
+                            <div class="scalp_btns">
+                                <a href="/Questionnaire/DigitalAssessment?userId=@userid" class="btn btn-primary btn_run" );">Re-run <i class="fa fa-play"></i></a>
+
+                                <a class="btn btn-primary btn_scalp" onclick="RunScalpAnalasis()">Hair Scope Analysis <i class="fa fa-play"></i></a>
+                            </div>
+                            <div class="modal fade" id="HairAnalysist" tabindex="-1" role="dialog" aria-labelledby="addNotes" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header pt-2 py-0">
+                                            <h4 id="headerText" class="font-bold">Hair Scope Analysis</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body p-2">
+                                            <iframe id="Ifram_ScalpAnalysis_Window" width="100%" height="600px">
+                                            </iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="imageModal" class="modal">
+    <div class="modal-content-wrapper">
+        <img class="modal-content" id="modalImage">
+        <span class="close" onclick="closeModal()">&times;</span>
+    </div>
+    <div id="caption"></div>
+</div>
+
+
+<script language="JavaScript">
+    var ScaplAnalysisUrl='';
+    function RunScalpAnalasis()
+    {
+        ScaplAnalysisUrl = '@Html.Raw(ScaplAnalysisUrl)';
+        $("#Ifram_ScalpAnalysis_Window").attr('src', ScaplAnalysisUrl);
+        $("#Ifram_ScalpAnalysis_Window").width((window.innerWidth - 90) + "px");
+        $("#Ifram_ScalpAnalysis_Window").height((window.innerHeight - 200) + "px");
+        $(".modal-dialog").css("max-width",(window.innerWidth - 50) + "px")
+        $('#HairAnalysist').modal('show');
+    }
+    window.addEventListener('message', (event) => {
+        if (event.data.type === 'iframeURL') {
+            const [, QueryStringParameter] = event.data.url.split('?');
+            const searchParams = new URLSearchParams(QueryStringParameter);
+            if (searchParams.has('message')) {
+                ShowScalpAnalysisResult();
+            }
+        }
+        else
+        {
+            //alert("NA");
+        }
+
+    });
+
+
+    function ShowScalpAnalysisResult() {
+                window.location.href = '/Questionnaire/ScalpAnalysisResult?userId=@userid';
+}
+
+        function openModal(imageSrc) {
+    var modal = document.getElementById("imageModal");
+    var modalImg = document.getElementById("modalImage");
+    var closeButton = document.querySelector(".close");
+    modal.style.display = "block";
+    closeButton.style.display = "none";
+    modalImg.onload = null;
+
+    modalImg.onload = function () {
+        if (modal.style.display === "block") {
+            closeButton.style.display = "block";
+            $(".close").delay(800).fadeIn(200);
+        }
+    };
+
+    modalImg.src = imageSrc;
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    var modal = document.getElementById("imageModal");
+    var modalImg = document.getElementById("modalImage");
+    modal.style.display = "none";
+    document.body.style.overflow = 'auto';
+    modalImg.src = '';
+}
+
+
+</script>
+

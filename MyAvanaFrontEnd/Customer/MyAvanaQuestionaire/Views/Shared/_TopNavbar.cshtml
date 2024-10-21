@@ -1,0 +1,310 @@
+﻿<!-- Include Font Awesome CSS -->
+
+<div class="row border-bottom">
+    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+
+            <form role="search" class="navbar-form-custom" method="post" action="">
+                <div class="form-group">
+
+                </div>
+            </form>
+        </div>
+        <ul class="nav navbar-top-links navbar-right">
+            <li class="dropdown" @*style="padding:20px"*@>
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i id="profileIcon" class="fa fa-user-circle fa-lg profile_icon" title="Profile"></i>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a onclick="onChangePassword()">Change Password</a></li>
+                    <li><a onclick="onUploadProfilePicture()">Edit Profile picture</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="togglemenu" href="#"><i class="fa fa-bars"></i> </a>
+            </li>
+            <li>
+                @*<a href="@Url.Action("Logout", "Home")">*@
+                <a onclick="logout()" style="cursor:pointer">
+                    <i class="fa fa-sign-out"></i> Log out
+                </a>
+            </li>
+            @*<li>
+                    <a class="right-sidebar-toggle">
+                        <i class="fa fa-tasks"></i>
+                    </a>
+                </li>*@
+        </ul>
+    </nav>
+</div>
+
+<div class="modal fade" id="resetCustomerPassword" tabindex="-1" role="dialog" aria-labelledby="resetCustomerPassword" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="headerText" class="font-bold">Reset Password</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-3">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <label class="w-100">New Password*:</label>
+                    </div>
+                    <div class="col-lg-12 mb-3">
+                        <div class="field-style ">
+                            <div class3="wrap-input100 login-form-style border-0">
+                                <input type="password" autocomplete="off" id="txtPassword" class="p-2 w-100">
+                                <span class="text-danger mt-2 d-block" id="newPasswordValidation">
+                                    <span id="newPasswordError"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 ">
+                        <label class="w-100">Confirm Password*:</label>
+                    </div>
+                    <div class="col-lg-12 mb-3">
+                        <div class="field-style ">
+                            <div class="wrap-input100 login-form-style border-0">
+                                <input type="password" autocomplete="off" id="txtCPassword" class="p-2 w-100">
+                                <span class="text-danger" id="confirmPasswordValidation">
+                                    <span id="confirmPasswordError"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="savePassword" onclick="resetCustomerPassword()">Save</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="file" id="cutomerProfileImage" accept="image/*" style="display:none" />
+
+
+
+
+<script>
+
+    //get profile picture
+
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "/Auth/GetProfileImage",
+            success: function (response) {
+                if (response.imageURL) {
+                    $('#profileIcon').removeClass('fa-user-circle').removeClass('profile_icon');
+                    $('#profileIcon').append('<img src="' + response.imageURL + '" alt="" class="profile-image-wh">');
+                } else {
+                    // If imageURL is null or not available, show the default icon
+                    $('#profileIcon').addClass('fa-user-circle').addClass('profile_icon');
+                }
+            },
+            error: function (error) {
+                console.log("Error fetching email: ", error);
+                // Show default icon in case of error
+                $('#profileIcon').addClass('fa-user-circle').removeClass('profile_icon');
+            }
+        });
+    });
+
+    function logout() {
+        $.ajax({
+            type: "GET",
+            url: "/Auth/Logout",
+            success: function (response) {
+                if (response) {
+                    window.location.href = "/Auth/Login";
+                }
+            },
+            failure: function (response) {
+            },
+            error: function (response) {
+            }
+        });
+    }
+    $('.togglemenu').click(function () {
+
+        var data = $('.navbar-static-side').is(":visible");
+        if (data)
+            $('.navbar-static-side').css('display', 'none');
+        else
+            $('.navbar-static-side').css('display', 'block');
+    });
+
+
+    /*reset password*/
+
+    function onChangePassword() {
+        clearResetPasswordValues();
+        $('#resetCustomerPassword').modal('show');
+    }
+
+    function clearResetPasswordValues() {
+        validMessage = true;
+        $('#txtPassword').val("");
+        $('#txtCPassword').val("");
+        $("#newPasswordError").text("");
+        $("#confirmPasswordError").text("");
+        $("#newPasswordValidation").removeClass("field-validation-error");
+        $("#confirmPasswordValidation").removeClass("field-validation-error");
+        passwordData = new FormData();
+    }
+
+    function resetCustomerPassword() {
+
+
+        validMessage = true;
+        if ($('#txtPassword').val() == '') {
+            $("#newPasswordValidation").addClass("field-validation-error");
+            $("#newPasswordError").text("New password required.");
+            validMessage = false;
+        }
+        if ($('#txtCPassword').val() == '') {
+            $("#confirmPasswordValidation").addClass("field-validation-error");
+            $("#confirmPasswordError").text("Confirm password required.");
+            validMessage = false;
+        }
+
+        if ($('#txtPassword').val() != '') {
+            var passwordRegex = new RegExp(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/);
+            if (!passwordRegex.test($('#txtPassword').val())) {
+                $("#newPasswordValidation").addClass("field-validation-error");
+                $("#newPasswordError").text("Password must contain at least one digit, one special character, and be at least 8 characters long.");
+                validMessage = false;
+            }
+        }
+
+
+        if ($('#txtPassword').val() != $('#txtCPassword').val()) {
+            $("#confirmPasswordValidation").addClass("field-validation-error");
+            $("#confirmPasswordError").text("Passwords did not match.");
+            return false;
+        }
+
+        if (!validMessage) {
+            return false;
+        }
+
+        setPwd = {
+            //Email: userEmail,
+            //Code: $('#txtCode').val().trim(),
+            Password: $('#txtPassword').val().trim()
+        }
+        $('.preloader').css('display', 'block');
+        $.ajax({
+            type: "POST",
+            url: "/Auth/ResetLoginPassword",
+            data: setPwd,
+            success: function (response) {
+                if (response == "1") {
+                    $('#successMessage').text("Password reset successfully !");
+                    $('.alert-success').css("display", "block");
+                    $('.alert-success').delay(3000).fadeOut();
+                    $('#resetCustomerPassword').modal('hide');
+                }
+                else {
+                    $('#failureMessage').text("Oops something goes wrong !");
+                    $('.alert-danger').css("display", "block");
+                    $('.alert-danger').delay(3000).fadeOut();
+                    $('#resetCustomerPassword').modal('hide');
+                }
+                $('.preloader').css('display', 'none');
+
+            },
+            failure: function (response) {
+            },
+            error: function (response) {
+            },
+        });
+    }
+
+    $(document).keypress(function (e) {
+        if (e.which == 13 && $('#resetCustomerPassword').hasClass('show')) {
+            resetCustomerPassword();
+        }
+    });
+
+    //upload profile picture
+
+    function onUploadProfilePicture() {
+        $('#cutomerProfileImage').val("");
+        $('#cutomerProfileImage').click(); // Trigger the file input directly
+    }
+
+    $(document).ready(function () {
+        $('#cutomerProfileImage').change(function (event) {
+            var filename = event.target.files[0].name;
+            if (filename != null && filename != undefined) {
+                uploadCustomerProfileImage();
+            }
+        });
+
+        window.uploadCustomerProfileImage = function () {
+            var file = $('#cutomerProfileImage').get(0).files[0];
+
+            if (file != null && file != undefined) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var base64String = e.target.result.split(',')[1]; // Get the base64 string
+                    var fileModel = {
+                        fileData: base64String
+                    };
+                    makeAjaxRequest(fileModel); // Call AJAX request with JSON data
+                };
+                reader.readAsDataURL(file); // Read the file as a data URL to get the base64 string
+            } else {
+                var fileModel = {};
+                if ($('#removeImageButton').data('remove') === true) {
+                    fileModel.fileData = ''; // Empty string for removal
+                }
+                if ($("#image").val() !== null && $("#image").val() !== undefined) {
+                    fileModel.fileData = $("#image").val(); // Add existing image link if available
+                }
+                makeAjaxRequest(fileModel); // Call AJAX request with JSON data
+            }
+        };
+
+        function makeAjaxRequest(fileModel) {
+            $('.preloader').css('display', 'block');
+            $.ajax({
+                type: "POST",
+                url: "/Questionaire/ProfileImageUpload",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(fileModel),
+                success: function (response) {
+                    if (response.statusCode == "200") {
+                        $('#successMessage').text("Profile Image saved/updated successfully !");
+                        $('.alert-success').css("display", "block");
+                        $('.alert-success').delay(3000).fadeOut();
+                        $("#profileIcon").removeClass("fa-user-circle");
+                        $('#profileIcon img.profile-image-wh').remove();
+                        $('#profileIcon').append('<img src="' + response.value.imageURL + '" alt="" class="profile-image-wh">');
+                    } else {
+                        $('#failureMessage').text("Oops something goes wrong !");
+                        $('.alert-danger').css("display", "block");
+                        $('.alert-danger').delay(3000).fadeOut();
+                    }
+                    $('.preloader').css('display', 'none');
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $('#failureMessage').text("Oops something goes wrong: " + textStatus);
+                    $('.alert-danger').css("display", "block");
+                    $('.alert-danger').delay(3000).fadeOut();
+                    $('.preloader').css('display', 'none');
+                }
+            });
+        }
+    });
+
+</script>

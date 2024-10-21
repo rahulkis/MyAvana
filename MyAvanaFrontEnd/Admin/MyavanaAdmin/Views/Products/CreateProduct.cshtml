@@ -1,0 +1,579 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper AuthoringTagHelpers.TagHelpers.EmailTagHelper, AuthoringTagHelpers
+@model MyavanaAdminModels.ProductsEntity
+@inject MyavanaAdminApiClient.ApiClient productType
+
+@{
+    Layout = "_Layout";
+}
+
+@if (Model != null)
+{
+    <input type="hidden" id="productid" value="@Model.guid" />
+    <input type="hidden" id="image" value="@Model.ImageName" />
+}
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.select2').select2({ placeholder: "--Select--" });
+    });
+</script>
+<style>
+    .preloader {
+        width: calc(100% - 200px);
+        height: 100%;
+        top: 0px;
+        position: fixed;
+        z-index: 99999;
+        background: rgba(255, 255, 255, .8);
+    }
+
+        .preloader img {
+            position: absolute;
+            LEFT: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+        }
+
+    .loader {
+        overflow: visible;
+        padding-top: 2em;
+        height: 0;
+        width: 2em;
+    }
+
+    .alert-success, .alert-danger, .alert-info {
+        top: 110px !important;
+        width: 60% !important;
+        margin: 0 auto;
+        z-index: 99;
+        position: fixed;
+        left: 50%;
+        transform: translateX(-40%);
+        text-align: center;
+        padding: 12px;
+        transition: all 1s linear;
+        box-shadow: 0px 0px 12px 3px rgba(0, 0, 0, 0.2);
+        font-size: 16px;
+    }
+
+    .alert-danger {
+        color: #80172a;
+        background-color: #fdd5dc;
+        border-color: #fcc4ce;
+    }
+
+        .alert-danger hr {
+            border-top-color: #fbacba;
+        }
+
+        .alert-danger .alert-link {
+            color: #550f1c;
+        }
+
+    .alert-success {
+        color: #1c6356;
+        background-color: #a8ffc3;
+        border-color: #13b755;
+    }
+
+        .alert-success hr {
+            border-top-color: #b4e7dd;
+        }
+
+        .alert-success .alert-link {
+            color: #113b33;
+        }
+
+    .product-Images-carousel .item img {
+        height: 150px;
+        object-fit: cover;
+    }
+
+    .product-Images-carousel {
+        margin-top: 25px;
+    }
+
+        .product-Images-carousel .item .fa-times {
+            position: absolute;
+            top: 0px;
+            right: -2px;
+            background: #fff;
+            width: 20px;
+            font-size: 14px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: red;
+            border: 1px solid #cccc;
+        }
+</style>
+<div id="alert-success" class="alert alert-success alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="successMessage"></span>
+</div>
+<div class="alert alert-danger alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="failureMessage"></span>
+</div>
+
+<div class="preloader" style="display:none;">
+    <div class="loader">
+        <img src="~/images/loader.gif" />
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Post Product</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Product Link*</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="txtProductLink" asp-for="ProductLink" placeholder="Enter product link" class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Product Image*</label>
+                        <div class="col-sm-10">
+                            <button id="btnImageClick" class="btn btn-outline-secondary">Choose image</button>
+                            <span id="txtImageName">@ViewBag.UploadedFile</span>
+                            @*<input type="file" id="productImage" accept="image/*" multiple style="display:none" />*@
+                            <input type="file" id="productImage" accept="image/*" style="display:none" />
+                            <div class="product-Images-carousel">
+                                <div class="owl-carousel owl-theme">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Product Price($)*</label>
+                        <div class="col-sm-10">
+                            <div class="row">
+                                <div class="col-3 d-flex">
+                                    <input type="text" class=" form-control" maxlength="3" id="txtActualPrice" placeholder="000">
+                                    <span class="align-items-end d-flex pl-4">.</span>
+                                </div>
+                                <div class="col-2">
+                                    <input type="text" class=" form-control" maxlength="2" id="txtDecimalPrice" placeholder="00">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Brand Classification</label>
+
+                        <div class="col-sm-10">
+                            <select class="js-example-basic-multiple form-control select2" id="brandClassification"
+                                    asp-items="@productType.GetBrandClassificationList().Result.OrderBy(x => x.Description).Select(s => new SelectListItem() { Text = s.Description, Value=s.BrandClassificationId.ToString()})" multiple></select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Brand Name*</label>
+
+                        <div class="col-sm-10">
+                            <select class="form-control" id="ddlBrandName"
+                                    asp-items="@productType.GetAllBrandsList().Result.OrderBy(x => x.BrandName).Select(s => new SelectListItem() { Text = s.BrandName, Value = s.BrandId.ToString() })"></select>
+                            @*<input type="text" id="txtBrandName" placeholder="Enter brand name" asp-for="BrandName" class="form-control">  js-example-basic-multiple form-control select2*@
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Actual Name*</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="txtActualName" placeholder="Enter actual name" asp-for="ActualName" class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label">Product Name*</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="txtProductName" placeholder="Enter product name" asp-for="ProductName" class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Product Details*</label>
+
+                        <div class="col-sm-10">
+                            <textarea id="txtProductDetails" rows="3" asp-for="ProductDetails" placeholder="Enter product details" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Ingredients*</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="txtIngredients" asp-for="Ingredients" placeholder="Enter ingredients" class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Product Classification*</label>
+
+                        <div class="col-sm-10">
+                            <select class="js-example-basic-multiple form-control select2" id="productClassification"
+                                    asp-items="@productType.GetProductClassificationList().Result.OrderBy(x => x.Description).Select(s => new SelectListItem() { Text = s.Description, Value=s.ProductClassificationId.ToString()})" multiple></select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group  row">
+                        <label class="col-sm-2 col-form-label">Product Type*</label>
+                        <div class="col-sm-10">
+                            <select class="js-example-basic-multiple form-control select2" id="productType"
+                                    asp-items="@productType.GetProductType().Result.OrderBy(x => x.ProductName).Select(s => new SelectListItem() { Text = s.ProductName, Value=s.Id.ToString()})" multiple>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Product Indicator*</label>
+                        <div class="col-sm-10">
+                            <select class="js-example-basic-multiple form-control select2" id="productIndicators"
+                                    asp-items="@productType.GetProductIndicatorsList().Result.OrderBy(x => x.Description).Select(s => new SelectListItem() { Text = s.Description, Value=s.ProductIndicatorId.ToString()})" multiple></select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label"> Hair Type/ Texture*</label>
+                        <div class="col-sm-10">
+                            <select class="js-example-basic-multiple form-control select2" id="hairType"
+                                    asp-items="@productType.GetHairTypesList().Result.OrderBy(x => x.Description).Select(s => new SelectListItem() { Text = s.Description, Value=s.HairTypeId.ToString()})" multiple></select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label"> Hair Challenges*</label>
+                        <div class="col-sm-10">
+                            <select class="js-example-basic-multiple form-control select2" id="hairChallenges"
+                                    asp-items="@productType.GetHairChallengesList().Result.OrderBy(x => x.Description).Select(s => new SelectListItem() { Text = s.Description, Value=s.HairChallengeId.ToString()})" multiple></select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label"> Hair Goals*</label>
+                        <div class="col-sm-10">
+                            <select class="js-example-basic-multiple form-control select2" id="hairGoals"
+                                    asp-items="@productType.GetHairGoalsList().Result.OrderBy(x => x.Description).Select(s => new SelectListItem() { Text = s.Description, Value=s.HairGoalId.ToString()})" multiple></select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Product Tags*</label>
+
+                        <div class="col-sm-10">
+                            <select class="js-example-basic-multiple form-control select2" id="productTags"
+                                    asp-items="@productType.GetProductTagList().Result.OrderBy(x => x.Description).Select(s => new SelectListItem() { Text = s.Description, Value=s.ProductTagsId.ToString()})" multiple></select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Customer Preference*</label>
+
+                        <div class="col-sm-10">
+                            <select class="js-example-basic-multiple form-control select2" id="customerPreference"
+                                    asp-items="@productType.GetCustomerPreferenceList().Result.OrderBy(x => x.Description).Select(s => new SelectListItem() { Text = s.Description, Value=s.CustomerPreferenceId.ToString()})" multiple></select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Hair Styles</label>
+
+                        <div class="col-sm-10">
+                            <select class="js-example-basic-multiple form-control select2" id="hairStyles"
+                                    asp-items="@productType.GetHairStyles().Result.OrderBy(x => x.Style).Select(s => new SelectListItem() { Text = s.Style, Value=s.Id.ToString()})" multiple></select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">UPCCode</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="txtUPCCode" asp-for="UPCCode" placeholder="Enter UPCCode" class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Product Recommendation Status</label>
+
+                        <div class="col-sm-10">
+                            <select class="js-example-basic-multiple form-control select2" id="productRecommendationStatuses"
+                                    asp-items="@productType.GetProductRecommendationStatusList().Result.OrderBy(x => x.Description).Select(s => new SelectListItem() { Text = s.Description, Value=s.ProductRecommendationStatusId.ToString()})" multiple></select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Molecular Weight</label>
+
+                        <div class="col-sm-10">
+                            <select class="js-example-basic-multiple form-control select2" id="molecularWeights"
+                                    asp-items="@productType.GetBrandMolecularWeightList().Result.OrderBy(x => x.Description).Select(s => new SelectListItem() { Text = s.Description, Value=s.MolecularWeightId.ToString()})" multiple></select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <div class="col-sm-4 col-sm-offset-2">
+                            <a class="btn btn-white btn-sm" asp-controller="Products" asp-action="Products">Cancel</a>
+                            <button class="btn btn-primary btn-sm" onclick="SaveProduct()">Save Product</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="confirmModalHeader" class="font-bold">Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span id="confirmModalText"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelMethod" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmMethod">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/js/admin/Product.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        var id = $('#stylistId').val();
+        if (id != 0) {
+            var stylistAdminModel = {
+                guid: $('#productid').val()
+            }
+            $('.preloader').css('display', 'block');
+            $.ajax({
+                type: "POST",
+                url: "/Products/ProductAdmin",
+                data: stylistAdminModel,
+                success: function (response) {
+                    if (response != null) {
+                        $('#txtProductName ').val(response.productName);
+
+                        $('#txtActualName').val(response.actualName);
+                        $('#ddlBrandName').val(response.brandId)
+
+
+                        var hairType = response.productCommons.length;
+                        if (hairType > 0) {
+                            var arr = [];
+                            for (var i = 0; i < hairType; i++) {
+                                arr.push(response.productCommons[i].hairTypeId);
+                            }
+                            $('#hairType').val(arr);
+                            $('#hairType').trigger('change');
+                        }
+
+                        $('#image').val(response.imageName);
+                        if (response.imageName != '' && response.imageName != null) {
+                            $('#txtImageName').text(response.imageName.substring(response.imageName.lastIndexOf('/') + 1));
+                        }
+
+                        //var carousel = $(".owl-carousel");
+                        //carousel.trigger('destroy.owl.carousel');
+                        //carousel.find('.owl-stage-outer').children().unwrap();
+                        //carousel.removeClass("owl-center owl-loaded owl-text-select-on");
+                        //for (var i = 0; i < response.productImages.length; i++) {
+
+                        //    //var imgurl = "https://myavana-productimages.s3.amazonaws.com/";
+                        //    //$('#image-holder').append("<div id=" + response.productImages[i].imageName + '_div' + "><img id=" + response.productImages[i].imageName + '_tl' + "  class='spnTopLeft' height='80' width='80' src=" + imgurl + response.productImages[i].imageName + " />" + "<i class='fa fa-times' style='cursor: pointer' onclick=deleteFileAWS('" + response.productImages[i].imageName + "','" + response.productImages[i].id + "')></i></div>")
+
+                        //    var imgurl = "https://myavana-productimages.s3.amazonaws.com/";
+                        //    $('.owl-carousel').append("<div id=" + response.productImages[i].imageName + '_div' + " class='item'><img id=" + response.productImages[i].imageName + '_tl' + " src=" + imgurl + response.productImages[i].imageName + " />" + "<i class='fa fa-times' style='cursor: pointer' onclick=deleteFileAWS('" + response.productImages[i].imageName + "','" + response.productImages[i].id + "')></i></div>")
+
+                        //}
+                        //carousel.owlCarousel({
+                        //    items: 3,
+                        //    margin: 20,
+                        //    loop: false,
+                        //    nav: true,
+                        //    responsive: {
+                        //        0: {
+                        //            items: 1
+                        //        },
+
+                        //        575: {
+                        //            items: 2
+                        //        },
+
+                        //        768: {
+                        //            items: 3
+                        //        }
+                        //    }
+                        //});
+                        //if (response.imageName != '' && response.imageName != null) {
+                        //    $('#txtImageName').text(response.imageName.substring(response.imageName.lastIndexOf('/') + 1));
+                        //}
+
+
+
+                        $('#txtIngredients').val(response.ingredients);
+                        $('#txtProductDetails ').val(response.productDetails);
+
+                        $('#txtProductLink').val(response.productLink);
+
+                        $('#txtUPCCode').val(response.upcCode);
+
+                        var hairChallenges = response.productCommons.length;
+                        if (hairChallenges > 0) {
+                            var arr = [];
+                            for (var i = 0; i < hairChallenges; i++) {
+                                arr.push(response.productCommons[i].hairChallengeId);
+                            }
+                            $('#hairChallenges').val(arr);
+                            $('#hairChallenges').trigger('change');
+                        }
+                        var hairGoals = response.productCommons.length;
+                        if (hairGoals > 0) {
+                            var arr = [];
+                            for (var i = 0; i < hairGoals; i++) {
+                                arr.push(response.productCommons[i].hairGoalId);
+                            }
+                            $('#hairGoals').val(arr);
+                            $('#hairGoals').trigger('change');
+                        }
+
+                        var prodcutTypes = response.productCommons.length;
+                        if (prodcutTypes > 0) {
+                            var arr = [];
+                            for (var i = 0; i < prodcutTypes; i++) {
+                                arr.push(response.productCommons[i].productTypeId);
+                            }
+                            var areAllNull = true;
+                            for (var j = 0; j < arr.length; j++) {
+                                if (arr[j] != null) {
+                                    areAllNull = false;
+                                }
+                            }
+                            if (areAllNull) {
+                                $('#productType').val(response.productTypesId);
+                                $('#productType').trigger('change');
+                            }
+                            else {
+                                $('#productType').val(arr);
+                                $('#productType').trigger('change');
+                            }
+                        }
+
+
+                        var prodcutIndicators = response.productCommons.length;
+                        if (prodcutIndicators > 0) {
+                            var arr = [];
+                            for (var i = 0; i < prodcutIndicators; i++) {
+                                arr.push(response.productCommons[i].productIndicatorId);
+                            }
+                            $('#productIndicators').val(arr);
+                            $('#productIndicators').trigger('change');
+                        }
+
+                        var prodcutTags = response.productCommons.length;
+                        if (prodcutTags > 0) {
+                            var arr = [];
+                            for (var i = 0; i < prodcutTags; i++) {
+                                arr.push(response.productCommons[i].productTagsId);
+                            }
+                            $('#productTags').val(arr);
+                            $('#productTags').trigger('change');
+                        }
+
+                        var prodcutClassifications = response.productCommons.length;
+                        if (prodcutClassifications > 0) {
+                            var arr = [];
+                            for (var i = 0; i < prodcutClassifications; i++) {
+                                arr.push(response.productCommons[i].productClassificationId);
+                            }
+                            $('#productClassification').val(arr);
+                            $('#productClassification').trigger('change');
+                        }
+                        var brandClassifications = response.productCommons.length;
+                        if (brandClassifications > 0) {
+                            var arr = [];
+                            for (var i = 0; i < brandClassifications; i++) {
+                                arr.push(response.productCommons[i].brandClassificationId);
+                            }
+                            $('#brandClassification').val(arr);
+                            $('#brandClassification').trigger('change');
+                        }
+                        var customerPreferences = response.productCommons.length;
+                        if (customerPreferences > 0) {
+                            var arr = [];
+                            for (var i = 0; i < customerPreferences; i++) {
+                                arr.push(response.productCommons[i].customerPreferenceId);
+                            }
+                            $('#customerPreference').val(arr);
+                            $('#customerPreference').trigger('change');
+                        }
+                        var hairStyles = response.productCommons.length;
+                        if (hairStyles > 0) {
+                            var arr = [];
+                            for (var i = 0; i < hairStyles; i++) {
+                                arr.push(response.productCommons[i].hairStylesId);
+                            }
+                            $('#hairStyles').val(arr);
+                            $('#hairStyles').trigger('change');
+                        }
+                        var productRecommendationStatuses = response.productCommons.length;
+                        if (productRecommendationStatuses > 0)
+                            var arr = [];
+                        for (var i = 0; i < productRecommendationStatuses; i++) {
+                            arr.push(response.productCommons[i].productRecommendationStatusId);
+                        }
+                        $('#productRecommendationStatuses').val(arr);
+                        $('#productRecommendationStatuses').trigger('change');
+                        var molecularWeights = response.productCommons.length;
+                        if (molecularWeights > 0)
+                            var arr = [];
+                        for (var i = 0; i < molecularWeights; i++) {
+                            arr.push(response.productCommons[i].molecularWeightId);
+                        }
+                        $('#molecularWeights').val(arr);
+                        $('#molecularWeights').trigger('change');
+
+                        $('#txtActualPrice').val(response.actualPrice);
+                        $('#txtDecimalPrice').val(response.decimalPrice);
+                    }
+                    $('.preloader').css('display', 'none');
+                },
+                error: function (response) {
+
+                },
+                complete: function () {
+
+                }
+            });
+        }
+    });
+
+</script>
+

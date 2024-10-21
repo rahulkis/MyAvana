@@ -1,0 +1,732 @@
+﻿@model MyavanaAdminModels.ProductsListings
+@inject MyavanaAdminApiClient.ApiClient clients
+@{
+
+    // var content = clients.GetAllProducts();
+}
+
+<h3 class="font-weight-normal">“Healthy Hair Regimen” section (essential products)</h3>
+<label></label>
+
+<div class="sub_heading"> Product Categories </div>
+
+@{ int i = 0;}
+@foreach (var prodTypeCat in Model.TypeCategories.Where(x => x.IsHair == true))
+{
+    i++;
+    <div class="form-group  row">
+        <label class="col-sm-2 col-form-label">@prodTypeCat.CategoryName</label>
+        <div class="col-sm-10">
+            <select class="js-example-basic-multiple form-control select2" onchange="changeType(this)" id="productType_@i" multiple
+                    asp-items="@Model.ProductTypes.Where(x => x.ParentId == prodTypeCat.Id).Select(s => new SelectListItem() { Text = s.ProductTypeName, Value = s.ProductTypeId.ToString() })">
+                <option value="">Select ProductType Section</option>
+                @*<option value="" disabled selected>Select ProductType Section</option>*@
+            </select>
+        </div>
+    </div>
+}
+
+<div class="hr-line-dashed"></div>
+
+<div class="form-group  row">
+    <label class="col-sm-2 col-form-label">Products Brand</label>
+    <div class="col-sm-10">
+        <select class="js-example-basic-multiple form-control select2" id="brand" multiple
+                asp-items="@Model.ProductBrand.Select(s => new SelectListItem() { Text = s.BrandName, Value=s.BrandName})">
+            <option value="">Select Brand</option>
+        </select>
+    </div>
+    <div class="hr-line-dashed"></div>
+    <label class="col-sm-2 col-form-label">Product Classification</label>
+    <div class="col-sm-10 mt-2">
+        <select class="js-example-basic-multiple form-control select2" id="productClassificationSection" multiple
+                asp-items="@Model.ProductClassifications.Select(s => new SelectListItem() { Text = s.Description, Value=s.ProductClassificationId.ToString()})">
+            <option value="">Select ProductClassification Section</option>
+        </select>
+    </div>
+</div>
+
+<div class="form-group  row">
+    <label class="col-sm-2 col-form-label">Hair Challenges</label>
+    <div class="col-sm-10">
+        <select class="js-example-basic-multiple form-control select2" id="hairChallengeSection" multiple
+                asp-items="@Model.HairChallenges.Select(s => new SelectListItem() { Text = s.Description, Value = s.HairChallengeId.ToString()})">
+            <option value="">Select Hair Challenge</option>
+        </select>
+    </div>
+    <div class="hr-line-dashed"></div>
+    <label class="col-sm-2 col-form-label">Products</label>
+    <div class="col-sm-10" id="productHidden">
+        <select class="js-example-basic-multiple form-control select2" id="product" multiple></select>
+    </div>
+
+</div>
+<div class="form-group  row">
+    <div class="hr-line-dashed"></div>
+    <label class="col-sm-2 col-form-label">All Products</label>
+    <div class="col-sm-10 mt-2" id="productHidden">
+        <select class="js-example-basic-multiple form-control select2" id="allProductEssential" multiple
+                asp-items="@Model.ProductsModelListsEssential.Select(s => new SelectListItem() { Text = s.ProductName, Value = s.Id.ToString() }).OrderBy(s=>s.Text)">
+            <option value="">Select Products</option>
+        </select>
+    </div>
+</div>
+<div class="hr-line-dashed"></div>
+
+<h3 class="font-weight-normal">“Styling Regimen” section (styling products)</h3>
+<label></label>
+<div class="sub_heading"> Product Categories </div>
+@{ int j = 0;}
+@foreach (var prodTypeCat in Model.TypeCategories.Where(x => x.IsRegimens == true))
+{
+    j++;
+    <div class="form-group  row">
+        <label class="col-sm-2 col-form-label">@prodTypeCat.CategoryName</label>
+        <div class="col-sm-10">
+            <select class="js-example-basic-multiple form-control select2" onchange="changeTypeStyling(this)" id="productTypeStyling_@j" multiple
+                    asp-items="@Model.ProductTypes.Where(x => x.ParentId == prodTypeCat.Id).Select(s => new SelectListItem() { Text = s.ProductTypeName, Value = s.ProductTypeId.ToString() })">
+                <option value="">Select ProductType Section</option>
+                @*<option value="" disabled selected>Select ProductType Section</option>*@
+            </select>
+        </div>
+    </div>
+
+}
+<div class="hr-line-dashed"></div>
+<div class="form-group  row">
+    <div class="hr-line-dashed"></div>
+    <label class="col-sm-2 col-form-label">Products Brand</label>
+    <div class="col-sm-10">
+        <select class="js-example-basic-multiple form-control select2" id="brandStyling" multiple
+                asp-items="@Model.ProductBrand.Select(s => new SelectListItem() { Text = s.BrandName, Value=s.BrandName})">
+            <option value="">Select Brand</option>
+        </select>
+    </div>
+    <div class="hr-line-dashed"></div>
+    <label class="col-sm-2 col-form-label">Product Classification</label>
+    <div class="col-sm-10 mt-2">
+        <select class="js-example-basic-multiple form-control select2" id="productClassificationStyling" multiple
+                asp-items="@Model.ProductClassifications.Select(s => new SelectListItem() { Text = s.Description, Value=s.ProductClassificationId.ToString()})">
+            <option value="">Select ProductClassification Section</option>
+        </select>
+    </div>
+
+</div>
+@* ------- *@
+
+<div class="form-group  row">
+    <label class="col-sm-2 col-form-label">Hair Challenges</label>
+    <div class="col-sm-10">
+        <select class="js-example-basic-multiple form-control select2" id="hairChallengeStyling" multiple
+                asp-items="@Model.HairChallenges.Select(s => new SelectListItem() { Text = s.Description, Value = s.HairChallengeId.ToString()})">
+            <option value="">Select Hair Challenge</option>
+        </select>
+    </div>
+    <div class="hr-line-dashed"></div>
+    <label class="col-sm-2 col-form-label">Products</label>
+    <div class="col-sm-10" id="productHidden">
+        <select class="js-example-basic-multiple form-control select2" id="productStyling" multiple></select>
+    </div>
+</div>
+<div class="form-group  row">
+    <div class="hr-line-dashed"></div>
+    <label class="col-sm-2 col-form-label">All Products</label>
+    <div class="col-sm-10" id="productHidden">
+        <select class="js-example-basic-multiple form-control select2" id="allProductStyling" multiple
+                asp-items="@Model.ProductsModelListsStyling.Select(s => new SelectListItem() { Text = s.ProductName, Value = s.Id.ToString() }).OrderBy(s=>s.Text)">
+            <option value="">Select Products</option>
+        </select>
+    </div>
+</div>
+<script>
+
+    // Product Type change event
+    $('#productTypeSection').on('change', function (e) {
+        var sectionList = [];
+        $('#productTypeSection option:selected').each(function (i, sel) {
+            var typeId = parseInt(sel.value);
+            sectionList.push(typeId);
+        });
+
+        var pType = dataProductList;
+        var selectedProductTypeList = $("#productType").val();
+        $("#productType").html('').append($("<option></option>").val("").html("Select Sub-Content"));
+
+        for (j = 0; j < pType.length; j++) {
+            if (sectionList.includes(pType[j].parentId)) {
+                $("#productType").append($("<option></option>").val(pType[j].productTypeId).html(pType[j].productTypeName));
+            }
+        }
+
+        if (selectedProductTypeList.length > 0) {
+            var selectedValues = [];
+            for (i = 0; i < pType.length; i++) {
+                var id = pType[i].productTypeId.toString();
+                if (selectedProductTypeList.includes(id)) {
+                    selectedValues.push(pType[i].productTypeId);
+                }
+            }
+            $('#productType').val(selectedValues);
+            $('#productType').trigger('change');
+        }
+    });
+
+
+    // Brand change event
+    $('#brand').on('change', function (e) {
+        brandList = [];
+        if (arrProd.length > 0) {
+            arrProd = [];
+        }
+        else {
+            $('#brand option:selected').each(function (i, sel) {
+
+
+                var brandName = sel.text;
+                 brandList.push(brandName);
+            });
+            var data = @Html.Raw(Json.Serialize(Model.ProductsModelListsEssential.ToList())); // dataProductList.productsModelListsEssential;
+            if (brandList.length > 0 || pTypeIds.length > 0) {
+                $('#productHidden').attr('hidden', false);
+                var selectedProductList = $("#product").val();
+                $("#product").html('').append($("<option></option>").val("").html("Select Sub-Content"));
+                for (i = 0; i < data.length; i++) {
+                    if (brandList.includes(data[i].brandName)) {
+                        if (pTypeIds.length > 0) {
+                            if (pTypeIds.includes(data[i].productTypeId))
+
+                                $("#product").append($("<option></option>").val(data[i].id).html(data[i].productName));
+                        }
+                        else {
+                            $("#product").append($("<option></option>").val(data[i].id).html(data[i].productName));
+                        }
+                    }
+                }
+            } else {
+                $("#product").html('').append($("<option></option>").val("").html("Select Sub-Content"));
+            }
+            if (arrProducts != null) {
+                $('#product').val(arrProducts);
+                $('#product').trigger('change');
+            }
+            if (typeof selectedProductList != 'undefined') {
+
+                if (selectedProductList.length > 0) {
+                    var selectedValues = [];
+                    for (i = 0; i < data.length; i++) {
+                        var id = data[i].id.toString();
+                        if (brandList.includes(data[i].brandName) && selectedProductList.includes(id)) {
+                            selectedValues.push(data[i].id);
+                        }
+                    }
+                    $('#product').val(selectedValues);
+                    $('#product').trigger('change');
+                }
+            }
+
+        }
+
+    });
+
+
+    // Category change event for essential products
+    function changeType(e) {
+        pTypeIds = [];
+
+        for (var i = 1; i <= 6; i++) {
+            $('#productType_' + i + ' option:selected').each(function (i, sel) {
+                var typeId = parseInt(sel.value);
+                pTypeIds.push(typeId);
+
+            });
+        }
+        //var data = dataProductList.productsModelListsEssential;
+        var data = @Html.Raw(Json.Serialize(Model.ProductsModelListsEssential.ToList()));
+
+        var selectedProductList = $("#product").val();
+        var selectedBrandList = $("#brand").val();
+        var selectedProductEssentialList = $("#allProductEssential").val();
+
+        var selectProductTypeLst = []
+        for (var i = 1; i <= 6; i++) {
+            if ($('#productType_' + i).val() != '') {
+                var typeArray = $('#productType_' + i).val();
+
+                $.each(typeArray, function (k) {
+                    selectProductTypeLst.push(typeArray[k]);
+                });
+            }
+        }
+        $("#productType").val();
+        var brandList = [];
+        var tBrandList = [];
+        var flag1 = false;
+
+        $.each(selectProductTypeLst, function (k) {
+            var tempBrandList = [];
+            for (j = 0; j < data.length; j++) {
+                if (data[j].productTypeId == selectProductTypeLst[k]) {  // 18 == 18, 24
+                    if (!tempBrandList.includes(data[j].brandName))
+                    tempBrandList.push(data[j].brandName);  //Kim Kimble, Koils by Nature, MIELLE, MIXED CHICKS
+                }
+            }
+
+            if (!flag1) {
+                flag1 = true;
+                tempBrandList.forEach(function (brndName) {
+                    brandList.push(brndName);  //Kim Kimble, Koils by Nature, MIELLE, MIXED CHICKS
+                    tBrandList.push(brndName);
+                });
+            }
+            else {
+                // Rahul -Start- changed loop to fix issue of product while edit
+                $.each(tempBrandList, function (p) {
+                    var index = 0;
+                    var isExists = true;
+                    var bName = null;
+                    $.each(tBrandList, function (i) {
+                        if (tBrandList[i] == tempBrandList[p]) {
+                            isExists = true;
+                            return false;
+                        }
+                        else {
+                            isExists = false;
+                        }
+                    });
+                    $.each(brandList, function (i) {
+                        if (brandList[i] == tempBrandList[p]) {
+                            return false;
+                        }
+                        index++;
+                    });
+                    if (isExists == false) {
+                        brandList.splice(index, 1, tempBrandList[p]);
+                    }
+
+                });
+                 // Rahul -End- changed loop to fix issue of product while edit
+
+            }
+
+        });
+
+        // var brandList = $("#brand").val();
+        if (brandList.length > 0) {
+            $("#brand").html(''); //.append($("<option></option>").val("").html("Select Sub-Content"));
+            for (i = 0; i < brandList.length; i++) {
+                $("#brand").append($("<option></option>").val(brandList[i]).html(brandList[i]));
+            }
+
+            for (i = 0; i < data.length; i++) {
+                if (pTypeIds.length == 0) {
+
+				   if (brandList.length > 0) {
+                    (brandList.includes(data[i].brandName))
+				}
+                }
+            }
+
+        }
+      //  setTimeout(function () {
+        if (typeof selectedProductList != 'undefined') {
+
+            var selectedProductTypeList = $("#productType").val();
+            if (selectedProductList.length > 0) {
+                    var selectedValues = [];
+                    for (i = 0; i < data.length; i++) {
+                        var id = data[i].id.toString();
+                        //if (brandList.includes(data[i].BrandName) && selectedProductList.includes(id) && selectedProductTypeList.push(data[i].productTypeId)) {
+                        if (brandList.includes(data[i].brandName) && selectedProductList.includes(id)) {
+                            selectedValues.push(data[i].id);
+                        }
+                     }
+                    $('#product').val(selectedValues);
+                    $('#product').trigger('change');
+                }
+            }
+       // }, 1000);
+
+
+        if (typeof selectedBrandList != 'undefined') {
+            if (selectedBrandList.length > 0) {
+                var selectedValues = [];
+                for (i = 0; i < data.length; i++) {
+                    var id = data[i].id.toString();
+                    if (brandList.includes(data[i].brandName) && selectedBrandList.includes(data[i].brandName)) {
+                        selectedValues.push(data[i].brandName);
+                    }
+                }
+                $('#brand').val(selectedValues);
+            }
+        }
+
+        if (typeof selectedProductEssentialList != 'undefined') {
+            if (selectedProductEssentialList.length > 0) {
+                $('#allProductEssential').val(selectedProductEssentialList);
+            }
+        }
+	}
+
+
+    // Classification change event
+    $('#productClassificationSection').on('change', function (e) {
+        var prodClassification = [];
+        var  classificationListDesc = [];
+		 if (arrProd.length > 0) {
+			arrProd = [];
+		}
+		else {
+             $('#productClassificationSection option:selected').each(function (i, sel) {
+				var classificationText = sel.text;
+                 classificationListDesc.push(classificationText);
+            });
+             //var data = dataProductList.productsModelListsEssential;
+             var data = @Html.Raw(Json.Serialize(Model.ProductsModelListsEssential.ToList()));
+             if (classificationListDesc.length > 0 || pTypeIds.length > 0 || brandList.length > 0) {
+				$('#productHidden').attr('hidden', false);
+                 var selectedProductList = $("#product").val();
+				$("#product").html('').append($("<option></option>").val("").html("Select Sub-Content"));
+                 for (i = 0; i < data.length; i++) {
+                     prodClassification = data[i].productClassificatio;
+                     for (j = 0; j < prodClassification.length; j++) {
+                         if (classificationListDesc.includes(prodClassification[j].description)) {
+                             if (pTypeIds.length > 0) {
+                                 if (pTypeIds.includes(data[i].productTypeId))
+                                     $("#product").append($("<option></option>").val(data[i].id).html(data[i].productName));
+                             }
+                             else {
+                                 if (brandList.length > 0) {
+                                     if (brandList.includes(data[i].brandName))
+                                         $("#product").append($("<option></option>").val(data[i].id).html(data[i].productName));
+                                 } else {
+                                     $("#product").append($("<option></option>").val(data[i].id).html(data[i].productName));
+                                 }
+                             }
+                         }
+					}
+                     if (classificationListDesc.length == 0) {
+						if (pTypeIds.length > 0) {
+							if (pTypeIds.includes(data[i].productTypeId))
+								$("#product").append($("<option></option>").val(data[i].id).html(data[i].productName));
+						}
+                     }
+
+                     if (classificationListDesc.length == 0) {
+                         if (brandList.length > 0) {
+                             if (brandList.includes(data[i].brandName))
+                                 $("#product").append($("<option></option>").val(data[i].id).html(data[i].productName));
+                         }
+                     }
+				}
+			}
+             if (arrProducts != null) {
+                 //console.log("2");
+				$('#product').val(arrProducts);
+				$('#product').trigger('change');
+             }
+             if (typeof selectedProductList != 'undefined') {
+                 if (selectedProductList.length > 0) {
+
+                     var selectedValues = [];
+                     for (i = 0; i < data.length; i++) {
+                         var id = data[i].id.toString();
+                         var prodclass = data[i].productClassificatio;
+                         for (j = 0; j < prodclass.length; j++) {
+                             if (classificationListDesc.includes(prodclass[j].description) && selectedProductList.includes(id)) {
+                                 selectedValues.push(data[i].id);
+                             }
+                         }
+                     }
+                     $('#product').val(selectedValues);
+                     $('#product').trigger('change');
+                 }
+             }
+
+		}
+
+    });
+
+    // HairChallenge change event
+    $('#hairChallengeSection').on('change', function (e) {
+        var hairChallenge = [];
+        var hairChallegeListDesc = [];
+		 if (arrProd.length > 0) {
+			arrProd = [];
+		}
+		else {
+             $('#hairChallengeSection option:selected').each(function (i, sel) {
+				var hairChallengeText = sel.text;
+                 hairChallegeListDesc.push(hairChallengeText);
+            });
+             //var data = dataProductList.productsModelListsEssential;
+             var data = @Html.Raw(Json.Serialize(Model.ProductsModelListsEssential.ToList()));
+
+             if (hairChallegeListDesc.length > 0 || pTypeIds.length > 0 || brandList.length > 0) {
+				$('#productHidden').attr('hidden', false);
+                 var selectedProductList = $("#product").val();
+				$("#product").html('').append($("<option></option>").val("").html("Select Sub-Content"));
+                 for (i = 0; i < data.length; i++) {
+
+                     hairChallenge = data[i].hairChallenge;
+                     for (j = 0; j < hairChallenge.length; j++) {
+                         if (hairChallegeListDesc.includes(hairChallenge[j].description)) {
+                             if (pTypeIds.length > 0) {
+                                 if (pTypeIds.includes(data[i].productTypeId))
+                                     $("#product").append($("<option></option>").val(data[i].id).html(data[i].productName));
+                             }
+                             else {
+                                 if (brandList.length > 0) {
+                                     if (brandList.includes(data[i].brandName))
+                                         $("#product").append($("<option></option>").val(data[i].id).html(data[i].productName));
+                                 } else {
+                                     $("#product").append($("<option></option>").val(data[i].id).html(data[i].productName));
+                                 }
+                             }
+                         }
+					}
+                     if (hairChallegeListDesc.length == 0) {
+						if (pTypeIds.length > 0) {
+							if (pTypeIds.includes(data[i].productTypeId))
+								$("#product").append($("<option></option>").val(data[i].id).html(data[i].productName));
+						}
+                     }
+                     if (hairChallegeListDesc.length == 0) {
+                         if (brandList.length > 0) {
+                             if (brandList.includes(data[i].brandName))
+                                 $("#product").append($("<option></option>").val(data[i].id).html(data[i].productName));
+                         }
+                     }
+				}
+			}
+			if (arrProducts != null) {
+				$('#product').val(arrProducts);
+				$('#product').trigger('change');
+             }
+             if (typeof selectedProductList != 'undefined') {
+                 if (selectedProductList.length > 0) {
+                     var selectedValues = [];
+                     for (i = 0; i < data.length; i++) {
+                         var id = data[i].id.toString();
+                         var hairchall = data[i].hairChallenge;
+                         for (j = 0; j < hairchall.length; j++) {
+                             if (hairChallegeListDesc.includes(hairchall[j].description) && selectedProductList.includes(id)) {
+                                 selectedValues.push(data[i].id);
+                             }
+                         }
+                     }
+                     $('#product').val(selectedValues);
+                     $('#product').trigger('change');
+                 }
+             }
+
+		}
+
+    });
+
+
+
+    //Styling Regimens
+
+    // ProductType change event for styling products
+    $('#productTypeSectionStyling').on('change', function (e) {
+        var categoryList = [];
+        $('#productTypeSectionStyling option:selected').each(function (i, sel) {
+            var typeId = parseInt(sel.value);
+            categoryList.push(typeId);
+        });
+
+        var pType = dataProductList;
+        //var data = dataProductList.productsModelListsStyling;
+        var data = @Html.Raw(Json.Serialize(Model.ProductsModelListsStyling.ToList()));
+        var selectedProductTypeList = $("#productTypeStyling").val();
+        $("#productTypeStyling").html('').append($("<option></option>").val("").html("Select Sub-Content"));
+        var flag = false;
+        for (j = 0; j < pType.length; j++) {
+            if (categoryList.includes(pType[j].parentId)) {
+                $("#productTypeStyling").append($("<option></option>").val(pType[j].productTypeId).html(pType[j].productTypeName));
+            }
+        }
+
+        if (selectedProductTypeList.length > 0) {
+            var selectedValues = [];
+            for (i = 0; i < pType.length; i++) {
+                var id = pType[i].productTypeId.toString();
+                if (selectedProductTypeList.includes(id)) {
+                    selectedValues.push(pType[i].productTypeId);
+                }
+            }
+            flag = true;
+            $('#productTypeStyling').val(selectedValues);
+            $('#productTypeStyling').trigger('change');
+        }
+    });
+
+    // Category change event for styling products
+    function changeTypeStyling(e) {
+        var pType = dataProductList;
+        var data = @Html.Raw(Json.Serialize(Model.ProductsModelListsStyling.ToList()));
+        changeTypeStyling2(data, pType);
+    }
+
+      // Brand change event for styling products
+    $('#brandStyling').on('change', function (e) {
+        var data = @Html.Raw(Json.Serialize(Model.ProductsModelListsStyling.ToList()));
+        SelectBrandStyling(data);
+    });
+
+      // Classification change event for styling products
+    $('#productClassificationStyling').on('change', function (e) {
+        var prodClassification = [];
+        classificationListStyling = [];
+        if (arrProdStyling.length > 0) {
+            arrProdStyling = [];
+        }
+        else {
+            $('#productClassificationStyling option:selected').each(function (i, sel) {
+
+                var classificationText = sel.text;
+                classificationListStyling.push(classificationText);
+            });
+            //var data = dataProductList.productsModelListsStyling;
+            var data = @Html.Raw(Json.Serialize(Model.ProductsModelListsStyling.ToList()));
+            if (classificationListStyling.length > 0 || pTypeStylingIds.length > 0 || brandListStyling.length > 0) {
+                $('#productHidden').attr('hidden', false);
+                var selectedProductList = $("#productStyling").val();
+                $("#productStyling").html('').append($("<option></option>").val("").html("Select Sub-Content"));
+                for (i = 0; i < data.length; i++) {
+                    prodClassification = data[i].productClassificatio;
+                    for (j = 0; j < prodClassification.length; j++) {
+                        if (classificationListStyling.includes(prodClassification[j].description)) {
+                            if (pTypeStylingIds.length > 0) {
+                                if (pTypeStylingIds.includes(data[i].productTypeId))
+                                    $("#productStyling").append($("<option></option>").val(data[i].id).html(data[i].productName));
+                            }
+                            else {
+                                if (brandListStyling.length > 0) {
+                                    if (brandListStyling.includes(data[i].brandName))
+                                        $("#productStyling").append($("<option></option>").val(data[i].id).html(data[i].productName));
+                                } else {
+                                    $("#productStyling").append($("<option></option>").val(data[i].id).html(data[i].productName));
+                                }
+                            }
+                        }
+
+                    }
+                    if (classificationListStyling.length == 0) {
+                        if (pTypeStylingIds.length > 0) {
+                            if (pTypeStylingIds.includes(data[i].productTypeId))
+                                $("#productStyling").append($("<option></option>").val(data[i].id).html(data[i].productName));
+                        }
+                    }
+
+                    if (classificationListStyling.length == 0) {
+                        if (brandListStyling.length > 0) {
+                            if (brandListStyling.includes(data[i].brandName))
+                                $("#productStyling").append($("<option></option>").val(data[i].id).html(data[i].productName));
+                        }
+                    }
+                }
+            }
+            if (arrProducts != null) {
+                $('#productStyling').val(arrProducts);
+                $('#productStyling').trigger('change');
+            }
+            if (typeof selectedProductList != 'undefined') {
+                if (selectedProductList.length > 0) {
+                    var selectedValues = [];
+                    for (i = 0; i < data.length; i++) {
+                        var id = data[i].id.toString();
+                        var prodclass = data[i].productClassificatio;
+                        for (j = 0; j < prodclass.length; j++) {
+                            if (classificationListStyling.includes(prodclass[j].description) && selectedProductList.includes(id)) {
+                                selectedValues.push(data[i].id);
+                            }
+                        }
+                    }
+                    $('#productStyling').val(selectedValues);
+                    $('#productStyling').trigger('change');
+                }
+            }
+        }
+    });
+
+      // Challenge change event for styling products
+    $('#hairChallengeStyling').on('change', function (e) {
+        var hairChallenge = [];
+        hairChallegeListStyling = [];
+        if (arrProdStyling.length > 0) {
+            arrProdStyling = [];
+        }
+        else {
+            $('#hairChallengeStyling option:selected').each(function (i, sel) {
+
+                var challengeText = sel.text;
+                hairChallegeListStyling.push(challengeText);
+            });
+            //var data = dataProductList.productsModelListsStyling;
+            var data = @Html.Raw(Json.Serialize(Model.ProductsModelListsStyling.ToList()));
+            if (hairChallegeListStyling.length > 0 || pTypeStylingIds.length > 0 || brandListStyling.length > 0) {
+                $('#productHidden').attr('hidden', false);
+                var selectedProductList = $("#productStyling").val();
+                $("#productStyling").html('').append($("<option></option>").val("").html("Select Sub-Content"));
+                for (i = 0; i < data.length; i++) {
+                    hairChallenge = data[i].hairChallenge;
+                    for (j = 0; j < hairChallenge.length; j++) {
+                        if (hairChallegeListStyling.includes(hairChallenge[j].description)) {
+                            if (pTypeStylingIds.length > 0) {
+                                if (pTypeStylingIds.includes(data[i].productTypeId))
+                                    $("#productStyling").append($("<option></option>").val(data[i].id).html(data[i].productName));
+                            }
+                            else {
+                                if (brandListStyling.length > 0) {
+                                    if (brandListStyling.includes(data[i].brandName))
+                                        $("#productStyling").append($("<option></option>").val(data[i].id).html(data[i].productName));
+                                } else {
+                                    $("#productStyling").append($("<option></option>").val(data[i].id).html(data[i].productName));
+                                }
+                            }
+                        }
+
+
+                    }
+                    if (hairChallegeListStyling.length == 0) {
+                        if (pTypeStylingIds.length > 0) {
+                            if (pTypeStylingIds.includes(data[i].productTypeId))
+                                $("#productStyling").append($("<option></option>").val(data[i].id).html(data[i].productName));
+                        }
+                    }
+                    if (hairChallegeListStyling.length == 0) {
+                        if (brandListStyling.length > 0) {
+                            if (brandListStyling.includes(data[i].brandName))
+                                $("#productStyling").append($("<option></option>").val(data[i].id).html(data[i].productName));
+                        }
+                    }
+                }
+
+            }
+            if (arrProducts != null) {
+                $('#productStyling').val(arrProducts);
+                $('#productStyling').trigger('change');
+            }
+            if (typeof selectedProductList != 'undefined') {
+                if (selectedProductList.length > 0) {
+                    var selectedValues = [];
+                    for (i = 0; i < data.length; i++) {
+                        var id = data[i].id.toString();
+                        var hairchalle = data[i].hairChallenge;
+                        for (j = 0; j < hairchalle.length; j++) {
+                            if (hairChallegeListStyling.includes(hairchalle[j].description) && selectedProductList.includes(id)) {
+                                selectedValues.push(data[i].id);
+                            }
+                        }
+                    }
+                    $('#productStyling').val(selectedValues);
+                    $('#productStyling').trigger('change');
+                }
+            }
+        }
+    });
+
+
+    //End styling
+</script>

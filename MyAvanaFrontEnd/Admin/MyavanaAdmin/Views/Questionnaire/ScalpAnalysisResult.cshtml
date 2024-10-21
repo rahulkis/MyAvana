@@ -1,0 +1,74 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper AuthoringTagHelpers.TagHelpers.EmailTagHelper, AuthoringTagHelpers
+@model MyavanaAdminModels.HairScopeModel
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@using Microsoft.AspNetCore.Http
+@{
+    ViewData["Title"] = "Scalp Analysis Result";
+    Layout = "_Layout";
+
+    var userid = Model != null ? Model.AccessCode.ToString() : string.Empty;
+}
+<div class="recommended-products-wrap">
+    <div class="recommended-products-info">
+        <h3 class="head-title-info">Scalp Analysis Result (@(Model?.sender ?? ""))</h3>
+        @if (Model?.detectionData?.Any() == true)
+        {
+            foreach (var x in Model.detectionData)
+            {
+        <div class="tab-content">
+            <div id="Demo" class="tab-pane fade in active show">
+                <div class="box-shapes-wrap rp-box-shapes-wrap">
+                    <div class="main-content-wrap">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="product-image-wrap">
+                                    <div class="product-img-scalp">
+                                        <img src="@x.image" alt="img" class="img-fluid" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="product-description-wrap">
+                                    <h3 class="product-main-title-info">Condition Detected: @(x.@class)</h3>
+                                    <p class="product-descrp-info">Confidence: @x.confidence.ToString("F2")%</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            }
+        <div class="col-md-12 mt-5 mt-lg-02 text-center mb-5 pb-3 get_product_sec">
+            <button onclick="CreateHHCPUsingScalpAnalysis()" class="btn btn-primary btn_scalp">Get Product Recommendation <i class="fa fa-play"></i></button>
+        </div>
+        }
+        else
+        {
+        <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
+            <h4>No results found</h4>
+        </div>
+        }
+    </div>
+</div>
+
+<script language="JavaScript">
+
+    function CreateHHCPUsingScalpAnalysis() {
+       var createHHCPModel = {
+            UserID: '@userid',
+            HairProfileId: null,
+            IsIPad: "true",
+        }
+        $.ajax({
+            type: "POST",
+            url: "/HairAIResult/CreateHHCPUsingScalpAnalysis",
+            data: createHHCPModel,
+            success: function (response) {
+                window.location.href = '/HairProfile/CustomerHairProfile?id=@userid&IsRecommendedProductActive=true';
+            },
+        });
+    }
+
+</script>

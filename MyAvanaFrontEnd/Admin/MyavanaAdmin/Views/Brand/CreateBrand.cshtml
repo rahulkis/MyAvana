@@ -1,0 +1,380 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper AuthoringTagHelpers.TagHelpers.EmailTagHelper, AuthoringTagHelpers
+@model MyavanaAdminModels.BrandsEntityModel
+@inject MyavanaAdminApiClient.ApiClient brand
+
+@{
+    Layout = "_Layout";
+}
+
+@if (Model != null)
+{
+    <input type="hidden" id="brandid" value="@Model.BrandId" />
+}
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.select2').select2({ placeholder: "--Select--" });
+    });
+</script>
+<style>
+    .preloader {
+        width: calc(100% - 200px);
+        height: 100%;
+        top: 0px;
+        position: fixed;
+        z-index: 99999;
+        background: rgba(255, 255, 255, .8);
+    }
+
+        .preloader img {
+            position: absolute;
+            LEFT: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+        }
+
+    .loader {
+        overflow: visible;
+        padding-top: 2em;
+        height: 0;
+        width: 2em;
+    }
+
+    .alert-success, .alert-danger, .alert-info {
+        top: 110px !important;
+        width: 60% !important;
+        margin: 0 auto;
+        z-index: 99;
+        position: fixed;
+        left: 50%;
+        transform: translateX(-40%);
+        text-align: center;
+        padding: 12px;
+        transition: all 1s linear;
+        box-shadow: 0px 0px 12px 3px rgba(0, 0, 0, 0.2);
+        font-size: 16px;
+    }
+
+    .alert-danger {
+        color: #80172a;
+        background-color: #fdd5dc;
+        border-color: #fcc4ce;
+    }
+
+        .alert-danger hr {
+            border-top-color: #fbacba;
+        }
+
+        .alert-danger .alert-link {
+            color: #550f1c;
+        }
+
+    .alert-success {
+        color: #1c6356;
+        background-color: #a8ffc3;
+        border-color: #13b755;
+    }
+
+        .alert-success hr {
+            border-top-color: #b4e7dd;
+        }
+
+        .alert-success .alert-link {
+            color: #113b33;
+        }
+    .product-Images-carousel .item img {
+        height: 150px;
+        object-fit: cover;
+    }
+    .product-Images-carousel {
+        margin-top: 25px;
+    }
+    .product-Images-carousel .item .fa-times {
+        position: absolute;
+        top: 0px;
+        right: -2px;
+        background: #fff;
+        width: 20px;
+        font-size: 14px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: red;
+        border: 1px solid #cccc;
+    }
+</style>
+<div id="alert-success" class="alert alert-success alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="successMessage"></span>
+</div>
+<div class="alert alert-danger alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="failureMessage"></span>
+</div>
+
+<div class="preloader" style="display:none;">
+    <div class="loader">
+        <img src="~/images/loader.gif" />
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Post Brand</h5>
+                </div>
+                <div class="ibox-content">
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Brand Name*</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="txtBrandName" placeholder="Enter brand name" asp-for="BrandName" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Brand Classification</label>
+
+                        <div class="col-sm-10">
+                            <select class="js-example-basic-multiple form-control select2" id="brandClassification"
+                                    asp-items="@brand.GetBrandClassificationList().Result.OrderBy(x => x.Description).Select(s => new SelectListItem() { Text = s.Description, Value=s.BrandClassificationId.ToString()})" multiple></select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label"> Hair Type/ Texture</label>
+                        <div class="col-sm-10">
+                            <select class="js-example-basic-multiple form-control select2" id="hairType"
+                                    asp-items="@brand.GetHairTypesList().Result.OrderBy(x => x.Description).Select(s => new SelectListItem() { Text = s.Description, Value=s.HairTypeId.ToString()})" multiple></select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label"> Hair Challenges</label>
+                        <div class="col-sm-10">
+                            <select class="js-example-basic-multiple form-control select2" id="hairChallenges"
+                                    asp-items="@brand.GetHairChallengesList().Result.OrderBy(x => x.Description).Select(s => new SelectListItem() { Text = s.Description, Value=s.HairChallengeId.ToString()})" multiple></select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label"> Hair Goals</label>
+                        <div class="col-sm-10">
+                            <select class="js-example-basic-multiple form-control select2" id="hairGoals"
+                                    asp-items="@brand.GetHairGoalsList().Result.OrderBy(x => x.Description).Select(s => new SelectListItem() { Text = s.Description, Value=s.HairGoalId.ToString()})" multiple></select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Brand Tags</label>
+
+                        <div class="col-sm-10">
+                            <select class="js-example-basic-multiple form-control select2" id="productTags"
+                                    asp-items="@brand.GetBrandTagList().Result.OrderBy(x => x.Description).Select(s => new SelectListItem() { Text = s.Description, Value=s.TagId.ToString()})" multiple></select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Hair State</label>
+
+                        <div class="col-sm-10">
+                            <select class="js-example-basic-multiple form-control select2" id="hairStates"
+                                    asp-items="@brand.GetBrandHairStateList().Result.OrderBy(x => x.Description).Select(s => new SelectListItem() { Text = s.Description, Value=s.HairStateId.ToString()})" multiple></select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Recommendation Status</label>
+
+                        <div class="col-sm-10">
+                            <select class="js-example-basic-multiple form-control select2" id="recommendationStatus"
+                                    asp-items="@brand.GetBrandRecommendationStatusList().Result.OrderBy(x => x.Description).Select(s => new SelectListItem() { Text = s.Description, Value=s.BrandRecommendationStatusId.ToString()})" multiple></select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Molecular Weight</label>
+
+                        <div class="col-sm-10">
+                            <select class="js-example-basic-multiple form-control select2" id="molecularWeight"
+                                    asp-items="@brand.GetBrandMolecularWeightList().Result.OrderBy(x => x.Description).Select(s => new SelectListItem() { Text = s.Description, Value=s.MolecularWeightId.ToString()})" multiple></select>
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Featured Ingredients</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="txtFeaturedIngredients" placeholder="Enter featured ingredient" asp-for="FeaturedIngredients" class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Rank*</label>
+
+                        <div class="col-sm-10">
+                            <input type="text" id="txtRank" placeholder="Enter rank" asp-for="Rank" class="form-control">
+                        </div>
+                    </div>
+                    <div class="hr-line-dashed"></div>
+                    <div class="form-group row">
+                        <div class="col-sm-4 col-sm-offset-2">
+                            <a class="btn btn-white btn-sm" asp-controller="Brand" asp-action="Brands">Cancel</a>
+                            <button class="btn btn-primary btn-sm" onclick="SaveBrand()">Save Brand</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="confirmModalHeader" class="font-bold">Delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <span id="confirmModalText"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelMethod" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmMethod">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/js/admin/Brand.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        var id = $('#stylistId').val();
+        if (id != 0) {
+            var stylistAdminModel = {
+                brandId: $('#brandid').val()
+            }
+            $('.preloader').css('display', 'block');
+            $.ajax({
+                type: "POST",
+                url: "/Brand/GetBrandDetails",
+                data: stylistAdminModel,
+                success: function (response) {
+                    if (response != null) {
+                        $('#txtBrandName').val(response.brandName);
+                        $('#txtFeaturedIngredients').val(response.featuredIngredients);
+                        $('#txtRank').val(response.rank);
+                        var hairType = response.hairType.length;
+                        if (hairType > 0) {
+                            var arr = [];
+                            for (var i = 0; i < hairType; i++) {
+                                arr.push(response.hairType[i].hairTypeId);
+                            }
+                            $('#hairType').val(arr);
+                            $('#hairType').trigger('change');
+                        }
+                       
+                        var hairChallenges = response.hairChallenge.length;
+                        if (hairChallenges > 0) {
+                            var arr = [];
+                            for (var i = 0; i < hairChallenges; i++) {
+                                arr.push(response.hairChallenge[i].hairChallengeId);
+                            }
+                            $('#hairChallenges').val(arr);
+                            $('#hairChallenges').trigger('change');
+                        }
+                        var hairGoals = response.hairGoal.length;
+                        if (hairGoals > 0) {
+                            var arr = [];
+                            for (var i = 0; i < hairGoals; i++) {
+                                arr.push(response.hairGoal[i].hairGoalId);
+                            }
+                            $('#hairGoals').val(arr);
+                            $('#hairGoals').trigger('change');
+                        }
+
+                        var prodcutTags = response.brandTag.length;
+                        if (prodcutTags > 0) {
+                            var arr = [];
+                            for (var i = 0; i < prodcutTags; i++) {
+                                arr.push(response.brandTag[i].tagsId);
+                            }
+                            $('#productTags').val(arr);
+                            $('#productTags').trigger('change');
+                        }
+
+                     
+                        var brandClassifications = response.brandClassifications.length;
+                        if (brandClassifications > 0) {
+                            var arr = [];
+                            for (var i = 0; i < brandClassifications; i++) {
+                                arr.push(response.brandClassifications[i].brandClassificationId);
+                            }
+                            $('#brandClassification').val(arr);
+                            $('#brandClassification').trigger('change');
+                        }
+
+                        var hairStates = response.hairState.length;
+                        if (hairStates > 0) {
+                            var arr = [];
+                            for (var i = 0; i < hairStates; i++) {
+                                arr.push(response.hairState[i].hairStateId);
+                            }
+                            $('#hairStates').val(arr);
+                            $('#hairStates').trigger('change');
+                        }
+
+                        var recommendationStatus = response.brandRecommendationStatus.length;
+                        if (recommendationStatus > 0) {
+                            var arr = [];
+                            for (var i = 0; i < recommendationStatus; i++) {
+                                arr.push(response.brandRecommendationStatus[i].brandRecommendationStatusId);
+                            }
+                            $('#recommendationStatus').val(arr);
+                            $('#recommendationStatus').trigger('change');
+                        }
+
+                        var molecularWeight = response.molecularWeight.length;
+                        if (molecularWeight > 0) {
+                            var arr = [];
+                            for (var i = 0; i < molecularWeight; i++) {
+                                arr.push(response.molecularWeight[i].molecularWeightId);
+                            }
+                            $('#molecularWeight').val(arr);
+                            $('#molecularWeight').trigger('change');
+                        }
+                    }
+                    $('.preloader').css('display', 'none');
+                },
+                error: function (response) {
+
+                },
+                complete: function () {
+
+                }
+            });
+        }
+    });
+
+</script>
+

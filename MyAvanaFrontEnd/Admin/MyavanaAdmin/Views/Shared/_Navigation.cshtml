@@ -1,0 +1,595 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    var userType = HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"].ToString();
+    var userId = Convert.ToInt32(HttpContextAccessor.HttpContext.Request.Cookies["UserId"]);
+}
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse" id="menu">
+        <ul class="nav metismenu" id="side-menu">
+            <li class="nav-header">
+                <div class="dropdown profile-element dashboardlogo">
+                    <img src="" style="display:none" class="pb-2" />
+                    <span class="logo_Label" style="display:none" id="lblName"></span>
+                    <a data-toggle="dropdown" class="dropdown-toggle text-dark">
+                        <span class="block m-t-xs font-bold">Powered By MYAVANA</span>
+                    </a>
+                    @*<ul class="dropdown-menu animated fadeInRight m-t-xs" style="position: absolute; top: 91px; left: 0px; will-change: top, left;">
+                    <li><a class="dropdown-item" href="@Url.Action("Profile", "AppViews")">Profile</a></li>
+                    <li><a class="dropdown-item" href="@Url.Action("Contacts", "AppViews")">Contacts</a></li>
+                    <li><a class="dropdown-item" href="@Url.Action("Inbox", "Mailbox")">Mailbox</a></li>
+                    <li class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" onclick="logout()">Logout</a></li>
+                </ul>*@
+                </div>
+                <div class="logo-element">
+                    IN+
+                </div>
+            </li>
+            @if (HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"].ToString() == "1")
+            {
+                <li class="activeClass">
+                    <a id="ArticlesId" class="is-active" onclick="changeColor(1)" href="@Url.Action("ViewArticles", "Articles")"><i class="fa fa-file" aria-hidden="true"></i><span class="nav-label" data-i18n="nav.dashboard">Articles</span></a>
+                </li>
+                <li>
+                    <a id="menuCollapsealexa" onclick="changeColor(32)" class="menuTabs" href="javascript:;"><i class="fa fa-product-hunt" aria-hidden="true"></i> <span class="nav-label" data-i18n="nav.metrics">Alexa</span> <span class="fa arrow"></span> </a>
+                    <ul id="menuUlalexa" class="nav nav-second-level collapse" aria-expanded="false">
+
+                        <li>
+                            <a id="AlexaFAQId" onclick="changeColor(15)" href="@Url.Action("ViewAlexaFAQs", "Alexa")">
+                                <i class="fa fa-list" aria-hidden="true"></i> FAQs
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            }
+            @if (HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"].ToString() == "1")
+            {
+                <li>
+                    <a id="MobileHelpFAQId" href="@Url.Action("MobileHelpFAQList", "MobileHelp")" onclick="changeColor(43)"><i class="fa fa-file" aria-hidden="true"></i> <span class="nav-label" data-i18n="nav.layouts">Mobile Help FAQ</span></a>
+                </li>
+            }
+            @if (HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"].ToString() != "3") { 
+                <li>
+                    <a id="AnalyticsId" href="@Url.Action("QAMetrics", "Metrics")" onclick="changeColor(2)"><i class="fa fa-area-chart" aria-hidden="true"></i> <span class="nav-label" data-i18n="nav.layouts">Analytics</span></a>
+                </li>
+            }
+            @if (HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"].ToString() == "1")
+            {
+                <li>
+                    <a id="menuCollapseeducation" onclick="changeColor(33)" class="menuTabs" href="javascript:;"><i class="fa fa-product-hunt" aria-hidden="true"></i> <span class="nav-label" data-i18n="nav.metrics">Educational</span> <span class="fa arrow"></span> </a>
+                    <ul id="menuUleducation" class="nav nav-second-level collapse" aria-expanded="false">
+
+                        <li>
+                            <a id="EducationVideoId" onclick="changeColor(16)" href="@Url.Action("EducationalVideos", "SocialMedia")">
+                                <i class="fa fa-list" aria-hidden="true"></i> Educational Videos
+                            </a>
+                        </li>
+                        <li>
+                            <a id="EducationTipsId" onclick="changeColor(17)" href="@Url.Action("EducationalTips", "SocialMedia")">
+                                <i class="fa fa-list" aria-hidden="true"></i> Educational Tips
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            }
+            else
+            {
+                @if (HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"].ToString() == "2")
+                {
+                    <li>
+                        <a id="TrainingsId" onclick="changeColor(40)" href="@Url.Action("EducationalVideos", "SocialMedia")"><i class="fa fa-graduation-cap" aria-hidden="true"></i><span class="nav-label" data-i18n="nav.layouts">Trainings</span></a>
+                    </li>
+                }
+            }
+            @if (HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"].ToString() == "1")
+            {
+                <li>
+                    <a id="LiveConsulationId" onclick="changeColor(3)" href="@Url.Action("LiveSchedule", "LiveConsultation")"><i class="fa fa-graduation-cap" aria-hidden="true"></i><span class="nav-label" data-i18n="nav.layouts">Live Consultation</span></a>
+                </li>
+            }
+            @if (HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"].ToString() != "3")
+            {
+                <li>
+                    <a id="NewUserId" onclick="changeColor(4)" href="@Url.Action("Users", "Auth")"><i class="fa fa-user-plus" aria-hidden="true"></i> <span class="nav-label" data-i18n="nav.graphs">New Users</span></a>
+                </li>
+            }
+            @if (HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"].ToString() == "1")
+            {
+                <li>
+                    <a id="PromoCodeId" onclick="changeColor(5)" href="@Url.Action("ViewCodes", "PromoCode")"><i class="fa fa-tag" aria-hidden="true"></i> <span class="nav-label" data-i18n="nav.mailbox">Promo Codes </span></a>
+                </li>
+            }
+            @*@if (HttpContextAccessor.HttpContext.Request.Cookies["UserType"].ToString() == "True")
+        {
+            <li>
+                <a id="DiscountCodeId" onclick="changeColor(42)" href="@Url.Action("ViewDiscountCode", "DiscountCode")"><i class="fa fa-tag" aria-hidden="true"></i> <span class="nav-label" data-i18n="nav.mailbox">Discount Codes </span></a>
+            </li>
+        }*@
+            @if (HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"].ToString() == "1" || HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"].ToString() == "3")
+            {
+                <li>
+                    <a id="menuCollapse" onclick="changeColor(34)" class="menuTabs" href="javascript:;"><i class="fa fa-product-hunt" aria-hidden="true"></i> <span class="nav-label" data-i18n="nav.metrics">Products</span> <span class="fa arrow"></span> </a>
+                    <ul id="menuUl" class="nav nav-second-level collapse" aria-expanded="false">
+
+                        <li>
+                            <a id="productsCategoryTypeId" onclick="changeColor(18)" href="@Url.Action("ProductsCategory", "Products")">
+                                <i class="fa fa-list" aria-hidden="true"></i> Product Category
+                            </a>
+                        </li>
+
+                        <li>
+                            <a id="productsTypeId" onclick="changeColor(19)" href="@Url.Action("ProductsType", "Products")">
+                                <i class="fa fa-th-list" aria-hidden="true"></i> Product Types
+                            </a>
+                        </li>
+                        <li>
+                            <a id="productsTagId" onclick="changeColor(20)" href="@Url.Action("ProductsTag", "Products")">
+                                <i class="fa fa-th-list" aria-hidden="true"></i> Product Tags
+                            </a>
+                        </li>
+                        <li>
+                            <a id="hairGoalId" onclick="changeColor(21)" href="@Url.Action("HairGoal", "Products")">
+                                <i class="fa fa-th-list" aria-hidden="true"></i> Hair Goals
+                            </a>
+                        </li>
+                        <li>
+                            <a id="hairChallengeId" onclick="changeColor(22)" href="@Url.Action("HairChallenge", "Products")">
+                                <i class="fa fa-th-list" aria-hidden="true"></i> Hair Challenges
+                            </a>
+                        </li>
+                        <li>
+                            <a id="hairStyleId" onclick="changeColor(41)" href="@Url.Action("HairStyle", "Products")">
+                                <i class="fa fa-th-list" aria-hidden="true"></i> Hair Styles
+                            </a>
+                        </li>
+                        <li>
+                            <a id="productsIndicatorId" onclick="changeColor(23)" href="@Url.Action("ProductIndicators", "Products")">
+                                <i class="fa fa-list" aria-hidden="true"></i> Product Indicator
+                            </a>
+                        </li>
+                        <li>
+                            <a id="productsClassificationId" onclick="changeColor(24)" href="@Url.Action("ProductClassification", "Products")">
+                                <i class="fa fa-list" aria-hidden="true"></i> Product Classification
+                            </a>
+                        </li>
+                        <li>
+                            <a id="brandClassificationId" onclick="changeColor(25)" href="@Url.Action("BrandClassification", "Products")">
+                                <i class="fa fa-list" aria-hidden="true"></i> Brand Classification
+                            </a>
+                        </li>
+                        <li>
+                            <a id="customerPreferenceId" onclick="changeColor(26)" href="@Url.Action("CustomerPreference", "Products")">
+                                <i class="fa fa-list" aria-hidden="true"></i> Customer Preference
+                            </a>
+                        </li>
+                        <li>
+                            <a id="productRecommendationStatusId" onclick="changeColor(47)" href="@Url.Action("ProductRecommendationStatus", "Products")">
+                                <i class="fa fa-list" aria-hidden="true"></i> Recommendation Status
+                            </a>
+                        </li>
+                        <li>
+                            <a id="viewProductId" onclick="changeColor(27)" href="@Url.Action("Products", "Products")">
+                                <i class="fa fa-archive" aria-hidden="true"></i> View Products
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </li>
+            }
+            @if (HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"].ToString() == "1" || HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"].ToString() == "3")
+            {
+                <li>
+                    <a id="menuCollapseBrand" onclick="changeColor(35)" class="menuTabs" href="javascript:;"><i class="fa fa-product-hunt" aria-hidden="true"></i> <span class="nav-label" data-i18n="nav.metrics">Brand</span> <span class="fa arrow"></span> </a>
+                    <ul id="menuUl" class="nav nav-second-level collapse" aria-expanded="false">
+                        <li>
+                            <a id="TagId" onclick="changeColor(28)" href="@Url.Action("Tags", "Brand")">
+                                <i class="fa fa-th-list" aria-hidden="true"></i>Tags
+                            </a>
+                        </li>
+                        <li>
+                            <a id="BrandssId" onclick="changeColor(29)" href="@Url.Action("Brands", "Brand")">
+                                <i class="fa fa-th-list" aria-hidden="true"></i>Brands
+                            </a>
+                        </li>
+                        <li>
+                            <a id="BrandsHairStateId" onclick="changeColor(44)" href="@Url.Action("BrandHairState", "Brand")">
+                                <i class="fa fa-th-list" aria-hidden="true"></i>Hair State
+                            </a>
+                        </li>
+                        <li>
+                            <a id="BrandsRecommendationStatusId" onclick="changeColor(45)" href="@Url.Action("BrandRecommendationStatus", "Brand")">
+                                <i class="fa fa-th-list" aria-hidden="true"></i>Recommendation Status
+                            </a>
+                        </li>
+                        <li>
+                            <a id="BrandMolecularWeightId" onclick="changeColor(46)" href="@Url.Action("MolecularWeight", "Brand")">
+                                <i class="fa fa-th-list" aria-hidden="true"></i>Molecular Weight
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            }
+
+            @if (HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"].ToString() == "1")
+            {
+                <li>
+                    <a id="ToolsId" onclick="changeColor(6)" href="@Url.Action("Toolslist", "Tools")"><i class="fa fa-cutlery" aria-hidden="true"></i> <span class="nav-label" data-i18n="nav.metrics">Tools</span> </a>
+                </li>
+                <li>
+                    <a id="IngredientsId" onclick="changeColor(7)" href="@Url.Action("Ingredients", "Ingredients")"><i class="fa fa-cutlery" aria-hidden="true"></i> <span class="nav-label" data-i18n="nav.metrics">Ingredients</span> </a>
+                </li>
+
+                <li>
+                    <a id="RegimensId" onclick="changeColor(8)" href="@Url.Action("Regimens", "Regimens")"><i class="fa fa-list"></i> <span class="nav-label" data-i18n="nav.metrics">Regimens</span> </a>
+                </li>
+            }
+            @if (HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"].ToString() != "3")
+            {
+                <li>
+                    <a id="QuestionnaireId" onclick="changeColor(9)" href="@Url.Action("Questionnaire", "Questionnaire")"><i class="fa fa-list"></i> <span class="nav-label" data-i18n="nav.metrics">Questionnaire</span> </a>
+                </li>
+
+                <li>
+                    <a id="HairProfilesId" onclick="changeColor(10)" href="@Url.Action("HairProfiles", "HairProfile")"><i class="fa fa-list"></i> <span class="nav-label" data-i18n="nav.metrics">Hair Profiles</span> </a>
+                </li>
+            }
+            @if (HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"].ToString() == "1")
+            {
+                <li>
+                    <a id="StylistId" onclick="changeColor(11)" href="@Url.Action("Stylist", "Stylist")"><i class="fa fa-scissors" aria-hidden="true"></i> <span class="nav-label" data-i18n="nav.metrics">Stylist</span> </a>
+                </li>
+            }
+            @if (HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"].ToString() != "3")
+            {
+                <li>
+                    <a id="menuCollapseCustomer" onclick="changeColor(38)" class="menuTabs" href="javascript:;"><i class="fa fa-product-hunt" aria-hidden="true"></i> <span class="nav-label" data-i18n="nav.metrics">Customers</span> <span class="fa arrow"></span> </a>
+                    <ul id="menuUlcustomer" class="nav nav-second-level collapse" aria-expanded="false">
+
+                        <li>
+                            <a id="CustomersId" onclick="changeColor(12)" href="@Url.Action("QuestionnaireCustomer", "Questionnaire")"><i class="fa fa-list"></i> <span class="nav-label" data-i18n="nav.metrics">Customer List</span> </a>
+                        </li>
+                        @if (HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"].ToString() == "1")
+                        {
+                            <li>
+                                <a id="StatusTrackerId" onclick="changeColor(37)" href="@Url.Action("HairAnalysisStatusTracker", "HairAnalysisStatusTracker")"><i class="fa fa-list"></i> <span class="nav-label" data-i18n="nav.metrics">Status Tracker</span> </a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+
+            }
+            @*<li>
+            <a href="@Url.Action("Analytics", "Analytics")"><i class="fa fa-bar-chart-o"></i> <span class="nav-label" data-i18n="nav.metrics">Analytics</span> </a>
+        </li>*@
+
+            @*<li>
+            <a id="CustomersId" onclick="changeColor(12)" href="@Url.Action("QuestionnaireCustomer", "Questionnaire")"><i class="fa fa-list"></i> <span class="nav-label" data-i18n="nav.metrics">Customers</span> </a>
+        </li>
+        <li>
+            <a id="StatusTrackerId" onclick="changeColor(37)" href="@Url.Action("HairAnalysisStatusTracker", "HairAnalysisStatusTracker")"><i class="fa fa-list"></i> <span class="nav-label" data-i18n="nav.metrics">Status Tracker</span> </a>
+        </li>*@
+
+            @if (HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"].ToString() == "1")
+            {
+                <li>
+                    <a id="SubscribersId" onclick="changeColor(13)" href="@Url.Action("Subscriber", "Subscriber")"><i class="fa fa-list"></i> <span class="nav-label" data-i18n="nav.metrics">Subscribers</span> </a>
+                </li>
+                <li>
+                    <a id="menuCollapseGroup" onclick="changeColor(36)" class="menuTabs" href="javascript:;"><i class="fa fa-product-hunt" aria-hidden="true"></i> <span class="nav-label" data-i18n="nav.metrics">Groups</span> <span class="fa arrow"></span> </a>
+                    <ul id="menuUlGroup" class="nav nav-second-level collapse" aria-expanded="false">
+
+                        <li>
+                            <a id="GroupListId" onclick="changeColor(30)" href="@Url.Action("GroupList", "Groups")"><i class="fa fa-list"></i> <span class="nav-label" data-i18n="nav.metrics">Group List</span> </a>
+                        </li>
+                        <li>
+                            <a id="GroupRequestId" onclick="changeColor(31)" href="@Url.Action("GroupRequestList", "Groups")"><i class="fa fa-list"></i> <span class="nav-label" data-i18n="nav.metrics">Group Requests</span> </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a id="SalonsId" onclick="changeColor(14)" href="@Url.Action("Salons", "Salon")"><i class="fa fa-cutlery" aria-hidden="true"></i> <span class="nav-label" data-i18n="nav.metrics">Salons</span> </a>
+                </li>
+                <li>
+                    <a id="CustomerInsightId" onclick="changeColor(39)" href="@Url.Action("EmbedReport","CustomerInsight")"><i class="fa fa-list" aria-hidden="true"></i> <span class="nav-label" data-i18n="nav.metrics">Customer Insight</span> </a>
+                </li>
+            }
+        </ul>
+    </div>
+</nav>
+<script type="text/javascript">
+    $('#menuCollapse').click(function () {
+        if ($('#menuCollapse').hasClass('showList')) {
+            $('.menuTabs').removeClass('showList');
+        }
+        else {
+            $('.menuTabs').removeClass('showList');
+            $('#menuCollapse').toggleClass('showList');
+        }
+    });
+    $('#menuCollapsealexa').click(function () {
+        if ($('#menuCollapsealexa').hasClass('showList')) {
+            $('.menuTabs').removeClass('showList');
+        }
+        else {
+            $('.menuTabs').removeClass('showList');
+            $('#menuCollapsealexa').toggleClass('showList');
+        }
+    });
+    $('#menuCollapseeducation').click(function () {
+        if ($('#menuCollapseeducation').hasClass('showList')) {
+            $('.menuTabs').removeClass('showList');
+        }
+        else {
+            $('.menuTabs').removeClass('showList');
+            $('#menuCollapseeducation').toggleClass('showList');
+        }
+    });
+    $('#menuCollapseGroup').click(function () {
+        if ($('#menuCollapseGroup').hasClass('showList')) {
+            $('.menuTabs').removeClass('showList');
+        }
+        else {
+            $('.menuTabs').removeClass('showList');
+            $('#menuCollapseGroup').toggleClass('showList');
+        }
+    });
+    $('#menuCollapseBrand').click(function () {
+        if ($('#menuCollapseBrand').hasClass('showList')) {
+            $('.menuTabs').removeClass('showList');
+        }
+        else {
+            $('.menuTabs').removeClass('showList');
+            $('#menuCollapseBrand').toggleClass('showList');
+        }
+    });
+    $('#menuCollapseCustomer').click(function () {
+        if ($('#menuCollapseCustomer').hasClass('showList')) {
+            $('.menuTabs').removeClass('showList');
+        }
+        else {
+            $('.menuTabs').removeClass('showList');
+            $('#menuCollapseCustomer').toggleClass('showList');
+        }
+    });
+
+    function changeColor(val) {
+        $('.metismenu a').removeClass('is-active');
+        localStorage.setItem('navbar', val);
+    } 
+    
+</script>
+@*<script>
+        function logout() {
+            $.ajax({
+                type: "GET",
+                url: "/Auth/Logout",
+                success: function (response) {
+                    window.location.href = "../Auth/Login";
+                },
+                failure: function (response) {
+                },
+                error: function (response) {
+                }
+            });
+        }
+    </script>*@
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var userTypeId = getCookie("UserTypeId");
+        if (userTypeId == "2") {
+                
+                var LogoUrl = getCookie("SalonLogo");
+                if (LogoUrl != '' && LogoUrl != null) {
+                    $(".pb-2").attr("src", LogoUrl);
+                    $(".pb-2").show();
+                }
+                else {
+                    $(".pb-2").hide();
+                    var salon = getCookie("SalonName");
+                    document.getElementById('lblName').innerHTML = salon;
+                    $("#lblName").show();
+                }
+            }
+            else {
+                $(".pb-2").attr("src", "https://admin.myavana.com/images/Myavana%20Logo%20Black.png");
+                $(".pb-2").show();
+               /* document.getElementById('lblName').innerHTML = "Admin";*/
+        }
+        $('.metismenu a').removeClass('is-active');
+        if (localStorage.getItem('navbar') == 1) {
+            $('#ArticlesId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 2) {
+            $('#AnalyticsId').addClass('is-active');
+        }
+        if(localStorage.getItem('navbar') == 3) {
+            $('#LiveConsulationId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 4) {
+            $('#NewUserId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 5) {
+            $('#PromoCodeId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 6) {
+            $('#ToolsId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 7) {
+            $('#IngredientsId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 8) {
+            $('#RegimensId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 9) {
+            $('#QuestionnaireId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 10) {
+            $('#HairProfilesId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 11) {
+            $('#StylistId').addClass('is-active');
+        }
+        //if (localStorage.getItem('navbar') == 12) {
+        //    $('#CustomersId').addClass('is-active');
+        //}
+        if (localStorage.getItem('navbar') == 13) {
+            $('#SubscribersId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 14) {
+            $('#SalonsId').addClass('is-active');
+        }
+       
+        if (localStorage.getItem('navbar') == 15) {
+            (localStorage.getItem('navbar') == 32)
+            $('#menuCollapsealexa').addClass('showList');
+            $('#AlexaFAQId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 16) {
+            (localStorage.getItem('navbar') == 33)
+            $('#menuCollapseeducation').addClass('showList');
+            $('#EducationVideoId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 17) {
+            (localStorage.getItem('navbar') == 33)
+            $('#menuCollapseeducation').addClass('showList');
+            $('#EducationTipsId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 18) {
+            (localStorage.getItem('navbar') == 34)
+            $('#menuCollapse').addClass('showList');
+            $('#productsCategoryTypeId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 19) {
+            (localStorage.getItem('navbar') == 34)
+            $('#menuCollapse').addClass('showList');
+            $('#productsTypeId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 20) {
+            (localStorage.getItem('navbar') == 34)
+            $('#menuCollapse').addClass('showList');
+            $('#productsTagId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 21) {
+            (localStorage.getItem('navbar') == 34)
+            $('#menuCollapse').addClass('showList');
+            $('#hairGoalId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 22) {
+            (localStorage.getItem('navbar') == 34)
+            $('#menuCollapse').addClass('showList');
+            $('#hairChallengeId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 23) {
+            (localStorage.getItem('navbar') == 34)
+            $('#menuCollapse').addClass('showList');
+            $('#productsIndicatorId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 24) {
+            (localStorage.getItem('navbar') == 34)
+            $('#menuCollapse').addClass('showList');
+            $('#productsClassificationId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 25) {
+            (localStorage.getItem('navbar') == 34)
+            $('#menuCollapse').addClass('showList');
+            $('#brandClassificationId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 26) {
+            (localStorage.getItem('navbar') == 34)
+            $('#menuCollapse').addClass('showList');
+            $('#customerPreferenceId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 27) {
+            (localStorage.getItem('navbar') == 34)
+            $('#menuCollapse').addClass('showList');
+            $('#viewProductId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 28) {
+            (localStorage.getItem('navbar') == 35)
+            $('#menuCollapseBrand').addClass('showList');
+            $('#TagId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 29) {
+            (localStorage.getItem('navbar') == 35)
+            $('#menuCollapseBrand').addClass('showList');
+            $('#BrandssId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 30) {
+            (localStorage.getItem('navbar') == 36)
+            $('#menuCollapseGroup').addClass('showList');
+            $('#GroupListId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 31) {
+            (localStorage.getItem('navbar') == 36)
+            $('#menuCollapseGroup').addClass('showList');
+            $('#GroupRequestId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 12) {
+            (localStorage.getItem('navbar') == 38)
+            $('#menuCollapseCustomer').addClass('showList');
+            $('#CustomersId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 37) {
+            (localStorage.getItem('navbar') == 38)
+            $('#menuCollapseCustomer').addClass('showList');
+            $('#StatusTrackerId').addClass('is-active');
+        }
+
+        if (localStorage.getItem('navbar') == 39) {
+            $('#CustomerInsightId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 40) {
+            $('#TrainingsId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 41) {
+            (localStorage.getItem('navbar') == 34)
+            $('#menuCollapse').addClass('showList');
+            $('#hairStyleId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 42) {
+            $('#DiscountCodeId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 43) {
+            $('#MobileHelpFAQId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 44) {
+            (localStorage.getItem('navbar') == 35)
+            $('#menuCollapseBrand').addClass('showList');
+            $('#BrandsHairStateId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 45) {
+            (localStorage.getItem('navbar') == 35)
+            $('#menuCollapseBrand').addClass('showList');
+            $('#BrandsRecommendationStatusId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 46) {
+            (localStorage.getItem('navbar') == 35)
+            $('#menuCollapseBrand').addClass('showList');
+            $('#BrandMolecularWeightId').addClass('is-active');
+        }
+        if (localStorage.getItem('navbar') == 47) {
+            (localStorage.getItem('navbar') == 34)
+            $('#menuCollapse').addClass('showList');
+            $('#productRecommendationStatusId').addClass('is-active');
+        }
+    });
+
+    function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+</script>

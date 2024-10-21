@@ -1,0 +1,344 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper AuthoringTagHelpers.TagHelpers.EmailTagHelper, AuthoringTagHelpers
+@using DataTables.AspNetCore.Mvc
+@inject MyavanaAdminApiClient.ApiClient questionaire
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@model MyavanaAdminModels.QuestionAnswerModel
+@{
+    ViewData["Title"] = "Regimens";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .alert-success, .alert-danger, .alert-info {
+        top: 110px !important;
+        width: 60% !important;
+        margin: 0 auto;
+        z-index: 99;
+        position: fixed;
+        left: 50%;
+        transform: translateX(-40%);
+        text-align: center;
+        padding: 12px;
+        transition: all 1s linear;
+        box-shadow: 0px 0px 12px 3px rgba(0, 0, 0, 0.2);
+        font-size: 16px;
+    }
+
+    .alert-danger {
+        color: #80172a;
+        background-color: #fdd5dc;
+        border-color: #fcc4ce;
+    }
+
+        .alert-danger hr {
+            border-top-color: #fbacba;
+        }
+
+        .alert-danger .alert-link {
+            color: #550f1c;
+        }
+
+    .alert-success {
+        color: #1c6356;
+        background-color: #a8ffc3;
+        border-color: #13b755;
+    }
+
+        .alert-success hr {
+            border-top-color: #b4e7dd;
+        }
+
+        .alert-success .alert-link {
+            color: #113b33;
+        }
+
+    span.align-right {
+        text-align: right;
+    }
+
+    .addnewbtn {
+        padding: 20px 10px 0;
+    }
+
+    i.fa.fa-pencil {
+        color: #1ab394;
+        background: #e2e2e2;
+        padding: 7px;
+        border-radius: 4px;
+    }
+
+        i.fa.fa-pencil:hover {
+            background: #cecece
+        }
+
+    i.fa.fa-trash:hover {
+        background: #cecece
+    }
+
+    i.fa.fa-trash {
+        color: red;
+        background: #e2e2e2;
+        padding: 7px;
+        border-radius: 4px;
+        margin-top: 10px;
+    }
+
+    div#RegimensList_filter input[type=search] {
+        border: 1px solid #ccc;
+    }
+
+    i.fa.fa-pencil {
+        color: #1ab394;
+        margin-right: 5px;
+    }
+
+    i.fa.fa-trash {
+        color: red;
+    }
+
+    tr.odd td {
+        background: #f8f8f8 !important;
+    }
+
+    tr.odd:hover td, tr.even:hover td {
+        background: #eee !important;
+    }
+
+    tr.even td {
+        background: #fff !important;
+    }
+
+    .ibox-content table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+        .ibox-content table td {
+            vertical-align: top;
+        }
+
+    .instruction-width {
+        min-width: 200px;
+    }
+
+    .ibox-content table {
+        display: table;
+    }
+
+    .ibox-content th.footable-visible.footable-last-column.footable-sortable {
+        width: 120px;
+    }
+
+    .ibox-content td.footable-last-column.footable-visible.footable-last-column {
+        text-align: right;
+    }
+
+    .ibox-content .footable-row-detail-inner {
+        display: table;
+        width: 100%;
+    }
+
+    .ibox-content .footable-row-detail-value {
+        border-bottom: 1px solid #eee;
+        padding: 15px 0;
+    }
+
+    .ibox-content td.footable-last-column.footable-visible {
+        padding-top: 0;
+    }
+
+    .ibox-content .instrustioncontent {
+        max-height: 100px;
+        overflow-y: auto;
+    }
+
+    .stgQuestion {
+        padding-left: 3px;
+        margin-bottom: 5px !important;
+        margin-top: 15px;
+    }
+
+    .divAnswer {
+        padding-left: 20px;
+        /* margin-bottom: 5px; */
+        position: relative;
+        background: #ececec;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid #dadada;
+    }
+
+    .viewuser {
+        background: #eee;
+        padding: 5px 7px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        margin-top: 5px;
+        color: #1ab394;
+    }
+
+    .viewdraft {
+        background: #eee;
+        padding: 5px 7px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        margin-top: 5px;
+        color: #333;
+        cursor: auto;
+    }
+    td.dt-control {
+        display: inline-block;
+        font-family: 'footable';
+        speak: none;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        -webkit-font-smoothing: antialiased;
+        padding-right: 5px;
+        font-size: 14px;
+        color: #888888;
+    }
+
+        td.dt-control:before {
+            content: "\e021";
+        }
+
+    td.dt-control_toggle.dt-control:before {
+        content: "\e01f";
+    }
+
+    th.dt-control.sorting_asc {
+        background-image: url(null) !important;
+    }
+</style>
+
+<link rel="stylesheet" href="~/lib/footable/css/footable.core.css" />
+<script src="~/lib/footable/dist/footable.all.min.js"></script>
+
+<div class="addnewbtn">
+    <span class="align-right">
+        <a class="btn btn-primary" href="@Url.Action("QuestionnaireAbsence", "Questionnaire")">Questionnaire Absence</a>
+    </span>
+</div>
+<div id="alert-success" class="alert alert-success alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="successMessage"></span>
+</div>
+<div class="alert alert-danger alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="failureMessage"></span>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Users</h5>
+                </div>
+                <div class="ibox-content">
+                    @if (HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"].ToString() == "1")
+                    {
+                        @(Html.Ext().Grid<MyavanaAdminModels.QuestionAnswerModel>().Name("QuestionnaireList")
+                                    .Columns(cols =>
+                                    {
+                                        cols.Add(c => c.id).Orderable(false);
+                                        cols.Add(c => c.UserName).Title("Name");
+                                        cols.Add(c => c.UserEmail).Title("Email");
+                                        cols.Add(c => c.CustomerQAFrom).Title("Customer Type");
+                                       // cols.Add(c => c.CreatedOnDate).Title("Created On <span>(yyyy-mm-dd)");
+                                       // cols.Add(c => c.QuestionnaireCompleted).Title("QuestionnaireCompleted");
+                                        cols.Add(c => c.UserId).Render(() => "onRender").Title("Questionnaires").Orderable(false).OrderData(1);
+                                    })
+
+                                    .ServerSide(false)
+                                    .Ordering(true)
+                                    .Paging(true)
+                                    .Searching(true)
+                                    .Info(false)
+                                    .DataSource(c =>
+                                    c.Ajax().Url("GetQuestionnaireList").Method("Get")
+                                    )
+	)
+                    }
+                    else
+                    {
+                        @(Html.Ext().Grid<MyavanaAdminModels.QuestionAnswerModel>().Name("QuestionnaireList")
+                                    .Columns(cols =>
+                                    {
+                                        cols.Add(c => c.id).Title("").Orderable(false).ClassName("dt-control");
+                                        cols.Add(c => c.UserName).Title("Name");
+                                        cols.Add(c => c.UserEmail).Title("Email");
+                                        cols.Add(c => c.CustomerQAFrom).Title("Customer Type");
+                                      //  cols.Add(c => c.CreatedOnDate).Title("Created On <span>(yyyy-mm-dd)");
+                                       // cols.Add(c => c.QuestionnaireCompleted).Title("QuestionnaireCompleted");
+                                    })
+
+                                    .ServerSide(false)
+                                    .Ordering(true)
+                                    .Paging(true)
+                                    .Searching(true)
+                                    .Info(false)
+                                    .DataSource(c =>
+                                    c.Ajax().Url("GetQuestionnaireList").Method("Get")
+                                    )
+	)
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/admin/Questionaire.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var currentlyOpenRow = null; // Variable to keep track of the currently open row
+        $('#QuestionnaireList tbody').on('click', 'td.dt-control', function () {
+            var tr = $(this).closest('tr');
+            var table = $('#QuestionnaireList').DataTable();
+            var row = table.row(tr);
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                row.child.hide();
+                tr.removeClass('shown');
+                $(this).removeClass('dt-control_toggle');
+
+                // Reset the currentlyOpenRow variable
+                currentlyOpenRow = null;
+            } else {
+                // Close the previously open row, if any
+                if (currentlyOpenRow && currentlyOpenRow.row.child.isShown()) {
+                    currentlyOpenRow.row.child.hide();
+                    currentlyOpenRow.tr.removeClass('shown');
+                    currentlyOpenRow.control.removeClass('dt-control_toggle');
+                }
+
+                // Update the currentlyOpenRow variable
+                currentlyOpenRow = {
+                    row: row,
+                    tr: tr,
+                    control: $(this)
+                };
+
+                var uId = row.data().UserId;
+                var qaId = row.data().QA;
+                $.ajax({
+                    type: "POST",
+                    data: { uId: uId, qaId: qaId },
+                    url: "/Questionnaire/GetUserQuestionaire",
+                    success: function (response) {
+                        var data = response.questionModel;
+                        row.child(format(data)).show();
+                        tr.addClass('shown');
+                    },
+                });
+                $(this).addClass('dt-control_toggle');
+            }
+        });
+
+        $("input[type='search']").val("");
+    });
+</script>

@@ -1,0 +1,678 @@
+﻿
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+
+    var userId = Convert.ToInt32(HttpContextAccessor.HttpContext.Request.Cookies["UserId"]);
+}
+<style>
+    .alert-successNav, .alert-dangerNav, .alert-info {
+        top: 64px !important;
+        width: 40% !important;
+        margin: 0 auto;
+        z-index: 99;
+        position: fixed;
+        left: 56%;
+        transform: translateX(-40%);
+        text-align: center;
+        padding: 12px;
+        transition: all 1s linear;
+        box-shadow: 0px 0px 12px 3px rgba(0, 0, 0, 0.2);
+        font-size: 16px;
+    }
+
+    .alert-dangerNav {
+        color: #80172a;
+        background-color: #fdd5dc;
+        border-color: #fcc4ce;
+    }
+
+        .alert-dangerNav hr {
+            border-top-color: #fbacba;
+        }
+
+    .alert-danger .alert-link {
+        color: #550f1c;
+    }
+
+    .alert-successNav {
+        color: #1c6356;
+        background-color: #a8ffc3;
+        border-color: #13b755;
+    }
+
+        .alert-successNav hr {
+            border-top-color: #b4e7dd;
+        }
+
+        .alert-successNav .alert-link {
+            color: #113b33;
+        }
+
+    .preloader {
+        width: calc(100% - 200px);
+        height: 100%;
+        top: 0px;
+        position: fixed;
+        z-index: 99999;
+        background: rgba(255, 255, 255, .8);
+    }
+
+        .preloader img {
+            position: absolute;
+            LEFT: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+        }
+
+    .loader {
+        overflow: visible;
+        padding-top: 2em;
+        height: 0;
+        width: 2em;
+    }
+
+    span.align-right {
+        text-align: right;
+    }
+
+    .notification-popup {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 440px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        padding: 12px;
+        z-index: 1;
+        right: 50%;
+        top: 28px;
+        max-height: 300px;
+        overflow-y: auto;
+        transform: translateX(50%);
+    }
+
+    .notification-icon {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+    }
+
+    .notification-popup:before {
+        content: "";
+        width: 10px;
+        height: 10px;
+        position: absolute;
+        top: -4px;
+        right: 50%;
+        border-top: 5px solid #676a6c;
+        border-left: 5px solid #676a6c;
+        border-bottom: 5px solid transparent;
+        border-right: 5px solid transparent;
+        transform: rotate(-135deg);
+    }
+
+    .notification-popup thead tr th {
+        white-space: nowrap;
+        text-align: left;
+        padding: 6px !important;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .notification-popup tbody tr td {
+        white-space: normal;
+        text-align: left;
+        padding: 6px;
+    }
+
+    .notification-popup tbody tr:nth-child(odd) td {
+        background: #ffefef;
+    }
+</style>
+<div class="row border-bottom">
+    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+
+            <form role="search" class="navbar-form-custom" method="post" action="">
+                <div class="form-group">
+
+                </div>
+            </form>
+        </div>
+        <ul class="nav navbar-top-links navbar-right">
+            <li style="padding:20px">
+                <span class="m-r-sm text-muted welcome-message" data-i18n="topnav.welcometext">Welcome to  <span id="lblPortalName"></span></span>
+            </li>
+            @if (HttpContextAccessor.HttpContext.Request.Cookies["UserTypeId"].ToString() == "1")
+            {
+                <li>
+                    <div id="notificationIcon" class="notification-icon" onclick="OpenNotificationModal()">
+                        <a id="notificationLink">
+                            <i class="fa fa-bell"></i>
+                            <span class="" style="color: red;" id="notificationCount"></span>
+                        </a>
+                        <div id="notificationPopup" class="notification-popup" onclick="stopPropagation(event)">
+                            <table>
+                                <!--<thead id="tableHead">
+                        <tr>
+                            <th style="padding: 10px;">User</th>
+                            <th style="padding: 10px;">Salon</th>
+                            <th style="padding: 10px;">CreatedOn</th>-->
+                                @*<th style="padding: 10px;">Mark As Read</th>*@
+                                <!--</tr>
+                        </thead>-->
+                                <tbody id="tBodyNot"></tbody>
+                            </table>
+                            <div id="noNotificationMessage" style="display: none; padding: 10px; text-align: center;">No notifications</div>
+                        </div>
+                    </div>
+
+                </li>
+
+                <li>
+                    <div id="hairDiaryNotificationIcon" class="notification-icon" onclick="OpenHairDiaryNotificationModal()">
+                        <a id="notificationLink">
+                            <i class="fa fa-book" title="Hair Diary notification"></i>
+                            <span class="" style="color: red;" id="hairDiaryNotificationCount"></span>
+                        </a>
+                        <div id="hairDiaryNotificationPopup" class="notification-popup" onclick="stopHairDiaryPropagation(event)">
+                            <table>
+                                <tbody id="tHairDiaryBodyNot"></tbody>
+                            </table>
+                            <div id="noHairDiaryNotificationMessage" style="display: none; padding: 10px; text-align: center;">No notifications</div>
+                        </div>
+                    </div>
+
+                </li>
+
+            }
+
+            <li>
+                <a class="togglemenu" href="#"><i class="fa fa-bars"></i> </a>
+            </li>
+            <li>
+                <a onclick="OpenChangePassword()">
+                    <i class="fa fa-tasks"></i> Reset Password
+                </a>
+            </li>
+            <li>
+                @*<a href="@Url.Action("Logout", "Home")">*@
+                <a onclick="logout()">
+                    <i class="fa fa-sign-out"></i> Log out
+                </a>
+            </li>
+
+            @*<li>
+            <a class="right-sidebar-toggle">
+                <i class="fa fa-tasks"></i>
+            </a>
+        </li>*@
+        </ul>
+    </nav>
+</div>
+<div id="alert-successNav" class="alert alert-successNav alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="successMessageNav"></span>
+</div>
+<div class="alert alert-dangerNav alert-dismissible" style="display:none; width:50%" data-keyboard="false" data-backdrop="static">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <span id="failureMessageNav"></span>
+</div>
+<div class="preloader" style="display:none;">
+    <div class="loader">
+        <img src="~/images/loader.gif" />
+    </div>
+</div>
+<div class="modal fade" id="resetAdminPassword" tabindex="-1" role="dialog" aria-labelledby="resetAdminPassword" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="headerText" class="font-bold">Reset Password</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-3">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <label class="w-100">New Password*:</label>
+                    </div>
+                    <div class="col-lg-12 mb-3">
+                        <div class="field-style ">
+                            <div class3="wrap-input100 login-form-style border-0">
+                                <input type="password" autocomplete="off" id="txtNewAdminPassword" class="p-2 w-100">
+                                <span class="text-danger mt-2 d-block" id="newPassValidation">
+                                    <span id="newPassErr"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 ">
+                        <label class="w-100">Confirm Password*:</label>
+                    </div>
+                    <div class="col-lg-12 mb-3">
+                        <div class="field-style ">
+                            <div class="wrap-input100 login-form-style border-0">
+                                <input type="password" autocomplete="off" id="txtConfirmAdminPassword" class="p-2 w-100">
+                                <span class="text-danger" id="confirmPassValidation">
+                                    <span id="confirmPassErr"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="savePassword" onclick="resetAdminPassword()">Save</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="NotificationModal" tabindex="-1" role="dialog" aria-labelledby="NotificationModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="headerText" class="font-bold">Notification</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body p-3">
+                @*<div class="row">
+                        <div class="col-lg-12">
+                            <label class="w-100">New Password*:</label>
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <div class="field-style ">
+                                <div class3="wrap-input100 login-form-style border-0">
+                                    <input type="password" autocomplete="off" id="txtNewAdminPassword" class="p-2 w-100">
+                                    <span class="text-danger mt-2 d-block" id="newPassValidation">
+                                        <span id="newPassErr"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 ">
+                            <label class="w-100">Confirm Password*:</label>
+                        </div>
+                        <div class="col-lg-12 mb-3">
+                            <div class="field-style ">
+                                <div class="wrap-input100 login-form-style border-0">
+                                    <input type="password" autocomplete="off" id="txtConfirmAdminPassword" class="p-2 w-100">
+                                    <span class="text-danger" id="confirmPassValidation">
+                                        <span id="confirmPassErr"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        var userTypeId = getCookie("UserTypeId");
+        if (userTypeId == "2") {
+            var salon = getCookie("SalonName");
+            document.getElementById('lblPortalName').innerHTML = salon +" Portal";
+        }
+        else {
+            document.getElementById('lblPortalName').innerHTML = "MyAvana Admin";
+        }
+        var userTypeId = getCookie("UserTypeId");
+        if (userTypeId == 1) {
+            getNotificationCount();
+            getHairDiaryNotificationCount();
+        }
+        //var count = getCookie("StrandUploadNotificationCount");
+        //document.getElementById('notificationCount').innerHTML = count;
+
+    });
+    function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+    function logout() {
+        $.ajax({
+            type: "GET",
+            url: "/Auth/Logout",
+            success: function (response) {
+                window.location.href = "../Auth/Login";
+            },
+            failure: function (response) {
+            },
+            error: function (response) {
+            }
+        });
+    }
+
+    $('.togglemenu').click(function () {
+
+        var data = $('.navbar-static-side').is(":visible");
+        if (data)
+            $('.navbar-static-side').css('display', 'none');
+        else
+            $('.navbar-static-side').css('display', 'block');
+    });
+    function OpenChangePassword() {
+        clearResetPasswordValues();
+        $('#resetAdminPassword').modal('show');
+
+    }
+    function clearResetPasswordValues() {
+        validMessage = true;
+        $('#txtNewAdminPassword').val("");
+        $('#txtConfirmAdminPassword').val("");
+        $("#newPassErr").text("");
+        $("#confirmPassErr").text("");
+        $("#newPassValidation").removeClass("field-validation-error");
+        $("#confirmPassValidation").removeClass("field-validation-error");
+    }
+    function resetAdminPassword() {
+
+        validMessage = true;
+
+        if ($('#txtNewAdminPassword').val() == '') {
+            $("#newPassValidation").addClass("field-validation-error");
+            $("#newPassErr").text("New password required.");
+            validMessage = false;
+        }
+        if ($('#txtConfirmAdminPassword').val() == '') {
+            $("#confirmPassValidation").addClass("field-validation-error");
+            $("#confirmPassErr").text("Confirm password required.");
+            validMessage = false;
+        }
+        if (!validMessage) {
+            return false;
+        }
+        if ($('#txtNewAdminPassword').val() != $('#txtConfirmAdminPassword').val()) {
+            $("#confirmPassValidation").addClass("field-validation-error");
+            $("#confirmPassErr").text("Passwords did not match.");
+            return false;
+        }
+        var passwordData = {};
+        passwordData.UserId= @userId;
+        passwordData.Password= $('#txtNewAdminPassword').val();
+        $('.preloader').css('display', 'block');
+        $.ajax({
+            type: "POST",
+            url: "/Auth/ResetPassword",
+            data: JSON.stringify(passwordData),
+            processData: false,
+            contentType: "application/json",
+            dataType: 'json',
+            success: function (response) {
+                if (response == "1") {
+                    $('#successMessageNav').text("Password reset successfully !");
+                    $('.alert-successNav').css("display", "block");
+                    $('.alert-successNav').delay(3000).fadeOut();
+                    $('#resetAdminPassword').modal('hide');
+                }
+                else {
+                    $('#failureMessageNav').text("Oops something goes wrong !");
+                    $('.alert-dangerNav').css("display", "block");
+                    $('.alert-dangerNav').delay(3000).fadeOut();
+                    $('#resetAdminPassword').modal('hide');
+                }
+                $('.preloader').css('display', 'none');
+            },
+        });
+    }
+
+    $(document).keypress(function (e) {
+        if (e.which == 13 && $('#resetAdminPassword').hasClass('show')) {
+            resetAdminPassword();
+        }
+    });
+    document.addEventListener('click', function (event) {
+        var notificationIcon = document.getElementById("notificationIcon");
+        var notificationPopup = document.getElementById("notificationPopup");
+        if (notificationIcon && notificationPopup) {
+            if (!notificationIcon.contains(event.target) && !notificationPopup.contains(event.target)) {
+                notificationPopup.style.display = "none";
+            }
+        }
+    });
+    function getNotificationList() {
+        $('#tBodyNot').html('');
+        $.ajax({
+            type: "GET",
+            url: "/HairProfile/GetHairStrandUploadNotificationList",
+            success: function (response) {
+                $('#tBodyNot').html('');
+               // var tableHead = document.getElementById('tableHead');
+                var noNotificationMessage = document.getElementById('noNotificationMessage');
+                if (response.recordsTotal > 0) {
+                    var count = response.recordsTotal
+                    document.getElementById('notificationCount').innerHTML = response.recordsTotal;
+                   // setSessionCookie("StrandUploadNotificationCount", response.recordsTotal);
+                   // tableHead.style.display = 'table-row';
+                    noNotificationMessage.style.display = 'none';
+                   /* document.getElementById('notificationCount').style.display = 'block';*/
+                }
+                else {
+
+                   // tableHead.style.display = 'none';
+                    noNotificationMessage.style.display = 'block';
+                }
+                for (var d in response.data) {
+                    var data = response.data[d];
+                    //console.log(data)
+                    //var idLink = $('<a>', {
+                    //    href: '#',
+                    //    class: 'link-button',
+                    //    title: 'Mark as read',
+                    //    click: function (e) {
+                    //        e.stopPropagation();
+                    //        MarkAsRead(data.id, this);
+                    //    }
+                    //})
+                    //.append($('<i>', { class: 'fa fa-check-circle ml-2 text-danger' }));
+
+                    $('#tBodyNot').append($('<tr>')
+                        .append($('<td onclick=redirectTo(\'' + data.userId + '\',' + data.hairProfileId +')>New image uploaded by ' + data.salonName + ' for ' + data.userName + ' on ' + data.createdDate +' </td>'))
+                        //.append($('<td>', { text: data.salonName }))
+                        //.append($('<td>', { text: data.createdDate }))
+                        /*.append($('<td>').append(idLink))*/
+                        .append($('<td>').append('<a href="javascript:;" onclick=MarkAsRead('+ data.id +') class="link-button" title="Mark as read" ><i class="fa fa-check-circle ml-2 text-danger"></i> </a>'))
+                        .append($('</tr>'))
+                    )
+                }
+
+            },
+            error: function (response) {
+
+            },
+            complete: function () {
+
+            }
+        });
+
+    }
+    function OpenNotificationModal() {
+        var popup = document.getElementById("notificationPopup");
+        if (popup.style.display === "none" || popup.style.display === "") {
+            getNotificationList();
+            popup.style.display = "block";
+        }
+        else {
+            popup.style.display = "none";
+
+        }
+    }
+
+    function stopPropagation(event) {
+        event.stopPropagation();
+    }
+    function MarkAsRead(id, element) {
+        var notification = {
+            Id: id,
+        }
+        $('.preloader').css('display', 'block');
+        $.ajax({
+            type: "POST",
+            url: "/HairProfile/UpdateNotificationAsRead",
+            data: notification,
+            success: function (response) {
+                if (response == "1") {
+                    getNotificationCount();
+                    getNotificationList();
+                }
+                else {
+
+                }
+
+                $('.preloader').css('display', 'none');
+            },
+        });
+    }
+    function setSessionCookie(name, value) {
+        document.cookie = name + "=" + (value || "") + ";path=/";
+    }
+    function changeIconColor(id, element) {
+
+        element.querySelector('i').classList.remove('text-danger');
+        element.querySelector('i').classList.add('text-success');
+    }
+
+    function redirectTo(userId, hairProfileId) {
+        window.location.href = "/HairProfile/CustomerHairProfile?id=" + userId + "&&hairProfileId=" + hairProfileId;
+    }
+
+    function getNotificationCount() {
+            $.ajax({
+                type: "Get",
+                url: "/Auth/GetHairStrandNotificationCount",
+                success: function (response) {
+                    if (response > 0) {
+                        document.getElementById('notificationCount').innerHTML = response;
+                    }
+                    else {
+                        document.getElementById('notificationCount').innerHTML = '';
+                    }
+                },
+            });
+    }
+
+    /*hair diary notifications*/
+
+    document.addEventListener('click', function (event) {
+        var hairDiaryNotificationIcon = document.getElementById("hairDiaryNotificationIcon");
+        var hairDiaryNotificationPopup = document.getElementById("hairDiaryNotificationPopup");
+        if (hairDiaryNotificationIcon && hairDiaryNotificationPopup) {
+            if (!hairDiaryNotificationIcon.contains(event.target) && !hairDiaryNotificationPopup.contains(event.target)) {
+                hairDiaryNotificationPopup.style.display = "none";
+            }
+        }
+    });
+
+    function getHairDiaryNotificationList() {
+        $('#tHairDiaryBodyNot').html('');
+        $.ajax({
+            type: "GET",
+            url: "/HairProfile/GetHairDiarySubmitNotificationList",
+            success: function (hairdiaryresponse) {
+                $('#tHairDiaryBodyNot').html('');
+                var noHairDiaryNotificationMessage = document.getElementById('noHairDiaryNotificationMessage');
+                if (hairdiaryresponse.recordsTotal > 0) {
+                    var count = hairdiaryresponse.recordsTotal
+                    document.getElementById('hairDiaryNotificationCount').innerHTML = hairdiaryresponse.recordsTotal;
+                    noHairDiaryNotificationMessage.style.display = 'none';
+                }
+                else {
+
+                    noHairDiaryNotificationMessage.style.display = 'block';
+                }
+                
+                for (var d in hairdiaryresponse.data) {
+                    var data = hairdiaryresponse.data[d];
+                    $('#tHairDiaryBodyNot').append($('<tr>')
+                        .append($('<td>New hair diary submitted by ' + data.userId + ' for Date: ' + data.createdDate + ' </td>'))
+                        .append($('<td>').append('<a href="javascript:;" onclick=MarkHairDiaryAsRead(' + data.id + ') class="link-button" title="Mark as read" ><i class="fa fa-check-circle ml-2 text-danger"></i> </a>'))
+                        .append($('</tr>'))
+                    )
+                }
+
+            },
+            error: function (hairdiaryresponse) {
+
+            },
+            complete: function () {
+
+            }
+        });
+    }
+
+        function OpenHairDiaryNotificationModal() {
+            var popup = document.getElementById("hairDiaryNotificationPopup");
+            if (popup.style.display === "none" || popup.style.display === "") {
+                getHairDiaryNotificationList();
+                popup.style.display = "block";
+            }
+            else {
+                popup.style.display = "none";
+
+            }
+        }
+
+        function stopHairDiaryPropagation(event) {
+            event.stopPropagation();
+        }
+
+        function MarkHairDiaryAsRead(id, element) {
+            var notification = {
+                Id: id,
+            }
+            $('.preloader').css('display', 'block');
+            $.ajax({
+                type: "POST",
+                url: "/HairProfile/UpdateNotificationHairDiaryAsRead",
+                data: notification,
+                success: function (hairdiaryresponse) {
+                    if (hairdiaryresponse == "1") {
+                        getHairDiaryNotificationCount();
+                        getHairDiaryNotificationList();
+                    }
+                    else {
+
+                    }
+
+                    $('.preloader').css('display', 'none');
+                },
+            });
+        }
+
+        function getHairDiaryNotificationCount() {
+            $.ajax({
+                type: "Get",
+                url: "/Auth/GetHairDiaryNotificationCount",
+                success: function (hairdiaryresponse) {
+                    if (hairdiaryresponse > 0) {
+                        document.getElementById('hairDiaryNotificationCount').innerHTML = hairdiaryresponse;
+                    }
+                    else {
+                        document.getElementById('hairDiaryNotificationCount').innerHTML = '';
+                    }
+                },
+            });
+        }
+
+</script>

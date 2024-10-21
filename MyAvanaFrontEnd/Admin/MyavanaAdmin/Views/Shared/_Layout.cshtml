@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="~/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="~/images/favicon.ico" type="image/x-icon">
+
+    <!-- Add local styles, mostly for plugins css file -->
+    @if (IsSectionDefined("Styles"))
+    {@RenderSection("Styles", required: false)}
+
+@*<environment names="Development">*@
+@*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />*@
+
+    <link href="~/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/css/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/css/animate.css" rel="stylesheet" />
+    <link href="~/css/style.css" rel="stylesheet" />
+
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+
+    <script src="~/js/popper.min.js"></script>
+    <script src="~/js/bootstrap.js"></script>
+    <script src="~/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="~/js/plugins/slimscroll/jquery.slimscroll.js"></script>
+    @*<script src="~/js/plugins/pace/pace.min.js"></script>*@
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/b-1.4.2/b-html5-1.4.2/b-print-1.4.2/sl-1.2.3/datatables.min.css" />
+    @*<script src="https://code.jquery.com/jquery-1.12.4.js">
+        </script>*@
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/b-1.4.2/b-html5-1.4.2/b-print-1.4.2/sl-1.2.3/datatables.min.js"></script>
+    @*<script type="text/javascript" src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js"></script>*@
+    @*</environment>
+        <environment names="Staging,Production">
+            <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+            <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
+            <link rel="stylesheet" href="~/css/animate.css" />
+            <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+        </environment>*@
+
+
+</head>
+<body>
+
+    <!-- Skin configuration box -->
+    <!-- <partial name="_SkinConfig" /> -->
+    <!-- Wrapper-->
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <partial name="_Navigation" />
+
+        <!-- Page wraper -->
+        <div id="page-wrapper" class="gray-bg @ViewBag.SpecialClass">
+
+            <!-- Top Navbar -->
+            <partial name="_TopNavbar" />
+
+            <!-- Main view  -->
+            @RenderBody()
+
+            <!-- Footer -->
+            <partial name="_Footer" />
+
+        </div>
+        <!-- End page wrapper-->
+        <!-- Right Sidebar -->
+        <partial name="_RightSidebar" />
+
+    </div>
+    <!-- End wrapper-->
+
+    @RenderSection("toast", required: false)
+
+
+    @*<script src="~/js/jquery-3.1.1.min.js"></script>
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+            <script src="~/lib/Popper/popper.min.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+            <script src="~/lib/metisMenu/dist/jquery.metisMenu.js"></script>
+            <script src="~/lib/slimScroll/jquery.slimscroll.js"></script>
+            <script src="~/lib/pace/pace.js"></script>*@
+    @*<script src="~/js/script.js" asp-append-version="true"></script>*@
+
+    <!-- Only for demo purpose -->
+    @*<script src="~/js/skin.config.js"></script>
+        </environment>
+        <environment names="Staging,Production">
+            <script src="~/lib/jquery/dist/jquery.min.js"></script>
+            <script src="~/lib/Popper/popper.min.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+            <script src="~/lib/metisMenu/dist/jquery.metisMenu.js"></script>
+            <script src="~/lib/pace/pace.min.js"></script>
+            <script src="~/lib/slimScroll/jquery.slimscroll.min.js"></script>
+            <script src="~/js/script.js" asp-append-version="true"></script>
+        </environment>*@
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+<!-- Start of krishnais7267 Zendesk Widget script -->
+@*<script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=ca12c46b-1ee6-476b-9bca-7533d87c8556"></script>*@
+<!-- End of krishnais7267 Zendesk Widget script -->
