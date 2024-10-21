@@ -1,0 +1,9 @@
+E:\Work2023\October2023\MyAvana\MyAvana_Backend_ASP\MyAvana.Gateway\obj\Release\netcoreapp2.2\PubTmp\Out\appsettings.Development.json
+E:\Work2023\October2023\MyAvana\MyAvana_Backend_ASP\MyAvana.Gateway\obj\Release\netcoreapp2.2\PubTmp\Out\appsettings.json
+E:\Work2023\October2023\MyAvana\MyAvana_Backend_ASP\MyAvana.Gateway\obj\Release\netcoreapp2.2\PubTmp\Out\Ocelot.json
+E:\Work2023\October2023\MyAvana\MyAvana_Backend_ASP\MyAvana.Gateway\obj\Release\netcoreapp2.2\PubTmp\Out\MyAvana.Gateway.dll
+E:\Work2023\October2023\MyAvana\MyAvana_Backend_ASP\MyAvana.Gateway\obj\Release\netcoreapp2.2\PubTmp\Out\MyAvana.Gateway.runtimeconfig.json
+E:\Work2023\October2023\MyAvana\MyAvana_Backend_ASP\MyAvana.Gateway\obj\Release\netcoreapp2.2\PubTmp\Out\MyAvana.Gateway.pdb
+E:\Work2023\October2023\MyAvana\MyAvana_Backend_ASP\MyAvana.Gateway\obj\Release\netcoreapp2.2\PubTmp\Out\FluentValidation.dll
+E:\Work2023\October2023\MyAvana\MyAvana_Backend_ASP\MyAvana.Gateway\obj\Release\netcoreapp2.2\PubTmp\Out\Ocelot.dll
+E:\Work2023\October2023\MyAvana\MyAvana_Backend_ASP\MyAvana.Gateway\obj\Release\netcoreapp2.2\PubTmp\Out\MyAvana.Gateway.deps.json

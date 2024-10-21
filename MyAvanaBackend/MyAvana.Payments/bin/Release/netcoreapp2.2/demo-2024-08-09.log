@@ -1,0 +1,9 @@
+2024-08-09 12:03:59.2099|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 GET http://localhost:5003/api/values   
+2024-08-09 12:04:00.1346|3|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Route matched with {action = "Get", controller = "Values"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[System.String]] Get() on controller MyAvana.Payments.Controllers.ValuesController (MyAvana.Payments.Api). 
+2024-08-09 12:04:00.1599|1|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executing action method MyAvana.Payments.Controllers.ValuesController.Get (MyAvana.Payments.Api) - Validation state: Valid 
+2024-08-09 12:04:00.1787|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action method MyAvana.Payments.Controllers.ValuesController.Get (MyAvana.Payments.Api), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 2.3426ms. 
+2024-08-09 12:04:00.1964|1|INFO|Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor|Executing ObjectResult, writing value of type 'System.String[]'. 
+2024-08-09 12:04:00.5218|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action MyAvana.Payments.Controllers.ValuesController.Get (MyAvana.Payments.Api) in 331.8975ms 
+2024-08-09 12:04:00.5328|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 1333.2109ms 200 application/json; charset=utf-8 
+2024-08-09 12:04:04.2271|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 GET http://localhost:5003/favicon.ico   
+2024-08-09 12:04:04.2774|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 30.6563ms 404  

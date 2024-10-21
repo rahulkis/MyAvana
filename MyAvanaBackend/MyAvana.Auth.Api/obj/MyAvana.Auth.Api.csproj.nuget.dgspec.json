@@ -1,0 +1,483 @@
+{
+  "format": 1,
+  "restore": {
+    "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Auth.Api\\MyAvana.Auth.Api.csproj": {}
+  },
+  "projects": {
+    "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Auth.Api\\MyAvana.Auth.Api.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Auth.Api\\MyAvana.Auth.Api.csproj",
+        "projectName": "MyAvana.Auth.Api",
+        "projectPath": "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Auth.Api\\MyAvana.Auth.Api.csproj",
+        "packagesPath": "C:\\Users\\krishnauser\\.nuget\\packages\\",
+        "outputPath": "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Auth.Api\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\krishnauser\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "targetAlias": "netcoreapp2.2",
+            "projectReferences": {
+              "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Crypto\\MyAvana.Crypto.csproj": {
+                "projectPath": "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Crypto\\MyAvana.Crypto.csproj"
+              },
+              "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.DAL\\MyAvana.DAL.csproj": {
+                "projectPath": "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.DAL\\MyAvana.DAL.csproj"
+              },
+              "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.EmailService\\MyAvana.EmailService.csproj": {
+                "projectPath": "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.EmailService\\MyAvana.EmailService.csproj"
+              },
+              "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Logger\\MyAvana.Logger.csproj": {
+                "projectPath": "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Logger\\MyAvana.Logger.csproj"
+              },
+              "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Models\\MyAvana.Models.csproj": {
+                "projectPath": "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Models\\MyAvana.Models.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "targetAlias": "netcoreapp2.2",
+          "dependencies": {
+            "Flurl": {
+              "target": "Package",
+              "version": "[2.6.0, )"
+            },
+            "Google.Apis.Auth": {
+              "target": "Package",
+              "version": "[1.43.0, )"
+            },
+            "Microsoft.AspNetCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            },
+            "Microsoft.AspNetCore.Razor.Design": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[2.2.3, )"
+            },
+            "NLog.Web.AspNetCore": {
+              "target": "Package",
+              "version": "[4.9.0, )"
+            },
+            "RestSharp": {
+              "target": "Package",
+              "version": "[106.6.10, )"
+            },
+            "SquaredUp.HubSpot.NET": {
+              "target": "Package",
+              "version": "[0.6.17, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Crypto\\MyAvana.Crypto.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Crypto\\MyAvana.Crypto.csproj",
+        "projectName": "MyAvana.Crypto",
+        "projectPath": "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Crypto\\MyAvana.Crypto.csproj",
+        "packagesPath": "C:\\Users\\krishnauser\\.nuget\\packages\\",
+        "outputPath": "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Crypto\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\krishnauser\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "targetAlias": "netcoreapp2.2",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "targetAlias": "netcoreapp2.2",
+          "dependencies": {
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.DAL\\MyAvana.DAL.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.DAL\\MyAvana.DAL.csproj",
+        "projectName": "MyAvana.DAL",
+        "projectPath": "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.DAL\\MyAvana.DAL.csproj",
+        "packagesPath": "C:\\Users\\krishnauser\\.nuget\\packages\\",
+        "outputPath": "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.DAL\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\krishnauser\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "targetAlias": "netcoreapp2.2",
+            "projectReferences": {
+              "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Models\\MyAvana.Models.csproj": {
+                "projectPath": "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Models\\MyAvana.Models.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "targetAlias": "netcoreapp2.2",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.EmailService\\MyAvana.EmailService.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.EmailService\\MyAvana.EmailService.csproj",
+        "projectName": "MyAvana.EmailService",
+        "projectPath": "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.EmailService\\MyAvana.EmailService.csproj",
+        "packagesPath": "C:\\Users\\krishnauser\\.nuget\\packages\\",
+        "outputPath": "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.EmailService\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\krishnauser\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "targetAlias": "netcoreapp2.2",
+            "projectReferences": {
+              "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.DAL\\MyAvana.DAL.csproj": {
+                "projectPath": "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.DAL\\MyAvana.DAL.csproj"
+              },
+              "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Logger\\MyAvana.Logger.csproj": {
+                "projectPath": "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Logger\\MyAvana.Logger.csproj"
+              },
+              "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Models\\MyAvana.Models.csproj": {
+                "projectPath": "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Models\\MyAvana.Models.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "targetAlias": "netcoreapp2.2",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Logger\\MyAvana.Logger.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Logger\\MyAvana.Logger.csproj",
+        "projectName": "MyAvana.Logger",
+        "projectPath": "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Logger\\MyAvana.Logger.csproj",
+        "packagesPath": "C:\\Users\\krishnauser\\.nuget\\packages\\",
+        "outputPath": "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Logger\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\krishnauser\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "targetAlias": "netcoreapp2.2",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "targetAlias": "netcoreapp2.2",
+          "dependencies": {
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            },
+            "NLog": {
+              "target": "Package",
+              "version": "[4.6.7, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Models\\MyAvana.Models.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Models\\MyAvana.Models.csproj",
+        "projectName": "MyAvana.Models",
+        "projectPath": "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Models\\MyAvana.Models.csproj",
+        "packagesPath": "C:\\Users\\krishnauser\\.nuget\\packages\\",
+        "outputPath": "E:\\Work2023\\October2023\\MyAvana\\MyAvana_Backend_ASP\\MyAvana.Models\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\krishnauser\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "targetAlias": "netcoreapp2.2",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "targetAlias": "netcoreapp2.2",
+          "dependencies": {
+            "Microsoft.AspNetCore.Identity": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.2, )"
+            },
+            "SquaredUp.HubSpot.NET": {
+              "target": "Package",
+              "version": "[0.6.17, )"
+            },
+            "Stripe.net": {
+              "target": "Package",
+              "version": "[28.1.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.416\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

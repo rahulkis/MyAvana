@@ -1,0 +1,550 @@
+2024-08-30 13:09:08.1761|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 GET http://localhost:5002/api/values   
+2024-08-30 13:09:08.8402|3|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Route matched with {action = "Get", controller = "Values"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[System.String]] Get() on controller MyAvana.Auth.Api.Controllers.ValuesController (MyAvana.Auth.Api). 
+2024-08-30 13:09:08.8704|1|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executing action method MyAvana.Auth.Api.Controllers.ValuesController.Get (MyAvana.Auth.Api) - Validation state: Valid 
+2024-08-30 13:09:08.8942|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action method MyAvana.Auth.Api.Controllers.ValuesController.Get (MyAvana.Auth.Api), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 15.3483ms. 
+2024-08-30 13:09:08.9179|1|INFO|Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor|Executing ObjectResult, writing value of type 'System.String[]'. 
+2024-08-30 13:09:09.2753|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action MyAvana.Auth.Api.Controllers.ValuesController.Get (MyAvana.Auth.Api) in 412.1938ms 
+2024-08-30 13:09:09.3346|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 1125.3655ms 200 application/json; charset=utf-8 
+2024-08-30 13:09:09.6711|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 GET http://localhost:5002/favicon.ico   
+2024-08-30 13:09:09.6982|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 16.9752ms 404  
+2024-08-30 13:10:13.3272|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 POST http://localhost:5002/api/Account/signin application/json; charset=utf-8 81 
+2024-08-30 13:10:13.3604|3|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Route matched with {action = "SignIn", controller = "Account"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult SignIn(MyAvanaApi.Models.ViewModels.Authentication) on controller MyAvana.Auth.Api.Controllers.AccountController (MyAvana.Auth.Api). 
+2024-08-30 13:10:14.4999|1|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executing action method MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api) - Validation state: Valid 
+2024-08-30 13:10:15.4448|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'Price' on entity type 'Tools'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 13:10:15.4749|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal1' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 13:10:15.4749|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal2' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 13:10:15.4911|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal3' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 13:10:15.4911|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal4' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 13:10:15.4911|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal5' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 13:10:15.5043|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'Price' on entity type 'ProductEntity'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 13:10:15.6074|10403|INFO|Microsoft.EntityFrameworkCore.Infrastructure|Entity Framework Core 2.2.6-servicing-10079 initialized 'AvanaContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: MigrationsAssembly=MyAvana.Auth.Api  
+2024-08-30 13:10:17.3905|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (246ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AIResult], [u].[AccessFailedCount], [u].[AccountNo], [u].[Active], [u].[Address], [u].[BuyHairKit], [u].[City], [u].[ConcurrencyStamp], [u].[Country], [u].[CountryCode], [u].[CreatedAt], [u].[CustomerType], [u].[CustomerTypeId], [u].[DeviceId], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[HairType], [u].[HubSpotContactId], [u].[ImageURL], [u].[IsAIV2Mobile], [u].[IsBlocked], [u].[IsInfluencer], [u].[IsOnTrial], [u].[IsPaid], [u].[IsProCustomer], [u].[LastModifiedAt], [u].[LastName], [u].[LastPingTime], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[LoginAlert], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SalonId], [u].[SecurityStamp], [u].[SignupFrom], [u].[State], [u].[StripeCustomerId], [u].[Subscribe], [u].[TicketUserId], [u].[TrialExpiredOn], [u].[TwoFactorEnabled], [u].[TwoFactorTrans], [u].[UserName], [u].[ZipCode]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0 
+2024-08-30 13:10:17.8732|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (227ms) [Parameters=[@__user_Id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [uc].[Id], [uc].[ClaimType], [uc].[ClaimValue], [uc].[UserId]
+FROM [AspNetUserClaims] AS [uc]
+WHERE [uc].[UserId] = @__user_Id_0 
+2024-08-30 13:10:18.1647|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (227ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [role].[Name]
+FROM [AspNetUserRoles] AS [userRole]
+INNER JOIN [AspNetRoles] AS [role] ON [userRole].[RoleId] = [role].[Id]
+WHERE [userRole].[UserId] = @__userId_0 
+2024-08-30 13:10:18.4197|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (226ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0 
+2024-08-30 13:10:18.6944|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (227ms) [Parameters=[@__role_Id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [rc].[ClaimType], [rc].[ClaimValue]
+FROM [AspNetRoleClaims] AS [rc]
+WHERE [rc].[RoleId] = @__role_Id_0 
+2024-08-30 13:10:18.7191|10|INFO|Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler|AuthenticationScheme: Identity.Application signed in. 
+2024-08-30 13:10:18.9848|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (231ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AIResult], [u].[AccessFailedCount], [u].[AccountNo], [u].[Active], [u].[Address], [u].[BuyHairKit], [u].[City], [u].[ConcurrencyStamp], [u].[Country], [u].[CountryCode], [u].[CreatedAt], [u].[CustomerType], [u].[CustomerTypeId], [u].[DeviceId], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[HairType], [u].[HubSpotContactId], [u].[ImageURL], [u].[IsAIV2Mobile], [u].[IsBlocked], [u].[IsInfluencer], [u].[IsOnTrial], [u].[IsPaid], [u].[IsProCustomer], [u].[LastModifiedAt], [u].[LastName], [u].[LastPingTime], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[LoginAlert], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SalonId], [u].[SecurityStamp], [u].[SignupFrom], [u].[State], [u].[StripeCustomerId], [u].[Subscribe], [u].[TicketUserId], [u].[TrialExpiredOn], [u].[TwoFactorEnabled], [u].[TwoFactorTrans], [u].[UserName], [u].[ZipCode]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedEmail] = @__normalizedEmail_0 
+2024-08-30 13:10:19.0801|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action method MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 4576.243ms. 
+2024-08-30 13:10:19.0878|1|INFO|Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor|Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.JsonResult'. 
+2024-08-30 13:10:19.1297|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api) in 5763.5991ms 
+2024-08-30 13:10:19.1520|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 5811.7082ms 200 application/json; charset=utf-8 
+2024-08-30 13:41:40.4075|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 GET http://localhost:5002/api/values   
+2024-08-30 13:41:41.2890|3|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Route matched with {action = "Get", controller = "Values"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[System.String]] Get() on controller MyAvana.Auth.Api.Controllers.ValuesController (MyAvana.Auth.Api). 
+2024-08-30 13:41:41.3444|1|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executing action method MyAvana.Auth.Api.Controllers.ValuesController.Get (MyAvana.Auth.Api) - Validation state: Valid 
+2024-08-30 13:41:41.4107|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action method MyAvana.Auth.Api.Controllers.ValuesController.Get (MyAvana.Auth.Api), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 0.6636ms. 
+2024-08-30 13:41:41.4842|1|INFO|Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor|Executing ObjectResult, writing value of type 'System.String[]'. 
+2024-08-30 13:41:41.8032|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action MyAvana.Auth.Api.Controllers.ValuesController.Get (MyAvana.Auth.Api) in 501.5657ms 
+2024-08-30 13:41:41.8164|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 1437.0302ms 200 application/json; charset=utf-8 
+2024-08-30 13:41:42.0782|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 GET http://localhost:5002/favicon.ico   
+2024-08-30 13:41:42.1120|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 31.1154ms 404  
+2024-08-30 13:41:54.8857|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 POST http://localhost:5002/api/Account/signin application/json; charset=utf-8 81 
+2024-08-30 13:41:54.9154|3|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Route matched with {action = "SignIn", controller = "Account"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult SignIn(MyAvanaApi.Models.ViewModels.Authentication) on controller MyAvana.Auth.Api.Controllers.AccountController (MyAvana.Auth.Api). 
+2024-08-30 13:41:55.5379|1|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executing action method MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api) - Validation state: Valid 
+2024-08-30 13:41:56.8915|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'Price' on entity type 'Tools'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 13:41:56.9031|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal1' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 13:41:56.9132|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal2' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 13:41:56.9132|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal3' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 13:41:56.9262|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal4' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 13:41:56.9262|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal5' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 13:41:56.9262|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'Price' on entity type 'ProductEntity'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 13:41:57.0621|10403|INFO|Microsoft.EntityFrameworkCore.Infrastructure|Entity Framework Core 2.2.6-servicing-10079 initialized 'AvanaContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: MigrationsAssembly=MyAvana.Auth.Api  
+2024-08-30 13:41:58.7917|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (244ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AIResult], [u].[AccessFailedCount], [u].[AccountNo], [u].[Active], [u].[Address], [u].[BuyHairKit], [u].[City], [u].[ConcurrencyStamp], [u].[Country], [u].[CountryCode], [u].[CreatedAt], [u].[CustomerType], [u].[CustomerTypeId], [u].[DeviceId], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[HairType], [u].[HubSpotContactId], [u].[ImageURL], [u].[IsAIV2Mobile], [u].[IsBlocked], [u].[IsInfluencer], [u].[IsOnTrial], [u].[IsPaid], [u].[IsProCustomer], [u].[LastModifiedAt], [u].[LastName], [u].[LastPingTime], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[LoginAlert], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SalonId], [u].[SecurityStamp], [u].[SignupFrom], [u].[State], [u].[StripeCustomerId], [u].[Subscribe], [u].[TicketUserId], [u].[TrialExpiredOn], [u].[TwoFactorEnabled], [u].[TwoFactorTrans], [u].[UserName], [u].[ZipCode]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0 
+2024-08-30 13:41:59.3459|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (221ms) [Parameters=[@__user_Id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [uc].[Id], [uc].[ClaimType], [uc].[ClaimValue], [uc].[UserId]
+FROM [AspNetUserClaims] AS [uc]
+WHERE [uc].[UserId] = @__user_Id_0 
+2024-08-30 13:41:59.6451|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (221ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [role].[Name]
+FROM [AspNetUserRoles] AS [userRole]
+INNER JOIN [AspNetRoles] AS [role] ON [userRole].[RoleId] = [role].[Id]
+WHERE [userRole].[UserId] = @__userId_0 
+2024-08-30 13:41:59.9006|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (221ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0 
+2024-08-30 13:42:00.1629|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (232ms) [Parameters=[@__role_Id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [rc].[ClaimType], [rc].[ClaimValue]
+FROM [AspNetRoleClaims] AS [rc]
+WHERE [rc].[RoleId] = @__role_Id_0 
+2024-08-30 13:42:00.1908|10|INFO|Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler|AuthenticationScheme: Identity.Application signed in. 
+2024-08-30 13:42:00.4533|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (227ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AIResult], [u].[AccessFailedCount], [u].[AccountNo], [u].[Active], [u].[Address], [u].[BuyHairKit], [u].[City], [u].[ConcurrencyStamp], [u].[Country], [u].[CountryCode], [u].[CreatedAt], [u].[CustomerType], [u].[CustomerTypeId], [u].[DeviceId], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[HairType], [u].[HubSpotContactId], [u].[ImageURL], [u].[IsAIV2Mobile], [u].[IsBlocked], [u].[IsInfluencer], [u].[IsOnTrial], [u].[IsPaid], [u].[IsProCustomer], [u].[LastModifiedAt], [u].[LastName], [u].[LastPingTime], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[LoginAlert], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SalonId], [u].[SecurityStamp], [u].[SignupFrom], [u].[State], [u].[StripeCustomerId], [u].[Subscribe], [u].[TicketUserId], [u].[TrialExpiredOn], [u].[TwoFactorEnabled], [u].[TwoFactorTrans], [u].[UserName], [u].[ZipCode]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedEmail] = @__normalizedEmail_0 
+2024-08-30 13:42:00.5411|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action method MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 5000.1552ms. 
+2024-08-30 13:42:00.5411|1|INFO|Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor|Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.JsonResult'. 
+2024-08-30 13:42:00.5736|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api) in 5652.0624ms 
+2024-08-30 13:42:00.5820|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 5692.5765ms 200 application/json; charset=utf-8 
+2024-08-30 13:48:48.2757|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 POST http://localhost:5002/api/Account/signin application/json; charset=utf-8 81 
+2024-08-30 13:48:48.2593|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 GET http://localhost:5002/api/values   
+2024-08-30 13:48:48.9388|3|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Route matched with {action = "Get", controller = "Values"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[System.String]] Get() on controller MyAvana.Auth.Api.Controllers.ValuesController (MyAvana.Auth.Api). 
+2024-08-30 13:48:49.0144|3|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Route matched with {action = "SignIn", controller = "Account"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult SignIn(MyAvanaApi.Models.ViewModels.Authentication) on controller MyAvana.Auth.Api.Controllers.AccountController (MyAvana.Auth.Api). 
+2024-08-30 13:48:49.0441|1|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executing action method MyAvana.Auth.Api.Controllers.ValuesController.Get (MyAvana.Auth.Api) - Validation state: Valid 
+2024-08-30 13:48:49.1042|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action method MyAvana.Auth.Api.Controllers.ValuesController.Get (MyAvana.Auth.Api), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 0.6279ms. 
+2024-08-30 13:48:49.2533|1|INFO|Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor|Executing ObjectResult, writing value of type 'System.String[]'. 
+2024-08-30 13:48:49.7140|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action MyAvana.Auth.Api.Controllers.ValuesController.Get (MyAvana.Auth.Api) in 711.6261ms 
+2024-08-30 13:48:49.7648|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 1518.6298ms 200 application/json; charset=utf-8 
+2024-08-30 13:48:50.6597|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 GET http://localhost:5002/favicon.ico   
+2024-08-30 13:48:50.6597|1|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executing action method MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api) - Validation state: Valid 
+2024-08-30 13:48:50.6755|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 20.3064ms 404  
+2024-08-30 13:48:50.9571|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 POST http://localhost:5002/api/Account/signin application/json; charset=utf-8 81 
+2024-08-30 13:48:50.9814|3|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Route matched with {action = "SignIn", controller = "Account"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult SignIn(MyAvanaApi.Models.ViewModels.Authentication) on controller MyAvana.Auth.Api.Controllers.AccountController (MyAvana.Auth.Api). 
+2024-08-30 13:48:51.0525|1|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executing action method MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api) - Validation state: Valid 
+2024-08-30 13:48:52.7483|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'Price' on entity type 'Tools'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 13:48:52.8031|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal1' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 13:48:52.8320|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal2' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 13:48:52.8462|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal3' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 13:48:52.8462|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal4' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 13:48:52.8627|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal5' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 13:48:52.8627|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'Price' on entity type 'ProductEntity'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 13:48:52.9995|10403|INFO|Microsoft.EntityFrameworkCore.Infrastructure|Entity Framework Core 2.2.6-servicing-10079 initialized 'AvanaContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: MigrationsAssembly=MyAvana.Auth.Api  
+2024-08-30 13:48:52.9995|10403|INFO|Microsoft.EntityFrameworkCore.Infrastructure|Entity Framework Core 2.2.6-servicing-10079 initialized 'AvanaContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: MigrationsAssembly=MyAvana.Auth.Api  
+2024-08-30 13:48:54.9531|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (249ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AIResult], [u].[AccessFailedCount], [u].[AccountNo], [u].[Active], [u].[Address], [u].[BuyHairKit], [u].[City], [u].[ConcurrencyStamp], [u].[Country], [u].[CountryCode], [u].[CreatedAt], [u].[CustomerType], [u].[CustomerTypeId], [u].[DeviceId], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[HairType], [u].[HubSpotContactId], [u].[ImageURL], [u].[IsAIV2Mobile], [u].[IsBlocked], [u].[IsInfluencer], [u].[IsOnTrial], [u].[IsPaid], [u].[IsProCustomer], [u].[LastModifiedAt], [u].[LastName], [u].[LastPingTime], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[LoginAlert], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SalonId], [u].[SecurityStamp], [u].[SignupFrom], [u].[State], [u].[StripeCustomerId], [u].[Subscribe], [u].[TicketUserId], [u].[TrialExpiredOn], [u].[TwoFactorEnabled], [u].[TwoFactorTrans], [u].[UserName], [u].[ZipCode]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0 
+2024-08-30 13:48:56.1035|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (260ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AIResult], [u].[AccessFailedCount], [u].[AccountNo], [u].[Active], [u].[Address], [u].[BuyHairKit], [u].[City], [u].[ConcurrencyStamp], [u].[Country], [u].[CountryCode], [u].[CreatedAt], [u].[CustomerType], [u].[CustomerTypeId], [u].[DeviceId], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[HairType], [u].[HubSpotContactId], [u].[ImageURL], [u].[IsAIV2Mobile], [u].[IsBlocked], [u].[IsInfluencer], [u].[IsOnTrial], [u].[IsPaid], [u].[IsProCustomer], [u].[LastModifiedAt], [u].[LastName], [u].[LastPingTime], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[LoginAlert], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SalonId], [u].[SecurityStamp], [u].[SignupFrom], [u].[State], [u].[StripeCustomerId], [u].[Subscribe], [u].[TicketUserId], [u].[TrialExpiredOn], [u].[TwoFactorEnabled], [u].[TwoFactorTrans], [u].[UserName], [u].[ZipCode]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0 
+2024-08-30 13:48:56.3294|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (276ms) [Parameters=[@__user_Id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [uc].[Id], [uc].[ClaimType], [uc].[ClaimValue], [uc].[UserId]
+FROM [AspNetUserClaims] AS [uc]
+WHERE [uc].[UserId] = @__user_Id_0 
+2024-08-30 13:48:56.3861|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (249ms) [Parameters=[@__user_Id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [uc].[Id], [uc].[ClaimType], [uc].[ClaimValue], [uc].[UserId]
+FROM [AspNetUserClaims] AS [uc]
+WHERE [uc].[UserId] = @__user_Id_0 
+2024-08-30 13:48:56.7470|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (255ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [role].[Name]
+FROM [AspNetUserRoles] AS [userRole]
+INNER JOIN [AspNetRoles] AS [role] ON [userRole].[RoleId] = [role].[Id]
+WHERE [userRole].[UserId] = @__userId_0 
+2024-08-30 13:48:56.7523|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (256ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [role].[Name]
+FROM [AspNetUserRoles] AS [userRole]
+INNER JOIN [AspNetRoles] AS [role] ON [userRole].[RoleId] = [role].[Id]
+WHERE [userRole].[UserId] = @__userId_0 
+2024-08-30 13:48:57.0505|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (264ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0 
+2024-08-30 13:48:57.0505|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (266ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0 
+2024-08-30 13:48:57.3480|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (253ms) [Parameters=[@__role_Id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [rc].[ClaimType], [rc].[ClaimValue]
+FROM [AspNetRoleClaims] AS [rc]
+WHERE [rc].[RoleId] = @__role_Id_0 
+2024-08-30 13:48:57.3480|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (261ms) [Parameters=[@__role_Id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [rc].[ClaimType], [rc].[ClaimValue]
+FROM [AspNetRoleClaims] AS [rc]
+WHERE [rc].[RoleId] = @__role_Id_0 
+2024-08-30 13:48:57.3825|10|INFO|Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler|AuthenticationScheme: Identity.Application signed in. 
+2024-08-30 13:48:57.3825|10|INFO|Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler|AuthenticationScheme: Identity.Application signed in. 
+2024-08-30 13:48:57.6527|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (227ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AIResult], [u].[AccessFailedCount], [u].[AccountNo], [u].[Active], [u].[Address], [u].[BuyHairKit], [u].[City], [u].[ConcurrencyStamp], [u].[Country], [u].[CountryCode], [u].[CreatedAt], [u].[CustomerType], [u].[CustomerTypeId], [u].[DeviceId], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[HairType], [u].[HubSpotContactId], [u].[ImageURL], [u].[IsAIV2Mobile], [u].[IsBlocked], [u].[IsInfluencer], [u].[IsOnTrial], [u].[IsPaid], [u].[IsProCustomer], [u].[LastModifiedAt], [u].[LastName], [u].[LastPingTime], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[LoginAlert], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SalonId], [u].[SecurityStamp], [u].[SignupFrom], [u].[State], [u].[StripeCustomerId], [u].[Subscribe], [u].[TicketUserId], [u].[TrialExpiredOn], [u].[TwoFactorEnabled], [u].[TwoFactorTrans], [u].[UserName], [u].[ZipCode]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedEmail] = @__normalizedEmail_0 
+2024-08-30 13:48:57.6527|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (227ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AIResult], [u].[AccessFailedCount], [u].[AccountNo], [u].[Active], [u].[Address], [u].[BuyHairKit], [u].[City], [u].[ConcurrencyStamp], [u].[Country], [u].[CountryCode], [u].[CreatedAt], [u].[CustomerType], [u].[CustomerTypeId], [u].[DeviceId], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[HairType], [u].[HubSpotContactId], [u].[ImageURL], [u].[IsAIV2Mobile], [u].[IsBlocked], [u].[IsInfluencer], [u].[IsOnTrial], [u].[IsPaid], [u].[IsProCustomer], [u].[LastModifiedAt], [u].[LastName], [u].[LastPingTime], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[LoginAlert], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SalonId], [u].[SecurityStamp], [u].[SignupFrom], [u].[State], [u].[StripeCustomerId], [u].[Subscribe], [u].[TicketUserId], [u].[TrialExpiredOn], [u].[TwoFactorEnabled], [u].[TwoFactorTrans], [u].[UserName], [u].[ZipCode]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedEmail] = @__normalizedEmail_0 
+2024-08-30 13:48:57.7236|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action method MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 7047.118ms. 
+2024-08-30 13:48:57.7236|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action method MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 6667.0365ms. 
+2024-08-30 13:48:57.7363|1|INFO|Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor|Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.JsonResult'. 
+2024-08-30 13:48:57.7363|1|INFO|Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor|Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.JsonResult'. 
+2024-08-30 13:48:57.7900|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api) in 8755.3064ms 
+2024-08-30 13:48:57.7900|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api) in 6784.0247ms 
+2024-08-30 13:48:57.8034|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 9593.7106ms 200 application/json; charset=utf-8 
+2024-08-30 13:48:57.8271|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 6856.0137ms 200 application/json; charset=utf-8 
+2024-08-30 13:49:04.6800|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 POST http://localhost:5002/api/Account/signin application/json; charset=utf-8 81 
+2024-08-30 13:49:04.6912|3|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Route matched with {action = "SignIn", controller = "Account"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult SignIn(MyAvanaApi.Models.ViewModels.Authentication) on controller MyAvana.Auth.Api.Controllers.AccountController (MyAvana.Auth.Api). 
+2024-08-30 13:49:04.6912|1|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executing action method MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api) - Validation state: Valid 
+2024-08-30 13:49:04.7128|10403|INFO|Microsoft.EntityFrameworkCore.Infrastructure|Entity Framework Core 2.2.6-servicing-10079 initialized 'AvanaContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: MigrationsAssembly=MyAvana.Auth.Api  
+2024-08-30 13:49:04.9620|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (242ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AIResult], [u].[AccessFailedCount], [u].[AccountNo], [u].[Active], [u].[Address], [u].[BuyHairKit], [u].[City], [u].[ConcurrencyStamp], [u].[Country], [u].[CountryCode], [u].[CreatedAt], [u].[CustomerType], [u].[CustomerTypeId], [u].[DeviceId], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[HairType], [u].[HubSpotContactId], [u].[ImageURL], [u].[IsAIV2Mobile], [u].[IsBlocked], [u].[IsInfluencer], [u].[IsOnTrial], [u].[IsPaid], [u].[IsProCustomer], [u].[LastModifiedAt], [u].[LastName], [u].[LastPingTime], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[LoginAlert], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SalonId], [u].[SecurityStamp], [u].[SignupFrom], [u].[State], [u].[StripeCustomerId], [u].[Subscribe], [u].[TicketUserId], [u].[TrialExpiredOn], [u].[TwoFactorEnabled], [u].[TwoFactorTrans], [u].[UserName], [u].[ZipCode]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0 
+2024-08-30 13:49:05.2145|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (230ms) [Parameters=[@__user_Id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [uc].[Id], [uc].[ClaimType], [uc].[ClaimValue], [uc].[UserId]
+FROM [AspNetUserClaims] AS [uc]
+WHERE [uc].[UserId] = @__user_Id_0 
+2024-08-30 13:49:05.4568|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (237ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [role].[Name]
+FROM [AspNetUserRoles] AS [userRole]
+INNER JOIN [AspNetRoles] AS [role] ON [userRole].[RoleId] = [role].[Id]
+WHERE [userRole].[UserId] = @__userId_0 
+2024-08-30 13:49:05.7753|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (290ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0 
+2024-08-30 13:49:06.0250|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (243ms) [Parameters=[@__role_Id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [rc].[ClaimType], [rc].[ClaimValue]
+FROM [AspNetRoleClaims] AS [rc]
+WHERE [rc].[RoleId] = @__role_Id_0 
+2024-08-30 13:49:06.0250|10|INFO|Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler|AuthenticationScheme: Identity.Application signed in. 
+2024-08-30 13:49:06.2740|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (235ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AIResult], [u].[AccessFailedCount], [u].[AccountNo], [u].[Active], [u].[Address], [u].[BuyHairKit], [u].[City], [u].[ConcurrencyStamp], [u].[Country], [u].[CountryCode], [u].[CreatedAt], [u].[CustomerType], [u].[CustomerTypeId], [u].[DeviceId], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[HairType], [u].[HubSpotContactId], [u].[ImageURL], [u].[IsAIV2Mobile], [u].[IsBlocked], [u].[IsInfluencer], [u].[IsOnTrial], [u].[IsPaid], [u].[IsProCustomer], [u].[LastModifiedAt], [u].[LastName], [u].[LastPingTime], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[LoginAlert], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SalonId], [u].[SecurityStamp], [u].[SignupFrom], [u].[State], [u].[StripeCustomerId], [u].[Subscribe], [u].[TicketUserId], [u].[TrialExpiredOn], [u].[TwoFactorEnabled], [u].[TwoFactorTrans], [u].[UserName], [u].[ZipCode]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedEmail] = @__normalizedEmail_0 
+2024-08-30 13:49:06.2740|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action method MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 1574.2892ms. 
+2024-08-30 13:49:06.3274|1|INFO|Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor|Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.JsonResult'. 
+2024-08-30 13:49:06.3944|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api) in 1664.6413ms 
+2024-08-30 13:49:06.4214|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 1718.8651ms 200 application/json; charset=utf-8 
+2024-08-30 13:50:08.3512|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 POST http://localhost:5002/api/Account/signin application/json; charset=utf-8 81 
+2024-08-30 13:50:08.3634|3|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Route matched with {action = "SignIn", controller = "Account"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult SignIn(MyAvanaApi.Models.ViewModels.Authentication) on controller MyAvana.Auth.Api.Controllers.AccountController (MyAvana.Auth.Api). 
+2024-08-30 13:50:08.3798|1|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executing action method MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api) - Validation state: Valid 
+2024-08-30 13:50:08.3798|10403|INFO|Microsoft.EntityFrameworkCore.Infrastructure|Entity Framework Core 2.2.6-servicing-10079 initialized 'AvanaContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: MigrationsAssembly=MyAvana.Auth.Api  
+2024-08-30 13:50:08.6261|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (231ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AIResult], [u].[AccessFailedCount], [u].[AccountNo], [u].[Active], [u].[Address], [u].[BuyHairKit], [u].[City], [u].[ConcurrencyStamp], [u].[Country], [u].[CountryCode], [u].[CreatedAt], [u].[CustomerType], [u].[CustomerTypeId], [u].[DeviceId], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[HairType], [u].[HubSpotContactId], [u].[ImageURL], [u].[IsAIV2Mobile], [u].[IsBlocked], [u].[IsInfluencer], [u].[IsOnTrial], [u].[IsPaid], [u].[IsProCustomer], [u].[LastModifiedAt], [u].[LastName], [u].[LastPingTime], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[LoginAlert], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SalonId], [u].[SecurityStamp], [u].[SignupFrom], [u].[State], [u].[StripeCustomerId], [u].[Subscribe], [u].[TicketUserId], [u].[TrialExpiredOn], [u].[TwoFactorEnabled], [u].[TwoFactorTrans], [u].[UserName], [u].[ZipCode]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0 
+2024-08-30 13:50:08.8726|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (228ms) [Parameters=[@__user_Id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [uc].[Id], [uc].[ClaimType], [uc].[ClaimValue], [uc].[UserId]
+FROM [AspNetUserClaims] AS [uc]
+WHERE [uc].[UserId] = @__user_Id_0 
+2024-08-30 13:50:09.1026|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (226ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [role].[Name]
+FROM [AspNetUserRoles] AS [userRole]
+INNER JOIN [AspNetRoles] AS [role] ON [userRole].[RoleId] = [role].[Id]
+WHERE [userRole].[UserId] = @__userId_0 
+2024-08-30 13:50:09.3355|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (228ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0 
+2024-08-30 13:50:09.5671|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (227ms) [Parameters=[@__role_Id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [rc].[ClaimType], [rc].[ClaimValue]
+FROM [AspNetRoleClaims] AS [rc]
+WHERE [rc].[RoleId] = @__role_Id_0 
+2024-08-30 13:50:09.5671|10|INFO|Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler|AuthenticationScheme: Identity.Application signed in. 
+2024-08-30 13:50:09.8041|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (230ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AIResult], [u].[AccessFailedCount], [u].[AccountNo], [u].[Active], [u].[Address], [u].[BuyHairKit], [u].[City], [u].[ConcurrencyStamp], [u].[Country], [u].[CountryCode], [u].[CreatedAt], [u].[CustomerType], [u].[CustomerTypeId], [u].[DeviceId], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[HairType], [u].[HubSpotContactId], [u].[ImageURL], [u].[IsAIV2Mobile], [u].[IsBlocked], [u].[IsInfluencer], [u].[IsOnTrial], [u].[IsPaid], [u].[IsProCustomer], [u].[LastModifiedAt], [u].[LastName], [u].[LastPingTime], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[LoginAlert], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SalonId], [u].[SecurityStamp], [u].[SignupFrom], [u].[State], [u].[StripeCustomerId], [u].[Subscribe], [u].[TicketUserId], [u].[TrialExpiredOn], [u].[TwoFactorEnabled], [u].[TwoFactorTrans], [u].[UserName], [u].[ZipCode]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedEmail] = @__normalizedEmail_0 
+2024-08-30 13:50:09.8041|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action method MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 1424.7216ms. 
+2024-08-30 13:50:09.8157|1|INFO|Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor|Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.JsonResult'. 
+2024-08-30 13:50:09.8157|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api) in 1451.6545ms 
+2024-08-30 13:50:09.8157|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 1475.6317ms 200 application/json; charset=utf-8 
+2024-08-30 13:51:37.7917|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 GET http://localhost:5002/api/HairProfile/GetHHCPList?userId=testcustsignSub@mailinator.com&isRequestedFromCustomer=true   
+2024-08-30 13:51:37.8483|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 50.734ms 404  
+2024-08-30 13:51:37.8483|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 GET http://localhost:5002/api/HairProfile/GetHHCPList?userId=testcustsignSub@mailinator.com&isRequestedFromCustomer=true   
+2024-08-30 13:51:37.9009|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 GET http://localhost:5002/api/HairProfile/GetHHCPList?userId=testcustsignSub@mailinator.com&isRequestedFromCustomer=true   
+2024-08-30 13:51:37.9009|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 59.0287ms 404  
+2024-08-30 13:51:37.9234|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 74.506ms 404  
+2024-08-30 14:03:20.4108|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 GET http://localhost:5002/api/values   
+2024-08-30 14:03:21.8426|3|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Route matched with {action = "Get", controller = "Values"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[System.String]] Get() on controller MyAvana.Auth.Api.Controllers.ValuesController (MyAvana.Auth.Api). 
+2024-08-30 14:03:21.8908|1|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executing action method MyAvana.Auth.Api.Controllers.ValuesController.Get (MyAvana.Auth.Api) - Validation state: Valid 
+2024-08-30 14:03:21.9124|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action method MyAvana.Auth.Api.Controllers.ValuesController.Get (MyAvana.Auth.Api), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 0.5756ms. 
+2024-08-30 14:03:21.9462|1|INFO|Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor|Executing ObjectResult, writing value of type 'System.String[]'. 
+2024-08-30 14:03:22.6868|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action MyAvana.Auth.Api.Controllers.ValuesController.Get (MyAvana.Auth.Api) in 719.3866ms 
+2024-08-30 14:03:22.7410|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 2310.8662ms 200 application/json; charset=utf-8 
+2024-08-30 14:03:24.4489|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 GET http://localhost:5002/favicon.ico   
+2024-08-30 14:03:24.5363|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 18.6652ms 404  
+2024-08-30 14:06:34.2116|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 GET http://localhost:5002/api/values   
+2024-08-30 14:06:35.5143|3|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Route matched with {action = "Get", controller = "Values"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[System.String]] Get() on controller MyAvana.Auth.Api.Controllers.ValuesController (MyAvana.Auth.Api). 
+2024-08-30 14:06:35.5977|1|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executing action method MyAvana.Auth.Api.Controllers.ValuesController.Get (MyAvana.Auth.Api) - Validation state: Valid 
+2024-08-30 14:06:35.6365|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action method MyAvana.Auth.Api.Controllers.ValuesController.Get (MyAvana.Auth.Api), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 0.5572ms. 
+2024-08-30 14:06:35.7045|1|INFO|Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor|Executing ObjectResult, writing value of type 'System.String[]'. 
+2024-08-30 14:06:36.2701|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action MyAvana.Auth.Api.Controllers.ValuesController.Get (MyAvana.Auth.Api) in 675.9138ms 
+2024-08-30 14:06:36.3500|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 2092.0338ms 200 application/json; charset=utf-8 
+2024-08-30 14:06:36.8425|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 GET http://localhost:5002/favicon.ico   
+2024-08-30 14:06:36.9058|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 101.8633ms 404  
+2024-08-30 14:27:35.9004|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 GET http://localhost:5002/api/values   
+2024-08-30 14:27:36.9794|3|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Route matched with {action = "Get", controller = "Values"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[System.String]] Get() on controller MyAvana.Auth.Api.Controllers.ValuesController (MyAvana.Auth.Api). 
+2024-08-30 14:27:37.0235|1|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executing action method MyAvana.Auth.Api.Controllers.ValuesController.Get (MyAvana.Auth.Api) - Validation state: Valid 
+2024-08-30 14:27:37.0544|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action method MyAvana.Auth.Api.Controllers.ValuesController.Get (MyAvana.Auth.Api), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 0.6205ms. 
+2024-08-30 14:27:37.1633|1|INFO|Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor|Executing ObjectResult, writing value of type 'System.String[]'. 
+2024-08-30 14:27:37.6580|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action MyAvana.Auth.Api.Controllers.ValuesController.Get (MyAvana.Auth.Api) in 661.7413ms 
+2024-08-30 14:27:37.6971|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 1797.9253ms 200 application/json; charset=utf-8 
+2024-08-30 14:27:37.8003|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 GET http://localhost:5002/favicon.ico   
+2024-08-30 14:27:37.8274|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 10.8482ms 404  
+2024-08-30 14:36:34.3524|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 POST http://localhost:5002/api/Account/signin application/json; charset=utf-8 81 
+2024-08-30 14:36:34.3906|3|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Route matched with {action = "SignIn", controller = "Account"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult SignIn(MyAvanaApi.Models.ViewModels.Authentication) on controller MyAvana.Auth.Api.Controllers.AccountController (MyAvana.Auth.Api). 
+2024-08-30 14:36:35.0517|1|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executing action method MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api) - Validation state: Valid 
+2024-08-30 14:36:36.4080|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'Price' on entity type 'Tools'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 14:36:36.4080|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal1' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 14:36:36.4260|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal2' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 14:36:36.4260|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal3' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 14:36:36.4260|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal4' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 14:36:36.4427|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal5' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 14:36:36.4427|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'Price' on entity type 'ProductEntity'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 14:36:36.5818|10403|INFO|Microsoft.EntityFrameworkCore.Infrastructure|Entity Framework Core 2.2.6-servicing-10079 initialized 'AvanaContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: MigrationsAssembly=MyAvana.Auth.Api  
+2024-08-30 14:36:38.3807|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (247ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AIResult], [u].[AccessFailedCount], [u].[AccountNo], [u].[Active], [u].[Address], [u].[BuyHairKit], [u].[City], [u].[ConcurrencyStamp], [u].[Country], [u].[CountryCode], [u].[CreatedAt], [u].[CustomerType], [u].[CustomerTypeId], [u].[DeviceId], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[HairType], [u].[HubSpotContactId], [u].[ImageURL], [u].[IsAIV2Mobile], [u].[IsBlocked], [u].[IsInfluencer], [u].[IsOnTrial], [u].[IsPaid], [u].[IsProCustomer], [u].[LastModifiedAt], [u].[LastName], [u].[LastPingTime], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[LoginAlert], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SalonId], [u].[SecurityStamp], [u].[SignupFrom], [u].[State], [u].[StripeCustomerId], [u].[Subscribe], [u].[TicketUserId], [u].[TrialExpiredOn], [u].[TwoFactorEnabled], [u].[TwoFactorTrans], [u].[UserName], [u].[ZipCode]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0 
+2024-08-30 14:36:38.8749|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (240ms) [Parameters=[@__user_Id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [uc].[Id], [uc].[ClaimType], [uc].[ClaimValue], [uc].[UserId]
+FROM [AspNetUserClaims] AS [uc]
+WHERE [uc].[UserId] = @__user_Id_0 
+2024-08-30 14:36:39.2011|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (236ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [role].[Name]
+FROM [AspNetUserRoles] AS [userRole]
+INNER JOIN [AspNetRoles] AS [role] ON [userRole].[RoleId] = [role].[Id]
+WHERE [userRole].[UserId] = @__userId_0 
+2024-08-30 14:36:39.4625|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (234ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0 
+2024-08-30 14:36:39.7597|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (243ms) [Parameters=[@__role_Id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [rc].[ClaimType], [rc].[ClaimValue]
+FROM [AspNetRoleClaims] AS [rc]
+WHERE [rc].[RoleId] = @__role_Id_0 
+2024-08-30 14:36:39.7959|10|INFO|Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler|AuthenticationScheme: Identity.Application signed in. 
+2024-08-30 14:36:40.0706|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (236ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AIResult], [u].[AccessFailedCount], [u].[AccountNo], [u].[Active], [u].[Address], [u].[BuyHairKit], [u].[City], [u].[ConcurrencyStamp], [u].[Country], [u].[CountryCode], [u].[CreatedAt], [u].[CustomerType], [u].[CustomerTypeId], [u].[DeviceId], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[HairType], [u].[HubSpotContactId], [u].[ImageURL], [u].[IsAIV2Mobile], [u].[IsBlocked], [u].[IsInfluencer], [u].[IsOnTrial], [u].[IsPaid], [u].[IsProCustomer], [u].[LastModifiedAt], [u].[LastName], [u].[LastPingTime], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[LoginAlert], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SalonId], [u].[SecurityStamp], [u].[SignupFrom], [u].[State], [u].[StripeCustomerId], [u].[Subscribe], [u].[TicketUserId], [u].[TrialExpiredOn], [u].[TwoFactorEnabled], [u].[TwoFactorTrans], [u].[UserName], [u].[ZipCode]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedEmail] = @__normalizedEmail_0 
+2024-08-30 14:36:40.1465|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action method MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 5090.6629ms. 
+2024-08-30 14:36:40.1465|1|INFO|Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor|Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.JsonResult'. 
+2024-08-30 14:36:40.1875|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api) in 5783.1199ms 
+2024-08-30 14:36:40.1946|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 5846.2686ms 200 application/json; charset=utf-8 
+2024-08-30 14:36:57.3761|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 POST http://localhost:5002/api/Account/signin application/json; charset=utf-8 81 
+2024-08-30 14:36:57.3794|3|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Route matched with {action = "SignIn", controller = "Account"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult SignIn(MyAvanaApi.Models.ViewModels.Authentication) on controller MyAvana.Auth.Api.Controllers.AccountController (MyAvana.Auth.Api). 
+2024-08-30 14:36:57.4021|1|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executing action method MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api) - Validation state: Valid 
+2024-08-30 14:36:57.4319|10403|INFO|Microsoft.EntityFrameworkCore.Infrastructure|Entity Framework Core 2.2.6-servicing-10079 initialized 'AvanaContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: MigrationsAssembly=MyAvana.Auth.Api  
+2024-08-30 14:36:57.6684|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (231ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AIResult], [u].[AccessFailedCount], [u].[AccountNo], [u].[Active], [u].[Address], [u].[BuyHairKit], [u].[City], [u].[ConcurrencyStamp], [u].[Country], [u].[CountryCode], [u].[CreatedAt], [u].[CustomerType], [u].[CustomerTypeId], [u].[DeviceId], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[HairType], [u].[HubSpotContactId], [u].[ImageURL], [u].[IsAIV2Mobile], [u].[IsBlocked], [u].[IsInfluencer], [u].[IsOnTrial], [u].[IsPaid], [u].[IsProCustomer], [u].[LastModifiedAt], [u].[LastName], [u].[LastPingTime], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[LoginAlert], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SalonId], [u].[SecurityStamp], [u].[SignupFrom], [u].[State], [u].[StripeCustomerId], [u].[Subscribe], [u].[TicketUserId], [u].[TrialExpiredOn], [u].[TwoFactorEnabled], [u].[TwoFactorTrans], [u].[UserName], [u].[ZipCode]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0 
+2024-08-30 14:36:57.9277|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (239ms) [Parameters=[@__user_Id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [uc].[Id], [uc].[ClaimType], [uc].[ClaimValue], [uc].[UserId]
+FROM [AspNetUserClaims] AS [uc]
+WHERE [uc].[UserId] = @__user_Id_0 
+2024-08-30 14:36:58.1774|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (245ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [role].[Name]
+FROM [AspNetUserRoles] AS [userRole]
+INNER JOIN [AspNetRoles] AS [role] ON [userRole].[RoleId] = [role].[Id]
+WHERE [userRole].[UserId] = @__userId_0 
+2024-08-30 14:36:58.4238|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (240ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0 
+2024-08-30 14:36:58.6725|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (237ms) [Parameters=[@__role_Id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [rc].[ClaimType], [rc].[ClaimValue]
+FROM [AspNetRoleClaims] AS [rc]
+WHERE [rc].[RoleId] = @__role_Id_0 
+2024-08-30 14:36:58.6794|10|INFO|Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler|AuthenticationScheme: Identity.Application signed in. 
+2024-08-30 14:36:58.9143|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (230ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AIResult], [u].[AccessFailedCount], [u].[AccountNo], [u].[Active], [u].[Address], [u].[BuyHairKit], [u].[City], [u].[ConcurrencyStamp], [u].[Country], [u].[CountryCode], [u].[CreatedAt], [u].[CustomerType], [u].[CustomerTypeId], [u].[DeviceId], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[HairType], [u].[HubSpotContactId], [u].[ImageURL], [u].[IsAIV2Mobile], [u].[IsBlocked], [u].[IsInfluencer], [u].[IsOnTrial], [u].[IsPaid], [u].[IsProCustomer], [u].[LastModifiedAt], [u].[LastName], [u].[LastPingTime], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[LoginAlert], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SalonId], [u].[SecurityStamp], [u].[SignupFrom], [u].[State], [u].[StripeCustomerId], [u].[Subscribe], [u].[TicketUserId], [u].[TrialExpiredOn], [u].[TwoFactorEnabled], [u].[TwoFactorTrans], [u].[UserName], [u].[ZipCode]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedEmail] = @__normalizedEmail_0 
+2024-08-30 14:36:58.9143|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action method MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 1513.0404ms. 
+2024-08-30 14:36:58.9143|1|INFO|Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor|Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.JsonResult'. 
+2024-08-30 14:36:58.9257|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api) in 1541.1872ms 
+2024-08-30 14:36:58.9257|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 1553.7244ms 200 application/json; charset=utf-8 
+2024-08-30 14:40:11.6364|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 GET http://localhost:5002/api/values   
+2024-08-30 14:40:12.9702|3|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Route matched with {action = "Get", controller = "Values"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[System.String]] Get() on controller MyAvana.Auth.Api.Controllers.ValuesController (MyAvana.Auth.Api). 
+2024-08-30 14:40:13.0298|1|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executing action method MyAvana.Auth.Api.Controllers.ValuesController.Get (MyAvana.Auth.Api) - Validation state: Valid 
+2024-08-30 14:40:13.0688|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action method MyAvana.Auth.Api.Controllers.ValuesController.Get (MyAvana.Auth.Api), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 0.8258ms. 
+2024-08-30 14:40:13.1442|1|INFO|Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor|Executing ObjectResult, writing value of type 'System.String[]'. 
+2024-08-30 14:40:13.6899|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action MyAvana.Auth.Api.Controllers.ValuesController.Get (MyAvana.Auth.Api) in 674.9447ms 
+2024-08-30 14:40:13.7338|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 2089.4249ms 200 application/json; charset=utf-8 
+2024-08-30 14:40:15.3673|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 GET http://localhost:5002/favicon.ico   
+2024-08-30 14:40:15.4489|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 16.0464ms 404  
+2024-08-30 14:42:00.7076|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 POST http://localhost:5002/api/Account/signin application/json; charset=utf-8 81 
+2024-08-30 14:42:00.7347|3|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Route matched with {action = "SignIn", controller = "Account"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult SignIn(MyAvanaApi.Models.ViewModels.Authentication) on controller MyAvana.Auth.Api.Controllers.AccountController (MyAvana.Auth.Api). 
+2024-08-30 14:42:01.2583|1|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executing action method MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api) - Validation state: Valid 
+2024-08-30 14:42:02.3347|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'Price' on entity type 'Tools'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 14:42:02.3468|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal1' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 14:42:02.3468|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal2' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 14:42:02.3707|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal3' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 14:42:02.3838|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal4' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 14:42:02.3969|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal5' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 14:42:02.4186|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'Price' on entity type 'ProductEntity'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 14:42:02.5366|10403|INFO|Microsoft.EntityFrameworkCore.Infrastructure|Entity Framework Core 2.2.6-servicing-10079 initialized 'AvanaContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: MigrationsAssembly=MyAvana.Auth.Api  
+2024-08-30 14:42:04.3305|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (249ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AIResult], [u].[AccessFailedCount], [u].[AccountNo], [u].[Active], [u].[Address], [u].[BuyHairKit], [u].[City], [u].[ConcurrencyStamp], [u].[Country], [u].[CountryCode], [u].[CreatedAt], [u].[CustomerType], [u].[CustomerTypeId], [u].[DeviceId], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[HairType], [u].[HubSpotContactId], [u].[ImageURL], [u].[IsAIV2Mobile], [u].[IsBlocked], [u].[IsInfluencer], [u].[IsOnTrial], [u].[IsPaid], [u].[IsProCustomer], [u].[LastModifiedAt], [u].[LastName], [u].[LastPingTime], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[LoginAlert], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SalonId], [u].[SecurityStamp], [u].[SignupFrom], [u].[State], [u].[StripeCustomerId], [u].[Subscribe], [u].[TicketUserId], [u].[TrialExpiredOn], [u].[TwoFactorEnabled], [u].[TwoFactorTrans], [u].[UserName], [u].[ZipCode]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0 
+2024-08-30 14:42:04.8026|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (226ms) [Parameters=[@__user_Id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [uc].[Id], [uc].[ClaimType], [uc].[ClaimValue], [uc].[UserId]
+FROM [AspNetUserClaims] AS [uc]
+WHERE [uc].[UserId] = @__user_Id_0 
+2024-08-30 14:42:05.5259|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (631ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [role].[Name]
+FROM [AspNetUserRoles] AS [userRole]
+INNER JOIN [AspNetRoles] AS [role] ON [userRole].[RoleId] = [role].[Id]
+WHERE [userRole].[UserId] = @__userId_0 
+2024-08-30 14:42:05.7759|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (223ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0 
+2024-08-30 14:42:06.0331|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (229ms) [Parameters=[@__role_Id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [rc].[ClaimType], [rc].[ClaimValue]
+FROM [AspNetRoleClaims] AS [rc]
+WHERE [rc].[RoleId] = @__role_Id_0 
+2024-08-30 14:42:06.0543|10|INFO|Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler|AuthenticationScheme: Identity.Application signed in. 
+2024-08-30 14:42:06.3132|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (228ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AIResult], [u].[AccessFailedCount], [u].[AccountNo], [u].[Active], [u].[Address], [u].[BuyHairKit], [u].[City], [u].[ConcurrencyStamp], [u].[Country], [u].[CountryCode], [u].[CreatedAt], [u].[CustomerType], [u].[CustomerTypeId], [u].[DeviceId], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[HairType], [u].[HubSpotContactId], [u].[ImageURL], [u].[IsAIV2Mobile], [u].[IsBlocked], [u].[IsInfluencer], [u].[IsOnTrial], [u].[IsPaid], [u].[IsProCustomer], [u].[LastModifiedAt], [u].[LastName], [u].[LastPingTime], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[LoginAlert], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SalonId], [u].[SecurityStamp], [u].[SignupFrom], [u].[State], [u].[StripeCustomerId], [u].[Subscribe], [u].[TicketUserId], [u].[TrialExpiredOn], [u].[TwoFactorEnabled], [u].[TwoFactorTrans], [u].[UserName], [u].[ZipCode]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedEmail] = @__normalizedEmail_0 
+2024-08-30 14:42:06.3742|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action method MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 5113.5174ms. 
+2024-08-30 14:42:06.3797|1|INFO|Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor|Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.JsonResult'. 
+2024-08-30 14:42:06.4107|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api) in 5673.3422ms 
+2024-08-30 14:42:06.4107|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 5709.6548ms 200 application/json; charset=utf-8 
+2024-08-30 14:54:59.2795|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 GET http://localhost:5002/api/values   
+2024-08-30 14:55:00.3342|3|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Route matched with {action = "Get", controller = "Values"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[System.String]] Get() on controller MyAvana.Auth.Api.Controllers.ValuesController (MyAvana.Auth.Api). 
+2024-08-30 14:55:00.3805|1|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executing action method MyAvana.Auth.Api.Controllers.ValuesController.Get (MyAvana.Auth.Api) - Validation state: Valid 
+2024-08-30 14:55:00.4176|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action method MyAvana.Auth.Api.Controllers.ValuesController.Get (MyAvana.Auth.Api), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 3.9089ms. 
+2024-08-30 14:55:00.4676|1|INFO|Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor|Executing ObjectResult, writing value of type 'System.String[]'. 
+2024-08-30 14:55:00.9494|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action MyAvana.Auth.Api.Controllers.ValuesController.Get (MyAvana.Auth.Api) in 581.9375ms 
+2024-08-30 14:55:01.0551|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 1701.3642ms 200 application/json; charset=utf-8 
+2024-08-30 14:55:01.3647|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 GET http://localhost:5002/favicon.ico   
+2024-08-30 14:55:01.4285|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 58.1844ms 404  
+2024-08-30 15:07:01.6859|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 POST http://localhost:5002/api/Account/signin application/json; charset=utf-8 81 
+2024-08-30 15:07:02.3312|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 GET http://localhost:5002/api/values   
+2024-08-30 15:07:02.6955|3|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Route matched with {action = "Get", controller = "Values"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.IEnumerable`1[System.String]] Get() on controller MyAvana.Auth.Api.Controllers.ValuesController (MyAvana.Auth.Api). 
+2024-08-30 15:07:02.7230|3|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Route matched with {action = "SignIn", controller = "Account"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult SignIn(MyAvanaApi.Models.ViewModels.Authentication) on controller MyAvana.Auth.Api.Controllers.AccountController (MyAvana.Auth.Api). 
+2024-08-30 15:07:02.7230|1|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executing action method MyAvana.Auth.Api.Controllers.ValuesController.Get (MyAvana.Auth.Api) - Validation state: Valid 
+2024-08-30 15:07:02.7590|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action method MyAvana.Auth.Api.Controllers.ValuesController.Get (MyAvana.Auth.Api), returned result Microsoft.AspNetCore.Mvc.ObjectResult in 0.508ms. 
+2024-08-30 15:07:02.8072|1|INFO|Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor|Executing ObjectResult, writing value of type 'System.String[]'. 
+2024-08-30 15:07:03.1708|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action MyAvana.Auth.Api.Controllers.ValuesController.Get (MyAvana.Auth.Api) in 462.4719ms 
+2024-08-30 15:07:03.1896|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 851.5371ms 200 application/json; charset=utf-8 
+2024-08-30 15:07:03.4326|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 GET http://localhost:5002/favicon.ico   
+2024-08-30 15:07:03.4581|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 18.4632ms 404  
+2024-08-30 15:07:03.9541|1|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executing action method MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api) - Validation state: Valid 
+2024-08-30 15:07:06.0447|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'Price' on entity type 'Tools'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 15:07:06.0582|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal1' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 15:07:06.0720|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal2' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 15:07:06.0854|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal3' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 15:07:06.0854|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal4' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 15:07:06.1016|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'DefaultDecimal5' on entity type 'GenericSetting'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 15:07:06.1016|30000|WARN|Microsoft.EntityFrameworkCore.Model.Validation|No type was specified for the decimal column 'Price' on entity type 'ProductEntity'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values using 'HasColumnType()'. 
+2024-08-30 15:07:06.2435|10403|INFO|Microsoft.EntityFrameworkCore.Infrastructure|Entity Framework Core 2.2.6-servicing-10079 initialized 'AvanaContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: MigrationsAssembly=MyAvana.Auth.Api  
+2024-08-30 15:07:08.2980|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (263ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AIResult], [u].[AccessFailedCount], [u].[AccountNo], [u].[Active], [u].[Address], [u].[BuyHairKit], [u].[City], [u].[ConcurrencyStamp], [u].[Country], [u].[CountryCode], [u].[CreatedAt], [u].[CustomerType], [u].[CustomerTypeId], [u].[DeviceId], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[HairType], [u].[HubSpotContactId], [u].[ImageURL], [u].[IsAIV2Mobile], [u].[IsBlocked], [u].[IsInfluencer], [u].[IsOnTrial], [u].[IsPaid], [u].[IsProCustomer], [u].[LastModifiedAt], [u].[LastName], [u].[LastPingTime], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[LoginAlert], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SalonId], [u].[SecurityStamp], [u].[SignupFrom], [u].[State], [u].[StripeCustomerId], [u].[Subscribe], [u].[TicketUserId], [u].[TrialExpiredOn], [u].[TwoFactorEnabled], [u].[TwoFactorTrans], [u].[UserName], [u].[ZipCode]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0 
+2024-08-30 15:07:09.0651|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (238ms) [Parameters=[@__user_Id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [uc].[Id], [uc].[ClaimType], [uc].[ClaimValue], [uc].[UserId]
+FROM [AspNetUserClaims] AS [uc]
+WHERE [uc].[UserId] = @__user_Id_0 
+2024-08-30 15:07:09.4222|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (232ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [role].[Name]
+FROM [AspNetUserRoles] AS [userRole]
+INNER JOIN [AspNetRoles] AS [role] ON [userRole].[RoleId] = [role].[Id]
+WHERE [userRole].[UserId] = @__userId_0 
+2024-08-30 15:07:09.6953|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (229ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0 
+2024-08-30 15:07:10.0038|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (243ms) [Parameters=[@__role_Id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [rc].[ClaimType], [rc].[ClaimValue]
+FROM [AspNetRoleClaims] AS [rc]
+WHERE [rc].[RoleId] = @__role_Id_0 
+2024-08-30 15:07:10.0625|10|INFO|Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler|AuthenticationScheme: Identity.Application signed in. 
+2024-08-30 15:07:10.3502|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (234ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AIResult], [u].[AccessFailedCount], [u].[AccountNo], [u].[Active], [u].[Address], [u].[BuyHairKit], [u].[City], [u].[ConcurrencyStamp], [u].[Country], [u].[CountryCode], [u].[CreatedAt], [u].[CustomerType], [u].[CustomerTypeId], [u].[DeviceId], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[HairType], [u].[HubSpotContactId], [u].[ImageURL], [u].[IsAIV2Mobile], [u].[IsBlocked], [u].[IsInfluencer], [u].[IsOnTrial], [u].[IsPaid], [u].[IsProCustomer], [u].[LastModifiedAt], [u].[LastName], [u].[LastPingTime], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[LoginAlert], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SalonId], [u].[SecurityStamp], [u].[SignupFrom], [u].[State], [u].[StripeCustomerId], [u].[Subscribe], [u].[TicketUserId], [u].[TrialExpiredOn], [u].[TwoFactorEnabled], [u].[TwoFactorTrans], [u].[UserName], [u].[ZipCode]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedEmail] = @__normalizedEmail_0 
+2024-08-30 15:07:10.6076|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action method MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 6643.8896ms. 
+2024-08-30 15:07:10.6256|1|INFO|Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor|Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.JsonResult'. 
+2024-08-30 15:07:10.6748|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api) in 7946.6296ms 
+2024-08-30 15:07:10.6972|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 9032.4971ms 200 application/json; charset=utf-8 
+2024-08-30 15:07:59.7678|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 POST http://localhost:5002/api/Account/signin application/json; charset=utf-8 76 
+2024-08-30 15:07:59.7678|3|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Route matched with {action = "SignIn", controller = "Account"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult SignIn(MyAvanaApi.Models.ViewModels.Authentication) on controller MyAvana.Auth.Api.Controllers.AccountController (MyAvana.Auth.Api). 
+2024-08-30 15:07:59.7880|1|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executing action method MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api) - Validation state: Valid 
+2024-08-30 15:07:59.8196|10403|INFO|Microsoft.EntityFrameworkCore.Infrastructure|Entity Framework Core 2.2.6-servicing-10079 initialized 'AvanaContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: MigrationsAssembly=MyAvana.Auth.Api  
+2024-08-30 15:08:00.0979|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (256ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AIResult], [u].[AccessFailedCount], [u].[AccountNo], [u].[Active], [u].[Address], [u].[BuyHairKit], [u].[City], [u].[ConcurrencyStamp], [u].[Country], [u].[CountryCode], [u].[CreatedAt], [u].[CustomerType], [u].[CustomerTypeId], [u].[DeviceId], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[HairType], [u].[HubSpotContactId], [u].[ImageURL], [u].[IsAIV2Mobile], [u].[IsBlocked], [u].[IsInfluencer], [u].[IsOnTrial], [u].[IsPaid], [u].[IsProCustomer], [u].[LastModifiedAt], [u].[LastName], [u].[LastPingTime], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[LoginAlert], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SalonId], [u].[SecurityStamp], [u].[SignupFrom], [u].[State], [u].[StripeCustomerId], [u].[Subscribe], [u].[TicketUserId], [u].[TrialExpiredOn], [u].[TwoFactorEnabled], [u].[TwoFactorTrans], [u].[UserName], [u].[ZipCode]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0 
+2024-08-30 15:08:00.0979||ERROR|MyAvana.Logger.Services.NLogServices|Method: SignIn, UserName:rahul1234@mailinator.com, Error: Invalid Credentials 
+2024-08-30 15:08:00.1384|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action method MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api), returned result Microsoft.AspNetCore.Mvc.BadRequestObjectResult in 312.1382ms. 
+2024-08-30 15:08:00.1508|1|INFO|Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor|Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.JsonResult'. 
+2024-08-30 15:08:00.1654|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api) in 374.0289ms 
+2024-08-30 15:08:00.1779|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 400.5634ms 400 application/json; charset=utf-8 
+2024-08-30 15:08:04.7012|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 POST http://localhost:5002/api/Account/signin application/json; charset=utf-8 77 
+2024-08-30 15:08:04.7049|3|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Route matched with {action = "SignIn", controller = "Account"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult SignIn(MyAvanaApi.Models.ViewModels.Authentication) on controller MyAvana.Auth.Api.Controllers.AccountController (MyAvana.Auth.Api). 
+2024-08-30 15:08:04.7049|1|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executing action method MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api) - Validation state: Valid 
+2024-08-30 15:08:04.7049|10403|INFO|Microsoft.EntityFrameworkCore.Infrastructure|Entity Framework Core 2.2.6-servicing-10079 initialized 'AvanaContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: MigrationsAssembly=MyAvana.Auth.Api  
+2024-08-30 15:08:04.9582|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (231ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AIResult], [u].[AccessFailedCount], [u].[AccountNo], [u].[Active], [u].[Address], [u].[BuyHairKit], [u].[City], [u].[ConcurrencyStamp], [u].[Country], [u].[CountryCode], [u].[CreatedAt], [u].[CustomerType], [u].[CustomerTypeId], [u].[DeviceId], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[HairType], [u].[HubSpotContactId], [u].[ImageURL], [u].[IsAIV2Mobile], [u].[IsBlocked], [u].[IsInfluencer], [u].[IsOnTrial], [u].[IsPaid], [u].[IsProCustomer], [u].[LastModifiedAt], [u].[LastName], [u].[LastPingTime], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[LoginAlert], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SalonId], [u].[SecurityStamp], [u].[SignupFrom], [u].[State], [u].[StripeCustomerId], [u].[Subscribe], [u].[TicketUserId], [u].[TrialExpiredOn], [u].[TwoFactorEnabled], [u].[TwoFactorTrans], [u].[UserName], [u].[ZipCode]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0 
+2024-08-30 15:08:05.2163|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (225ms) [Parameters=[@__user_Id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [uc].[Id], [uc].[ClaimType], [uc].[ClaimValue], [uc].[UserId]
+FROM [AspNetUserClaims] AS [uc]
+WHERE [uc].[UserId] = @__user_Id_0 
+2024-08-30 15:08:05.4611|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (236ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [role].[Name]
+FROM [AspNetUserRoles] AS [userRole]
+INNER JOIN [AspNetRoles] AS [role] ON [userRole].[RoleId] = [role].[Id]
+WHERE [userRole].[UserId] = @__userId_0 
+2024-08-30 15:08:05.6961|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (229ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0 
+2024-08-30 15:08:05.9293|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (229ms) [Parameters=[@__role_Id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [rc].[ClaimType], [rc].[ClaimValue]
+FROM [AspNetRoleClaims] AS [rc]
+WHERE [rc].[RoleId] = @__role_Id_0 
+2024-08-30 15:08:05.9293|10|INFO|Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler|AuthenticationScheme: Identity.Application signed in. 
+2024-08-30 15:08:06.1710|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (229ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AIResult], [u].[AccessFailedCount], [u].[AccountNo], [u].[Active], [u].[Address], [u].[BuyHairKit], [u].[City], [u].[ConcurrencyStamp], [u].[Country], [u].[CountryCode], [u].[CreatedAt], [u].[CustomerType], [u].[CustomerTypeId], [u].[DeviceId], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[HairType], [u].[HubSpotContactId], [u].[ImageURL], [u].[IsAIV2Mobile], [u].[IsBlocked], [u].[IsInfluencer], [u].[IsOnTrial], [u].[IsPaid], [u].[IsProCustomer], [u].[LastModifiedAt], [u].[LastName], [u].[LastPingTime], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[LoginAlert], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SalonId], [u].[SecurityStamp], [u].[SignupFrom], [u].[State], [u].[StripeCustomerId], [u].[Subscribe], [u].[TicketUserId], [u].[TrialExpiredOn], [u].[TwoFactorEnabled], [u].[TwoFactorTrans], [u].[UserName], [u].[ZipCode]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedEmail] = @__normalizedEmail_0 
+2024-08-30 15:08:06.1757|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action method MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 1458.6947ms. 
+2024-08-30 15:08:06.1757|1|INFO|Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor|Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.JsonResult'. 
+2024-08-30 15:08:06.1757|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api) in 1475.9996ms 
+2024-08-30 15:08:06.1757|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 1488.7186ms 200 application/json; charset=utf-8 
+2024-08-30 15:12:14.8320|1|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request starting HTTP/1.1 POST http://localhost:5002/api/Account/signin application/json; charset=utf-8 81 
+2024-08-30 15:12:14.8320|3|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Route matched with {action = "SignIn", controller = "Account"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult SignIn(MyAvanaApi.Models.ViewModels.Authentication) on controller MyAvana.Auth.Api.Controllers.AccountController (MyAvana.Auth.Api). 
+2024-08-30 15:12:14.8597|1|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executing action method MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api) - Validation state: Valid 
+2024-08-30 15:12:14.8633|10403|INFO|Microsoft.EntityFrameworkCore.Infrastructure|Entity Framework Core 2.2.6-servicing-10079 initialized 'AvanaContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: MigrationsAssembly=MyAvana.Auth.Api  
+2024-08-30 15:12:15.1258|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (259ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AIResult], [u].[AccessFailedCount], [u].[AccountNo], [u].[Active], [u].[Address], [u].[BuyHairKit], [u].[City], [u].[ConcurrencyStamp], [u].[Country], [u].[CountryCode], [u].[CreatedAt], [u].[CustomerType], [u].[CustomerTypeId], [u].[DeviceId], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[HairType], [u].[HubSpotContactId], [u].[ImageURL], [u].[IsAIV2Mobile], [u].[IsBlocked], [u].[IsInfluencer], [u].[IsOnTrial], [u].[IsPaid], [u].[IsProCustomer], [u].[LastModifiedAt], [u].[LastName], [u].[LastPingTime], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[LoginAlert], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SalonId], [u].[SecurityStamp], [u].[SignupFrom], [u].[State], [u].[StripeCustomerId], [u].[Subscribe], [u].[TicketUserId], [u].[TrialExpiredOn], [u].[TwoFactorEnabled], [u].[TwoFactorTrans], [u].[UserName], [u].[ZipCode]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedUserName] = @__normalizedUserName_0 
+2024-08-30 15:12:16.0449|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (898ms) [Parameters=[@__user_Id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [uc].[Id], [uc].[ClaimType], [uc].[ClaimValue], [uc].[UserId]
+FROM [AspNetUserClaims] AS [uc]
+WHERE [uc].[UserId] = @__user_Id_0 
+2024-08-30 15:12:16.2974|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (241ms) [Parameters=[@__userId_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [role].[Name]
+FROM [AspNetUserRoles] AS [userRole]
+INNER JOIN [AspNetRoles] AS [role] ON [userRole].[RoleId] = [role].[Id]
+WHERE [userRole].[UserId] = @__userId_0 
+2024-08-30 15:12:16.5386|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (235ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [r].[Id], [r].[ConcurrencyStamp], [r].[Name], [r].[NormalizedName]
+FROM [AspNetRoles] AS [r]
+WHERE [r].[NormalizedName] = @__normalizedName_0 
+2024-08-30 15:12:16.7878|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (243ms) [Parameters=[@__role_Id_0='?' (DbType = Guid)], CommandType='Text', CommandTimeout='30']
+SELECT [rc].[ClaimType], [rc].[ClaimValue]
+FROM [AspNetRoleClaims] AS [rc]
+WHERE [rc].[RoleId] = @__role_Id_0 
+2024-08-30 15:12:16.8082|10|INFO|Microsoft.AspNetCore.Authentication.Cookies.CookieAuthenticationHandler|AuthenticationScheme: Identity.Application signed in. 
+2024-08-30 15:12:17.3431|20101|INFO|Microsoft.EntityFrameworkCore.Database.Command|Executed DbCommand (531ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[AIResult], [u].[AccessFailedCount], [u].[AccountNo], [u].[Active], [u].[Address], [u].[BuyHairKit], [u].[City], [u].[ConcurrencyStamp], [u].[Country], [u].[CountryCode], [u].[CreatedAt], [u].[CustomerType], [u].[CustomerTypeId], [u].[DeviceId], [u].[Email], [u].[EmailConfirmed], [u].[FirstName], [u].[HairType], [u].[HubSpotContactId], [u].[ImageURL], [u].[IsAIV2Mobile], [u].[IsBlocked], [u].[IsInfluencer], [u].[IsOnTrial], [u].[IsPaid], [u].[IsProCustomer], [u].[LastModifiedAt], [u].[LastName], [u].[LastPingTime], [u].[LockoutEnabled], [u].[LockoutEnd], [u].[LoginAlert], [u].[NormalizedEmail], [u].[NormalizedUserName], [u].[PasswordHash], [u].[PhoneNumber], [u].[PhoneNumberConfirmed], [u].[SalonId], [u].[SecurityStamp], [u].[SignupFrom], [u].[State], [u].[StripeCustomerId], [u].[Subscribe], [u].[TicketUserId], [u].[TrialExpiredOn], [u].[TwoFactorEnabled], [u].[TwoFactorTrans], [u].[UserName], [u].[ZipCode]
+FROM [AspNetUsers] AS [u]
+WHERE [u].[NormalizedEmail] = @__normalizedEmail_0 
+2024-08-30 15:12:17.3470|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action method MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api), returned result Microsoft.AspNetCore.Mvc.OkObjectResult in 2483.7374ms. 
+2024-08-30 15:12:17.3470|1|INFO|Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor|Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.JsonResult'. 
+2024-08-30 15:12:17.3470|2|INFO|Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker|Executed action MyAvana.Auth.Api.Controllers.AccountController.SignIn (MyAvana.Auth.Api) in 2496.1194ms 
+2024-08-30 15:12:17.3470|2|INFO|Microsoft.AspNetCore.Hosting.Internal.WebHost|Request finished in 2527.4728ms 200 application/json; charset=utf-8 
