@@ -6675,7 +6675,7 @@ namespace MyAvana.CRM.Api.Services
                     //if (hair != null)
                     //{
                     //    hair.CreatedOn = DateTime.Now;
-                    //    hair.HealthSummary = "Hi " + us.FirstName + " ! " + "\r\nYour Digital Hair Profile includes your introductory product recommendations based on a quick analysis of your hair. We incorporated your Hair Goals, Hair Challenges, Product Recommendations, and % breakdown of your Unique Hair Type Combination. To get a comprehensive healthy hair care plan, make sure to get your hair analysis kit in the menu to your left. This should get you started in the meantime! If you have any questions, please email us at support@myavana.com\r\nLove, \r\nMYAVANA ";
+                    //    hair.HealthSummary = "Hi " + us.FirstName + " ! " + "\r\nYour Digital Hair Profile includes your introductory product recommendations based on a quick analysis of your hair. We incorporated your Hair Goals, Hair Challenges, Product Recommendations, and % breakdown of your Unique Hair Type Combination. To get a comprehensive healthy hair care plan, make sure to get your hair analysis kit in the menu to your left. This should get you started in the meantime! If you have any questions, please email us at support@test.com\r\nLove, \r\nMYAVANA ";
                     //    context.SaveChanges();
                     //    if (!string.IsNullOrEmpty(digitalAssessmentModel.HairType))
                     //    {
@@ -6688,7 +6688,7 @@ namespace MyAvana.CRM.Api.Services
                     hairProfile.UserId = us.Email;
                     hairProfile.HairType = digitalAssessmentModel.HairType;
                     hairProfile.AttachedQA = latestQA;
-                    hairProfile.HealthSummary = "Hi " + us.FirstName + " ! " + "\r\nYour Digital Hair Profile includes your introductory product recommendations based on a quick analysis of your hair. We incorporated your Hair Goals, Hair Challenges, Product Recommendations, and % breakdown of your Unique Hair Type Combination. To get a comprehensive healthy hair care plan, make sure to get your hair analysis kit in the menu to your left. This should get you started in the meantime! If you have any questions, please email us at support@myavana.com\r\nLove, \r\nMYAVANA ";
+                    hairProfile.HealthSummary = "Hi " + us.FirstName + " ! " + "\r\nYour Digital Hair Profile includes your introductory product recommendations based on a quick analysis of your hair. We incorporated your Hair Goals, Hair Challenges, Product Recommendations, and % breakdown of your Unique Hair Type Combination. To get a comprehensive healthy hair care plan, make sure to get your hair analysis kit in the menu to your left. This should get you started in the meantime! If you have any questions, please email us at support@test.com\r\nLove, \r\nMYAVANA ";
                     int res = CreateHairProfile(hairProfile);
                     if (res > 0)
                     {
@@ -6794,7 +6794,7 @@ namespace MyAvana.CRM.Api.Services
                     hairProfile.UserId = us.Email;
                     hairProfile.HairType = digitalAssessmentModel.HairType;
                     hairProfile.AttachedQA = latestQA;
-                    hairProfile.HealthSummary = "Hi " + us.FirstName + " ! " + "\r\nYour Digital Hair Profile includes your introductory product recommendations based on a quick analysis of your hair. We incorporated your Hair Goals, Hair Challenges, Product Recommendations, and % breakdown of your Unique Hair Type Combination. To get a comprehensive healthy hair care plan, make sure to get your hair analysis kit in the menu to your left. This should get you started in the meantime! If you have any questions, please email us at support@myavana.com\r\nLove, \r\nMYAVANA ";
+                    hairProfile.HealthSummary = "Hi " + us.FirstName + " ! " + "\r\nYour Digital Hair Profile includes your introductory product recommendations based on a quick analysis of your hair. We incorporated your Hair Goals, Hair Challenges, Product Recommendations, and % breakdown of your Unique Hair Type Combination. To get a comprehensive healthy hair care plan, make sure to get your hair analysis kit in the menu to your left. This should get you started in the meantime! If you have any questions, please email us at support@test.com\r\nLove, \r\nMYAVANA ";
                     int res = CreateHairProfile(hairProfile);
                     if (res > 0)
                     {
@@ -7486,7 +7486,7 @@ namespace MyAvana.CRM.Api.Services
                     hair.UserId = us.Email;
                     if (us.CustomerTypeId == (int)CustomerTypeEnum.DigitalAnalysis)
                     {
-                        hair.HealthSummary = "Hi " + us.FirstName + " ! " + "\r\nYour Digital Hair Profile includes your introductory product recommendations based on a quick analysis of your hair. We incorporated your Hair Goals, Hair Challenges, Product Recommendations, and % breakdown of your Unique Hair Type Combination. To get a comprehensive healthy hair care plan, make sure to get your hair analysis kit in the menu to your left. This should get you started in the meantime! If you have any questions, please email us at support@myavana.com\r\nLove, \r\nMYAVANA ";
+                        hair.HealthSummary = "Hi " + us.FirstName + " ! " + "\r\nYour Digital Hair Profile includes your introductory product recommendations based on a quick analysis of your hair. We incorporated your Hair Goals, Hair Challenges, Product Recommendations, and % breakdown of your Unique Hair Type Combination. To get a comprehensive healthy hair care plan, make sure to get your hair analysis kit in the menu to your left. This should get you started in the meantime! If you have any questions, please email us at support@test.com\r\nLove, \r\nMYAVANA ";
                     }
                     else
                     {
@@ -9360,7 +9360,7 @@ namespace MyAvana.CRM.Api.Services
                         hair.UserId = us.Email;
                         if (us.CustomerTypeId == (int)CustomerTypeEnum.DigitalAnalysis)
                         {
-                            hair.HealthSummary = "Hi " + us.FirstName + " ! " + "\r\nYour Digital Hair Profile includes your introductory product recommendations based on a quick analysis of your hair. We incorporated your Hair Goals, Hair Challenges, Product Recommendations, and % breakdown of your Unique Hair Type Combination. To get a comprehensive healthy hair care plan, make sure to get your hair analysis kit in the menu to your left. This should get you started in the meantime! If you have any questions, please email us at support@myavana.com\r\nLove, \r\nMYAVANA ";
+                            hair.HealthSummary = "Hi " + us.FirstName + " ! " + "\r\nYour Digital Hair Profile includes your introductory product recommendations based on a quick analysis of your hair. We incorporated your Hair Goals, Hair Challenges, Product Recommendations, and % breakdown of your Unique Hair Type Combination. To get a comprehensive healthy hair care plan, make sure to get your hair analysis kit in the menu to your left. This should get you started in the meantime! If you have any questions, please email us at support@test.com\r\nLove, \r\nMYAVANA ";
                         }
                         else
                         {
@@ -9410,7 +9410,7 @@ namespace MyAvana.CRM.Api.Services
                     hairProfile.UserId = us.Email;
                     hairProfile.AttachedQA = latestQAForHHCP;
                     //hairProfile.HairType = digitalAssessmentModel.HairType;
-                    hairProfile.HealthSummary = "Hi " + us.FirstName + " ! " + "\r\nYour Digital Hair Profile includes your introductory product recommendations based on a quick analysis of your hair. We incorporated your Hair Goals, Hair Challenges, Product Recommendations, and % breakdown of your Unique Hair Type Combination. To get a comprehensive healthy hair care plan, make sure to get your hair analysis kit in the menu to your left. This should get you started in the meantime! If you have any questions, please email us at support@myavana.com\r\nLove, \r\nMYAVANA ";
+                    hairProfile.HealthSummary = "Hi " + us.FirstName + " ! " + "\r\nYour Digital Hair Profile includes your introductory product recommendations based on a quick analysis of your hair. We incorporated your Hair Goals, Hair Challenges, Product Recommendations, and % breakdown of your Unique Hair Type Combination. To get a comprehensive healthy hair care plan, make sure to get your hair analysis kit in the menu to your left. This should get you started in the meantime! If you have any questions, please email us at support@test.com\r\nLove, \r\nMYAVANA ";
                     int res = CreateHairProfile(hairProfile);
                     if (res > 0)
                     {
@@ -9607,7 +9607,7 @@ namespace MyAvana.CRM.Api.Services
                     hairProfile.AttachedQA = digitalAssessmentModel.QA;
                     hairProfile.HealthSummary = "Hi " + us.FirstName + " ! " + "\r\nYour Healthy Hair Care Plan includes your Hair ID, Hair Goals and Challenges, Hair Strand Analysis, Product Recommendations, Ingredients, Regimens, and Education. We have also included some personal notes from your MYAVANA lab analyst and hair consultant.\r\nLove, \r\nTanisha \r\nHair Analyst";
                     hairProfile.AttachedQA = digitalAssessmentModel.QA;
-                    //hairProfile.HealthSummary = "Hi " + us.FirstName + " ! " + "\r\nYour Digital Hair Profile includes your introductory product recommendations based on a quick analysis of your hair. We incorporated your Hair Goals, Hair Challenges, Product Recommendations, and % breakdown of your Unique Hair Type Combination. To get a comprehensive healthy hair care plan, make sure to get your hair analysis kit in the menu to your left. This should get you started in the meantime! If you have any questions, please email us at support@myavana.com\r\nLove, \r\nMYAVANA ";
+                    //hairProfile.HealthSummary = "Hi " + us.FirstName + " ! " + "\r\nYour Digital Hair Profile includes your introductory product recommendations based on a quick analysis of your hair. We incorporated your Hair Goals, Hair Challenges, Product Recommendations, and % breakdown of your Unique Hair Type Combination. To get a comprehensive healthy hair care plan, make sure to get your hair analysis kit in the menu to your left. This should get you started in the meantime! If you have any questions, please email us at support@test.com\r\nLove, \r\nMYAVANA ";
                     int res = CreateHairProfileHairKit(hairProfile);
                     if (res > 0)
                     {

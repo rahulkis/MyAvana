@@ -1295,7 +1295,7 @@ namespace MyAvana.CRM.Api.Services
                         hair.UserId = us.Email;
                         if (us.CustomerTypeId == (int)CustomerTypeEnum.DigitalAnalysis)
                         {
-                            hair.HealthSummary = "Hi " + us.FirstName + " ! " + "\r\nYour Digital Hair Profile includes your introductory product recommendations based on a quick analysis of your hair. We incorporated your Hair Goals, Hair Challenges, Product Recommendations, and % breakdown of your Unique Hair Type Combination. To get a comprehensive healthy hair care plan, make sure to get your hair analysis kit in the menu to your left. This should get you started in the meantime! If you have any questions, please email us at support@myavana.com\r\nLove, \r\nMYAVANA ";
+                            hair.HealthSummary = "Hi " + us.FirstName + " ! " + "\r\nYour Digital Hair Profile includes your introductory product recommendations based on a quick analysis of your hair. We incorporated your Hair Goals, Hair Challenges, Product Recommendations, and % breakdown of your Unique Hair Type Combination. To get a comprehensive healthy hair care plan, make sure to get your hair analysis kit in the menu to your left. This should get you started in the meantime! If you have any questions, please email us at support@test.com\r\nLove, \r\nMYAVANA ";
                         }
                         else
                         {

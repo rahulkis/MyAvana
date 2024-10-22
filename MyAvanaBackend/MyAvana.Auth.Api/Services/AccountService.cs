@@ -1575,11 +1575,11 @@ namespace MyAvana.Auth.Api.Services
                     Port = 587,
                     EnableSsl = true,//result.EnableSSL,
 
-                    Credentials = new System.Net.NetworkCredential("apikey", "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"),
+                    Credentials = new System.Net.NetworkCredential("apikey", "testbbnfbdnfbdfn"),
                 };
-                MailMessage message = new MailMessage("Support@myavana.com", "rahulb.kis@gmail.com", "Shopify Test", body);
+                MailMessage message = new MailMessage("Support@test.com", "rahulb.kis@gmail.com", "Shopify Test", body);
 
-                message.From = new MailAddress("Support@myavana.com", "MYAVANA");
+                message.From = new MailAddress("Support@test.com", "test");
                 message.IsBodyHtml = true;
                 smtp.Send(message);
             }

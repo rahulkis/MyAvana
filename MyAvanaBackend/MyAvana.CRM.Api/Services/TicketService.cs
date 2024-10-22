@@ -69,9 +69,9 @@ namespace MyAvana.CRM.Api.Services
                             Port = 587,
                             EnableSsl = true,//result.EnableSSL,
 
-                            Credentials = new System.Net.NetworkCredential("apikey", "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"),
+                            Credentials = new System.Net.NetworkCredential("apikey", "testbbnfbdnfbdfn"),
                         };
-                        MailMessage message = new MailMessage(_usr.Email, "support@myavana.com", "New Ticket : "+ supportTicket.Subject, supportTicket.Message);
+                        MailMessage message = new MailMessage(_usr.Email, "support@test.com", "New Ticket : "+ supportTicket.Subject, supportTicket.Message);
 
                         message.From = new MailAddress(_usr.Email, _usr.FirstName + " " + _usr.LastName);
                         message.IsBodyHtml = true;

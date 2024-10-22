@@ -77,7 +77,7 @@ namespace MyAvanaApi.Services
                     if (result.TemplateCode == "CONREQ" || result.TemplateCode == "CUSTJOIN" || result.TemplateCode == "GROUPREQUEST")
                     {
                         body = body.Replace("#User#", emailInformation.Name);
-                        emailInformation.Email = "karen@myavana.com,support@myavana.com";
+                        emailInformation.Email = "test@test.com,support@test.com";
                     }
                     else if(result.TemplateCode == "CONASSIGN" || result.TemplateCode == "CONCANADM" || result.TemplateCode == "CONCOMPADM")
                     {
@@ -90,7 +90,7 @@ namespace MyAvanaApi.Services
                     else if (result.TemplateCode == "COMPQA" || result.TemplateCode == "POSTREPORT")
                     {
                         body = body.Replace("#User#", "Admin,");
-                        emailInformation.Email = "support@myavana.com,support3@mailinator.com";
+                        emailInformation.Email = "support@test.com,support3@mailinator.com";
                     }
                     else if(result.TemplateCode == "ASSIGNCUST")
                     {
