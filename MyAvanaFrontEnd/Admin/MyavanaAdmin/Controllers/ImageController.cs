@@ -167,10 +167,10 @@ namespace MyavanaAdmin.Controllers
             }
 
 
-            string imageUrl = "https://adminstaging.myavana.com/groupImage/" + imgName;
-            string audioUrl = "https://adminstaging.myavana.com/groupAudio/" + audioName;
-            string videoUrl = "https://adminstaging.myavana.com/groupVideo/" + videoName;
-            string thumbNail = "https://adminstaging.myavana.com/groupThumbnail/" + thumbName;
+            string imageUrl = "https://adminstaging.test.com/groupImage/" + imgName;
+            string audioUrl = "https://adminstaging.test.com/groupAudio/" + audioName;
+            string videoUrl = "https://adminstaging.test.com/groupVideo/" + videoName;
+            string thumbNail = "https://adminstaging.test.com/groupThumbnail/" + thumbName;
             groupPost.ImageUrl = imgName != null ? imageUrl : null;
             groupPost.AudioUrl = audioName != null ? audioUrl : null;
             groupPost.VideoUrl = videoName != null ? videoUrl : null;
@@ -224,7 +224,7 @@ namespace MyavanaAdmin.Controllers
 
             }
 
-            string thumbNail = "http://adminstaging.myavana.com/groupThumbnail/" + thumbName;
+            string thumbNail = "http://adminstaging.test.com/groupThumbnail/" + thumbName;
 
             groupPost.ThumbnailUrl = thumbName != null ? thumbNail : null;
             var handler = new JwtSecurityTokenHandler();
@@ -291,7 +291,7 @@ namespace MyavanaAdmin.Controllers
                 using (var stream = new FileStream(path, FileMode.Create))
                 {
                     await hairRoutine.FormImage.CopyToAsync(stream);
-                    imgUrl = "http://admin.myavana.com/routineProducts/" + imgName;
+                    imgUrl = "http://admin.test.com/routineProducts/" + imgName;
                 }
 
             }
@@ -305,7 +305,7 @@ namespace MyavanaAdmin.Controllers
                 using (var stream = new FileStream(path, FileMode.Create))
                 {
                     await hairRoutine.FormImage.CopyToAsync(stream);
-                    imgUrl = "http://admin.myavana.com/routineIngredients/" + imgName;
+                    imgUrl = "http://admin.test.com/routineIngredients/" + imgName;
                 }
 
             }
@@ -319,7 +319,7 @@ namespace MyavanaAdmin.Controllers
                 using (var stream = new FileStream(path, FileMode.Create))
                 {
                     await hairRoutine.FormImage.CopyToAsync(stream);
-                    imgUrl = "http://admin.myavana.com/routineRegimens/" + imgName;
+                    imgUrl = "http://admin.test.com/routineRegimens/" + imgName;
                 }
 
             }
@@ -367,7 +367,7 @@ namespace MyavanaAdmin.Controllers
 
             }
 
-            dailyRoutine.ProfileImage = "http://admin.myavana.com/routineProfile/" + imgName;
+            dailyRoutine.ProfileImage = "http://admin.test.com/routineProfile/" + imgName;
             var handler = new JwtSecurityTokenHandler();
             var tokenS = handler.ReadToken(token) as JwtSecurityToken;
 

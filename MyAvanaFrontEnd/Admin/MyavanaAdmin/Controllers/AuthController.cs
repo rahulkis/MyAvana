@@ -75,7 +75,7 @@ namespace MyavanaAdmin.Controllers
                         _httpClient.BaseAddress = new Uri(ApplicationSettings.WebApiUrl);
                         if (result.Data.UserTypeId== (int)UserTypeEnum.B2B) 
                         {
-                            //_httpClient.BaseAddress = new Uri("https://apistaging.myavana.com/");
+
                             var SalonResult = _httpClient.GetAsync("Account/GetSalonNameByUserId?UserId=" + Convert.ToInt32(result.Data.UserId)).Result;
                             if (SalonResult.IsSuccessStatusCode)
                             {

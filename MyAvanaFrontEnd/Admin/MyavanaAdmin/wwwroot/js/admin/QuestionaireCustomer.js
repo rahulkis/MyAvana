@@ -2,11 +2,11 @@
 function onRenderId(data, type, row, meta) {
     var tr;
     if (row.IsQuestionnaire == false) {
-        tr = '<a href="/Questionnaire/start/' + row.UserId + '" Title="Add QA" ><img src="http://admin.myavana.com/images/questionaireAdmin.png"/></i></a>';
+        tr = '<a href="/Questionnaire/start/' + row.UserId + '" Title="Add QA" ><img src="http://admin.test.com/images/questionaireAdmin.png"/></i></a>';
         tr += '<a href="/Questionnaire/CreateNewCustomer/' + row.UserId + '" Title="Edit customer" class="edit_customer"><i class="fa fa-pencil" aria-hidden="true"></i></a>';
     }
     else {
-        tr = '<a href="/Questionnaire/QuestionaireSurvey?id=update&userId=' + row.UserId + '" href="/Questionnaire/start/' + row.UserId + '" Title="Update QA" ><img src="http://admin.myavana.com/images/QAupdate.png"/></i></a>';
+        tr = '<a href="/Questionnaire/QuestionaireSurvey?id=update&userId=' + row.UserId + '" href="/Questionnaire/start/' + row.UserId + '" Title="Update QA" ><img src="http://admin.test.com/images/QAupdate.png"/></i></a>';
         tr += '<a href="/Questionnaire/CreateNewCustomer/' + row.UserId + '" Title="Edit customer" class="edit_customer"><i class="fa fa-pencil" aria-hidden="true"></i></a>';
     }
     return tr;

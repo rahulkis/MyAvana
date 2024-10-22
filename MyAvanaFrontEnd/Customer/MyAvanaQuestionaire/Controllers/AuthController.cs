@@ -448,7 +448,7 @@ namespace MyAvanaQuestionaire.Controllers
         [HttpGet]
         public async Task<IActionResult> Authorize()
         {
-            var response = _httpClient.GetAsync("https://www.amazon.com/ap/oa?" + "client_id=amzn1.application-oa2-client.d88db04eb6b64342ab8f687cf5414ff1&scope=postal_code&response_type=code&redirect_uri=https://customer.myavana.com/Auth/token &state=someState").Result;
+            var response = _httpClient.GetAsync("https://www.amazon.com/ap/oa?" + "client_id=amzn1.application-oa2-client.d88db04eb6b64342ab8f687cf5414ff1&scope=postal_code&response_type=code&redirect_uri=https://customer.test.com/Auth/token &state=someState").Result;
             var data = response.Content.ReadAsStringAsync();
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 return Content("1");
@@ -459,7 +459,7 @@ namespace MyAvanaQuestionaire.Controllers
         [HttpGet]
         public async Task<IActionResult> token(string code, string scope, string state)
         {
-            var url = "https://api.amazon.com/auth/o2/token?grant_type=authorization_code&code=" + code + "&redirect_uri=https://customer.myavana.com/Auth/token&client_id=amzn1.application-oa2-client.d88db04eb6b64342ab8f687cf5414ff1&client_secret=c064baf5bca0a08ce9edfd2b7fbfed7d692e6024b0da3374dbcf36b4c976f82a";
+            var url = "https://api.amazon.com/auth/o2/token?grant_type=authorization_code&code=" + code + "&redirect_uri=https://customer.test.com/Auth/token&client_id=amzn1.application-oa2-client.d88db04eb6b64342ab8f687cf5414ff1&client_secret=c064baf5bca0a08ce9edfd2b7fbfed7d692e6024b0da3374dbcf36b4c976f82a";
             var response = _httpClient.PostAsync(url, null).Result;
             var data = response.Content.ReadAsStringAsync();
             if (response.StatusCode == System.Net.HttpStatusCode.OK)

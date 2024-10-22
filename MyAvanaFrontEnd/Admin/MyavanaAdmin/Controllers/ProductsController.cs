@@ -374,7 +374,7 @@ namespace MyavanaAdmin.Controllers
                     using (var stream = new FileStream(path, FileMode.Create))
                     {
                         await File.CopyToAsync(stream);
-                        productsEntity.ImageName = "http://admin.myavana.com/product/" + fileName;
+                        productsEntity.ImageName = "http://admin.test.com/product/" + fileName;
                     }
                 }
                 catch (Exception ex)

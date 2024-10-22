@@ -153,7 +153,7 @@ namespace MyavanaAdmin.Controllers
                 using (var stream = new FileStream(path, FileMode.Create))
                 {
                     await File.CopyToAsync(stream);
-                    toolsModel.Image = "http://admin.myavana.com/tools/" + fileName;
+                    toolsModel.Image = "http://admin.test.com/tools/" + fileName;
                 }
             }
             var response = await MyavanaAdminApiClientFactory.Instance.SaveTools(toolsModel);

@@ -65,7 +65,7 @@ namespace MyAvanaQuestionaire.Controllers
         public async Task<IActionResult> SaveConsultationDetails(LiveConsultationUserDetails LiveConsultationUserDetails)
         {
             LiveConsultationUserDetails.userId = HttpContext.Session.GetString("id");
-            LiveConsultationUserDetails.assignedTo = "support@myavana.com";
+            LiveConsultationUserDetails.assignedTo = "support@test.com";
             var response = await MyavanaCustomerApiClientFactory.Instance.SaveConsultationDetails(LiveConsultationUserDetails);
             return Content("1");
         }

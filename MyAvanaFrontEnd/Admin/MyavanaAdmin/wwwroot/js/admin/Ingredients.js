@@ -6,7 +6,7 @@
 
 function onRenderImage(data, type, row, meta) {
     if (row.Image != null) {
-        var imageUrl = "http://admin.myavana.com/Ingredients/" + row.Image;
+        var imageUrl = "http://admin.test.com/Ingredients/" + row.Image;
         return '<img src=' + imageUrl + ' style="width:100px;height:auto;" />';
     }
     else

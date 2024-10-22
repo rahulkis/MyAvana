@@ -56,7 +56,7 @@ function SaveMediaLink() {
         //    data: thumbnail,
         //    success: function (response) {
         //        if (response != null) {
-        //            videothumbnail = "http://admin.myavana.com/Thumbnails/" + response;
+        //            videothumbnail = "http://admin.test.com/Thumbnails/" + response;
         //            SaveVideos();
         //        }
         //        else {

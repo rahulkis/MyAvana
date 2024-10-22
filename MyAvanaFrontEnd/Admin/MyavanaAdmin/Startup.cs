@@ -39,9 +39,9 @@ namespace MyavanaAdmin
             //services.AddControllersWithViews();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            //services.AddScoped<MyavanaAdminApiClient.ApiClient>(_ => new MyavanaAdminApiClient.ApiClient(new Uri("https://api.myavana.com/")));
-            //services.AddScoped<MyavanaAdminApiClient.ApiClient>(_ => new MyavanaAdminApiClient.ApiClient(new Uri("http://localhost:5004/api/")));
-            services.AddScoped<MyavanaAdminApiClient.ApiClient>(_ => new MyavanaAdminApiClient.ApiClient(new Uri("https://apistaging.myavana.com/")));
+
+            services.AddScoped<MyavanaAdminApiClient.ApiClient>(_ => new MyavanaAdminApiClient.ApiClient(new Uri("http://localhost:5004/api/")));
+
             //services.Configure<RazorPagesOptions>(options => options.RootDirectory = "/Views");
             services.Configure<FormOptions>(x =>
             {

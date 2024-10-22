@@ -224,7 +224,7 @@ function DataURIToBlob(dataURI) {
 }
 
 function postImageToAnalyze(imgData, PaymentId) {
-    const API_URL = "https://analysisai01.myavana.com";
+    const API_URL = "https://analysisai01.test.com";
     const formData = new FormData();
     formData.append("imageFile", DataURIToBlob(imgData));
     formData.append("Content-Type", "multipart/form-data");

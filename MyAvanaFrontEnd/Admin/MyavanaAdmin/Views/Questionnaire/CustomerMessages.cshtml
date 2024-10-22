@@ -217,7 +217,7 @@
     function onRenderFile(data, type, row, meta) {
         if (row.AttachmentFile != null) {
             var fileName = row.AttachmentFile;
-            var FileUrl = "http://admin.myavana.com/CustomerMessageFiles/" + row.AttachmentFile;
+            var FileUrl = "http://admin.test.com/CustomerMessageFiles/" + row.AttachmentFile;
             if (row.AttachmentFile.indexOf("https:") != -1) {
                 FileUrl = row.AttachmentFile;
                 const myArray = FileUrl.split("/");

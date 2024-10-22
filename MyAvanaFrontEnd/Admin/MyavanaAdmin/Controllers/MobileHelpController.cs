@@ -67,7 +67,7 @@ namespace MyavanaAdmin.Controllers
                 {
                     await File.CopyToAsync(stream);
                     mobileHelpFAQ.ImageLink = ApplicationSettings.SiteUrl + "/MobileHelpFaq/Images/" + fileName;
-                    //mobileHelpFAQ.ImageLink = "https://admin.myavana.com/MobileHelpFaq/Images/" + fileName;
+                    //mobileHelpFAQ.ImageLink = "https://admin.test.com/MobileHelpFaq/Images/" + fileName;
                 }
             }
 
@@ -88,10 +88,10 @@ namespace MyavanaAdmin.Controllers
                 using (var videoStream = new FileStream(videoPath, FileMode.Create))
                 {
                     await imageFile.CopyToAsync(videoStream);
-                    //mobileHelpFAQ.VideoThumbnail = "https://admin.myavana.com/MobileHelpFaq/Video-thumbnail/" + imageFileName;
+                    //mobileHelpFAQ.VideoThumbnail = "https://admin.test.com/MobileHelpFaq/Video-thumbnail/" + imageFileName;
 
                     mobileHelpFAQ.VideoThumbnail = ApplicationSettings.SiteUrl + "/MobileHelpFaq/Videos/" + imageFileName;
-                    //mobileHelpFAQ.VideoThumbnail = "https://admin.myavana.com/MobileHelpFaq/Videos/" + imageFileName;
+                    //mobileHelpFAQ.VideoThumbnail = "https://admin.test.com/MobileHelpFaq/Videos/" + imageFileName;
                 }
             }
 
